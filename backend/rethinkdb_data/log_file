@@ -1,0 +1,28 @@
+2016-05-17T20:17:55.198584000 0.011123s notice: Recursively removing directory /Users/mono/repos/doggystyle/backend/rethinkdb_data/tmp
+2016-05-17T20:17:55.199708000 0.012249s notice: Initializing directory /Users/mono/repos/doggystyle/backend/rethinkdb_data
+2016-05-17T20:17:55.199788000 0.012326s info: Creating a default database for your convenience. (This is because you ran 'rethinkdb' without 'create', 'serve', or '--join', and the directory '/Users/mono/repos/doggystyle/backend/rethinkdb_data' did not already exist or is empty.)
+2016-05-17T20:17:55.199806000 0.012344s notice: Running rethinkdb 2.3.1 (CLANG 7.3.0 (clang-703.0.29))...
+2016-05-17T20:17:55.203123000 0.015676s notice: Running on Darwin 15.0.0 x86_64
+2016-05-17T20:17:55.203168000 0.015706s notice: Loading data from directory /Users/mono/repos/doggystyle/backend/rethinkdb_data
+2016-05-17T20:17:55.268820000 0.081358s info: Cache size is set to 200 MB
+2016-05-17T20:17:55.269135000 0.081673s notice: Listening for intracluster connections on port 56111
+2016-05-17T20:17:55.270166000 0.082704s notice: Listening for client driver connections on port 56112
+2016-05-17T20:17:55.270262000 0.082800s notice: Listening for administrative HTTP connections on port 56113
+2016-05-17T20:17:55.270282000 0.082820s notice: Listening on cluster addresses: 127.0.0.1, ::1
+2016-05-17T20:17:55.270294000 0.082832s notice: Listening on driver addresses: 127.0.0.1, ::1
+2016-05-17T20:17:55.270295000 0.082833s notice: Listening on http addresses: 127.0.0.1, ::1
+2016-05-17T20:17:55.270298000 0.082835s notice: To fully expose RethinkDB on the network, bind to all addresses by running rethinkdb with the `--bind all` command line option.
+2016-05-17T20:17:55.270298001 0.082836s notice: Server ready, "Mattiass_MacBook_Pro_2_local_3wz" 45de2c0c-72cf-40ee-b684-b08ffd0dac3a
+2016-05-17T20:17:55.449950000 0.262488s info: Table 6f985dfb-fbb9-4d42-9c0b-dc1f30888c11: Starting a new Raft election for term 1.
+2016-05-17T20:17:55.450095000 0.262633s info: Table 6f985dfb-fbb9-4d42-9c0b-dc1f30888c11: Added replica on this server.
+2016-05-17T20:17:55.470800000 0.283338s info: Table 6f985dfb-fbb9-4d42-9c0b-dc1f30888c11: This server is Raft leader for term 1. Latest log index is 0.
+2016-05-17T20:17:56.164354000 0.976957s info: Table f73aa989-1fe0-42f1-9dee-f418f69b2afc: Starting a new Raft election for term 1.
+2016-05-17T20:17:56.164575000 0.977178s info: Table f73aa989-1fe0-42f1-9dee-f418f69b2afc: Added replica on this server.
+2016-05-17T20:17:56.183862000 0.996465s info: Table f73aa989-1fe0-42f1-9dee-f418f69b2afc: This server is Raft leader for term 1. Latest log index is 0.
+2016-05-17T20:17:56.417340000 1.229943s notice: A newer version of the RethinkDB server is available: 2.3.2. You can read the changelog at <https://github.com/rethinkdb/rethinkdb/releases>.
+2016-05-17T20:17:56.881638000 1.694241s info: Table 87be439c-0ccc-46ee-9e6e-8291eb591e26: Starting a new Raft election for term 1.
+2016-05-17T20:17:56.881826000 1.694429s info: Table 87be439c-0ccc-46ee-9e6e-8291eb591e26: Added replica on this server.
+2016-05-17T20:17:56.901744000 1.714347s info: Table 87be439c-0ccc-46ee-9e6e-8291eb591e26: This server is Raft leader for term 1. Latest log index is 0.
+2016-05-17T20:20:13.470924000 138.287934s info: Table 495c06b6-cb4f-453f-b0a3-2f6b8e550a77: Starting a new Raft election for term 1.
+2016-05-17T20:20:13.471179000 138.288190s info: Table 495c06b6-cb4f-453f-b0a3-2f6b8e550a77: Added replica on this server.
+2016-05-17T20:20:13.479215000 138.296225s info: Table 495c06b6-cb4f-453f-b0a3-2f6b8e550a77: This server is Raft leader for term 1. Latest log index is 0.
