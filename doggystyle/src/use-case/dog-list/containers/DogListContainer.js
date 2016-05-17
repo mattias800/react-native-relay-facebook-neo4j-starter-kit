@@ -1,29 +1,34 @@
 /* @flow */
 
 import React from 'react';
-import { connect } from "react-redux";
+import {subscribe} from 'horizon-react';
+
 import DogList from "../components/DogList";
 
 const DogListContainer = React.createClass({
-    
-    propTypes : {
-    },
-    
+
+    propTypes : {},
+
     componentDidMount() {
     },
-    
+
     render() {
+        const { animals } = this.props;
+
         return (
-            <DogList/>
+            <DogList dogs={animals}/>
         );
     }
-    
+
 });
 
-const mapStateToProps = (state, ownProps) => ({});
+const mapDataToProps = {
+    animals : (hz, props) => hz('animals').findAll({ owner : "abc123" })
+};
 
-const mapDispatchToProps = (dispatch, ownProps) => ({});
+// you can connect to redux state too
+const mapStateToProps = (state, props) => ({});
 
-export default connect(mapStateToProps, mapDispatchToProps)(DogListContainer);
+export default subscribe({ mapDataToProps, mapStateToProps })(DogListContainer);
 
 

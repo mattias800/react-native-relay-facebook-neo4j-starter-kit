@@ -49,6 +49,16 @@ export type Animal = {
     birthDate : ?Date
 };
 
+var e = {
+    type : "dog",
+    owner : "abc123",
+    profilePhoto : null,
+    litter : null,
+    fullName : "Cash Awesome name",
+    nickName : "Cash",
+    birthDate : null
+};
+
 export type Kennel = {
     id : KennelId,
     owner : UserId,
