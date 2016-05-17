@@ -1,65 +1,87 @@
 // @flow
 
-type AuthenticatedDevice = {
+export type AnimalType = "dog" | "cat";
+export type EntityType = "animal" | "user" | "litter" | "kennel";
+export type EntityId = string;
+export type UserId = EntityId;
+export type PhotoId = EntityId;
+export type AnimalId = EntityId;
+export type LitterId = EntityId;
+export type KennelId = EntityId;
+
+export type AuthenticatedDevice = {
     deviceId : string;
     authToken : string;
 };
 
-type AuthenticationServiceType = "facebook";
+export type AuthenticationServiceType = "facebook" | "twitter";
 
-type authenticatedService = {
+export type authenticatedService = {
     type : AuthenticationServiceType,
     userId : string,
     authToken : string
 };
 
-type User = {
-    id : string,
-    firstName : string;
-    lastName : string;
-    email : string;
-    authenticatedDevices : Array<AuthenticatedDevice>;
-}
+export type User = {
+    id : UserId,
+    firstName : string,
+    lastName : string,
+    email : string,
+    authenticatedDevices : Array<AuthenticatedDevice>,
+    profilePhoto : ?PhotoId,
+    backgroundPhoto : ?PhotoId
+};
 
-type AnimalType = "dog" | "cat";
-type EntityType = "animal" | "user" | "litter";
 
-type EntityReference = {
+export type EntityReference = {
     entityType : EntityType,
-    id : string
+    id : EntityId
 };
 
-type Animal = {
-    id : string,
+export type Animal = {
+    id : AnimalId,
     type : AnimalType,
-    fullName : string,
+    owner : UserId,
+    profilePhoto : ?PhotoId,
+    litter : ?LitterId,
+    fullName : ?string,
     nickName : string,
-    birthDate : Date
+    birthDate : ?Date
 };
 
-type Litter = {
-    id : string,
-    dogs : Array<Dog>,
-    birthStart : Date,
-    birthEnd : Date
+export type Kennel = {
+    id : KennelId,
+    owner : UserId,
+    name : string,
+    profilePhoto : ?PhotoId,
+    location : ?GeoLocation
 };
 
-type Photo = {
-    id : string,
-    url : string
+export type Litter = {
+    id : LitterId,
+    owner : UserId,
+    kennel : ?KennelId,
+    father : ?AnimalId,
+    mother : ?AnimalId,
+    profilePhoto : ?PhotoId,
+    conceptionDate : ?Date,
+    expectedBirthDate : ?Date,
+    birthStart : ?Date,
+    birthEnd : ?Date
 };
 
-type UserPhoto = {
-    userId : string,
-    photoId : string
+export type Photo = {
+    id : PhotoId,
+    url : string,
+    owner : UserId
 };
 
-type AnimalPhoto = {
-    animalId : string,
-    photoId : string
+export type PhotoReference = {
+    photo : PhotoId,
+    ref : EntityReference
 };
 
-type LitterPhoto = {
-    litterId : string,
-    photoId : string
+export type GeoLocation = {
+    long : number,
+    lat : number
 };
