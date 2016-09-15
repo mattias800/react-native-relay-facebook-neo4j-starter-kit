@@ -1,9 +1,10 @@
 import express from "express";
 import jwt from 'express-jwt';
+import bodyParser from 'body-parser';
 import graphQLHTTP from "express-graphql";
 import schema from "./schema";
-import {authenticateOrCreateUser} from "./delivery/webservice/authenticate/Authenticate";
 import {getJwtSecret} from "./config/JwtConfig";
+import {authenticateOrCreateUser} from "./services/AuthenticationService";
 
 const serverPort = 5000;
 
@@ -11,20 +12,11 @@ console.log("Lets cypher");
 
 const token = "EAAFEfLDlRZBcBAOq08fFrTBXzC7mV0YGIZAnzvGiDL8DuYKnl9VNYZCFUxYEsnMiutQxVDzmEAA1eZAprfkdQ3CUTZBgmSVXDUTumZB9EF75W2DDSbZCAVIRgAUJH5WxslSt57VcKF0xUblurQZA6qOZARBVZBEZA1xakxdYyqtAyZCiqLP3gOix0KRIg0lXvuuGS7FOE4hA2mbyeYxnILgJT1IbPB4nyEfzH6IZD";
 
-authenticateOrCreateUser("facebook", token)
-    .then(user => {
-        console.log("User fetched");
-        console.log(user);
-    })
-    .catch(e => {
-        console.log("User fetch failed");
-        console.log(e);
-
-    });
-
 console.log(`Starting server on port ${serverPort}.`);
 
 const app = express();
+
+app.use(bodyParser.json());
 
 app.use(jwt({
     secret: getJwtSecret(),
@@ -40,14 +32,14 @@ app.use(jwt({
 }).unless({path: ['/authenticate', "/graphql", "/graphiql"]}));
 
 app.get('/', function (req, res) {
-    console.log("--------- req.user");
-    console.log(req.user);
-
     res.send('hello world');
 });
 
-app.get('/authenticate', function (req, res) {
-    res.send('hello world authenticate');
+
+app.post('/authenticate', async function (req, res) {
+    const {service, token} = req.body;
+    const user = await authenticateOrCreateUser(service, token);
+    res.send(user.properties);
 });
 
 app.use(graphQLHTTP({

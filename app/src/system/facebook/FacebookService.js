@@ -1,26 +1,29 @@
 const FBSDK = require('react-native-fbsdk');
 const {
     LoginManager,
+    AccessToken
 } = FBSDK;
 
-// ...
-
-
 export function loginWithFacebook() {
+    return new Promise((resolve, reject) => {
+        LoginManager.logInWithReadPermissions(['public_profile'])
+            .then(result => {
+                if (result.isCancelled) {
+                    reject(result);
+                } else {
+                    AccessToken.getCurrentAccessToken()
+                        .then((token) => {
+                                resolve({
+                                    ...result,
+                                    token
+                                });
+                            }
+                        );
 
-    return LoginManager.logInWithReadPermissions(['public_profile']).then(
-        function (result) {
-            if (result.isCancelled) {
-                alert('Login cancelled');
-            } else {
-                alert('Login success with permissions: '
-                    + result.grantedPermissions.toString());
-            }
-            return result;
-        },
-        function (error) {
-            alert('Login fail with error: ' + error);
-        }
-    );
-
+                }
+            })
+            .catch(e => {
+                reject(e);
+            });
+    });
 }

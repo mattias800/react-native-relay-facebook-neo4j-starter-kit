@@ -8,20 +8,38 @@ import {
     View
 } from 'react-native';
 import LoginPage from "./use-case/login/components/LoginPage";
+import {setAuthToken} from "./system/HttpClient";
 
 
 export const AuthenticationCheck = React.createClass({
 
-    propTypes: {
-        login: React.PropTypes.node.isRequired
+    propTypes: {},
+
+    getInitialState() {
+        return {
+            authenticated: false
+        }
     },
 
     render() {
         const {children} = this.props;
 
-        const authenticated = false;
+        const {authenticated} = this.state;
 
-        return authenticated ? children : <LoginPage />;
+        return authenticated ? children : <LoginPage onLogin={this.loggedIn}
+                                                     onLogout={this.loggedOut} />;
+    },
+
+    loggedIn(user) {
+        setAuthToken(user.token);
+        console.log("LOGGED INININN");
+        console.log("user");
+        console.log(user);
+        this.setState({authenticated: true});
+    },
+
+    loggedOut() {
+        this.setState({authenticated: false});
     }
 
 });
