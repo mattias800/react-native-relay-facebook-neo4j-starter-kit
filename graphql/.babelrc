@@ -1,0 +1,15 @@
+{
+  "presets": [
+    "es2015",
+    "es2016",
+    "es2017",
+    "stage-0"
+  ],
+  "plugins": [
+    "transform-async-to-generator",
+    "typecheck",
+    "syntax-flow",
+    "transform-flow-strip-types"
+  ]
+}
+
