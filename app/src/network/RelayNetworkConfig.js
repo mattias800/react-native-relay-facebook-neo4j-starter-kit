@@ -1,18 +1,10 @@
 import Relay from "react-relay";
 import {graphqlEndpoint} from "../config/ServerEndpoint";
+import {EnhancedRelayNetworkLayer} from "./EnhancedRelayNetworkLayer";
 
-export function setupAuthenticationInRelay(token: string) {
+export function setupRelayNetworkLayerWithTokenProvider(tokenProvider: Function<Promise<string>>) {
     Relay.injectNetworkLayer(
-        new Relay.DefaultNetworkLayer(graphqlEndpoint, {
-            headers: {
-                Authorization: token
-            }
-        })
+        new EnhancedRelayNetworkLayer(graphqlEndpoint, undefined, tokenProvider)
     );
 }
 
-export function setupRelayWithoutAuthentication() {
-    Relay.injectNetworkLayer(
-        new Relay.DefaultNetworkLayer(graphqlEndpoint)
-    );
-}
