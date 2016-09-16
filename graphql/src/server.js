@@ -22,10 +22,10 @@ app.use(jwt({
     secret: getJwtSecret(),
     credentialsRequired: true,
     getToken: function fromHeaderOrQuerystring(req) {
-        if (req.headers.authorization) {
-            return req.headers.authorization;
-        } else if (req.query && req.query.authorization) {
-            return req.query.authorization;
+        if (req.headers.Authorization) {
+            return req.headers.Authorization;
+        } else if (req.query && req.query.Authorization) {
+            return req.query.Authorization;
         }
         return null;
     }
@@ -44,14 +44,16 @@ app.post('/authenticate', async function (req, res) {
 
 app.use(graphQLHTTP({
     schema,
-    graphiql: true,
+    graphiql: true
     // Remove context
-    context: {
-        user: {
-            uuid: '09d58bc8-7cda-4fb6-a509-ba514b54f76d',
-            iat: 1473881957
-        }
-    }
+    /*
+     context: {
+     user: {
+     uuid: '09d58bc8-7cda-4fb6-a509-ba514b54f76d',
+     iat: 1473881957
+     }
+     }
+     */
 }));
 
 app.listen(serverPort);

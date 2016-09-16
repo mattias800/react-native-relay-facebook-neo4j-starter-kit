@@ -27,6 +27,13 @@ export const getUserByUuid = (uuid: string) => {
         .then(users => users.length > 0 ? users[0] : undefined);
 };
 
+export const getUserByAuthToken = (token: string) => {
+    return cypher(
+        "match (user:User {token: {token}}) return user", {token})
+        .then(results => results.map(result => result.user))
+        .then(users => users.length > 0 ? users[0] : undefined);
+};
+
 export const createUserAndAuthentication = (firstName: string,
                                             lastName: string,
                                             email: string,

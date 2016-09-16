@@ -7,9 +7,9 @@ import {introspectionQuery, printSchema} from 'graphql/utilities';
 import schema from '../schema';
 
 const jsonFile = path.join(__dirname, '../data/schema.json');
-const jsonFileForApp = path.join(__dirname, '../../../doggystyle/src/data/schema.json');
+const jsonFileForApp = path.join(__dirname, '../../../app/src/data/schema.json');
 const graphQLFile = path.join(__dirname, '../data/schema.graphql');
-const graphQLFileForApp = path.join(__dirname, '../../../doggystyle/src/data/schema.graphql');
+const graphQLFileForApp = path.join(__dirname, '../../../app/src/data/schema.graphql');
 
 async function updateSchema() {
     console.log("Updating schema...");

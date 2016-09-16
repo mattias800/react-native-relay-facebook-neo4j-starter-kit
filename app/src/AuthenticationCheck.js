@@ -9,6 +9,7 @@ import {
 } from 'react-native';
 import LoginPage from "./use-case/login/components/LoginPage";
 import {setAuthToken} from "./system/HttpClient";
+import {setupAuthenticationInRelay} from "./network/RelayNetworkConfig";
 
 
 export const AuthenticationCheck = React.createClass({
@@ -32,6 +33,7 @@ export const AuthenticationCheck = React.createClass({
 
     loggedIn(user) {
         setAuthToken(user.token);
+        setupAuthenticationInRelay(user.token);
         console.log("LOGGED INININN");
         console.log("user");
         console.log(user);

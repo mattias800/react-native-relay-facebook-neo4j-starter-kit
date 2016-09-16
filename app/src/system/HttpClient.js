@@ -75,7 +75,7 @@ export function putJson(url: string, model: Object) {
 function getPostHeaders() {
     return authToken ? {
         ...baseHeaders,
-        "authorization": authToken
+        "Authorization": authToken
     } : baseHeaders;
 }
 
