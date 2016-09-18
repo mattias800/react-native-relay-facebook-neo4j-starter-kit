@@ -10,11 +10,12 @@ import {
     View
 } from 'react-native';
 import {UserEmail} from "./UserEmail";
+import {LogoutButton} from "../../session/LogoutButton";
 
 class UserProfileComponent extends React.Component {
 
     render() {
-        const {user} = this.props;
+        const {user, viewer} = this.props;
         const {firstName, lastName, email} = user;
         return (
             <View>
@@ -22,7 +23,9 @@ class UserProfileComponent extends React.Component {
                 <Text>{firstName}</Text>
                 <Text>{lastName}</Text>
                 <UserEmail user={user} />
-                <Text>End of profile</Text>
+                {
+                    user.__dataID__ == viewer.__dataID__ && <LogoutButton />
+                }
             </View>
         );
     }

@@ -6,18 +6,11 @@ import {getAuthToken} from "./system/AuthTokenStorage";
 import * as HttpClient from "./system/HttpClient";
 import * as AuthTokenStorage from "./system/AuthTokenStorage";
 import {setupRelayNetworkLayerWithTokenProvider} from "./network/RelayNetworkConfig";
+import {setRelayAuthToken} from "./network/RelayNetworkConfig";
 
 registerScreens();
 bootApp();
 
-
-let authTokenUsedByRelay = undefined;
-
-setupRelayNetworkLayerWithTokenProvider(() => {
-    return Promise.resolve({
-        Authorization: authTokenUsedByRelay
-    });
-});
 
 async function bootApp() {
     var authToken = await getAuthToken();
@@ -25,7 +18,7 @@ async function bootApp() {
 
     if (authToken) {
         HttpClient.setAuthToken(authToken);
-        authTokenUsedByRelay = authToken;
+        setRelayAuthToken(authToken);
         showMainApp();
     } else {
         showLoginScreen();

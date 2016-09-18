@@ -20,7 +20,8 @@ class ViewerProfilePageComponent extends React.Component {
         return (
             <View>
                 <Text>ProfilePage</Text>
-                <UserProfile user={viewer} />
+                <UserProfile user={viewer}
+                             viewer={viewer} />
             </View>
         );
     }
@@ -43,7 +44,6 @@ export const ViewerProfilePageRoot = ({currentParams}) => {
             environment={Relay.Store}
             Container={ViewerProfilePage}
             queryConfig={new ViewerProfileQueryConfig()}
-
         />
     )
 };
