@@ -9,17 +9,19 @@ import {
     Text,
     View
 } from 'react-native';
+import {UserEmail} from "./UserEmail";
 
-export class UserProfile extends React.Component {
+class UserProfileComponent extends React.Component {
 
     render() {
-        const {firstName, lastName, email} = this.props.user;
+        const {user} = this.props;
+        const {firstName, lastName, email} = user;
         return (
             <View>
                 <Text>UserProfile</Text>
                 <Text>{firstName}</Text>
                 <Text>{lastName}</Text>
-                <Text>{email}</Text>
+                <UserEmail user={user} />
                 <Text>End of profile</Text>
             </View>
         );
@@ -27,13 +29,13 @@ export class UserProfile extends React.Component {
 
 }
 
-UserProfile = Relay.createContainer(UserProfile, {
+export const UserProfile = Relay.createContainer(UserProfileComponent, {
     fragments: {
         user: () => Relay.QL`
       fragment on User {
         firstName,
         lastName,
-        email
+        ${UserEmail.getFragment('user')}
       }
     `,
     },

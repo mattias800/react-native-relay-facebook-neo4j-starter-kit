@@ -1,0 +1,28 @@
+schema {
+  query: Query
+}
+
+type Animal {
+  id: String
+  type: Animal
+  owner: String
+  profilePhoto: String
+  litter: String
+  fullName: String
+  nickName: String
+  birthDate: String
+}
+
+type Query {
+  user(id: String): User
+  users: [User]
+  viewer: User
+}
+
+type User {
+  uuid: String
+  email: String
+  firstName: String
+  lastName: String
+  animals: [Animal]
+}

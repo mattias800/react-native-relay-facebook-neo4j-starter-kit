@@ -12,37 +12,26 @@ import {
 import {UserProfile} from "./components/UserProfile";
 import {ViewerProfileQueryConfig} from "./routes/ViewerProfileQueryConfig";
 
-class ViewerProfilePage extends React.Component {
+class ViewerProfilePageComponent extends React.Component {
 
     render() {
-        const {firstName, lastName, email} = this.props.viewer;
+        const {viewer} = this.props;
 
         return (
             <View>
                 <Text>ProfilePage</Text>
-                <Text>Bjaa</Text>
-                <Text>{email}</Text>
+                <UserProfile user={viewer} />
             </View>
         );
     }
 
 }
-/*
 
- viewer: () => Relay.QL`
- fragment on User {
- ${UserProfile.getFragment('user')}
- }
- `,
- */
-
-ViewerProfilePage = Relay.createContainer(ViewerProfilePage, {
+export const ViewerProfilePage = Relay.createContainer(ViewerProfilePageComponent, {
     fragments: {
         viewer: () => Relay.QL`
       fragment on User {
-            firstName,
-            lastName,
-            email
+             ${UserProfile.getFragment('user')}
        }
     `,
     },
@@ -54,6 +43,7 @@ export const ViewerProfilePageRoot = ({currentParams}) => {
             environment={Relay.Store}
             Container={ViewerProfilePage}
             queryConfig={new ViewerProfileQueryConfig()}
+
         />
     )
 };
