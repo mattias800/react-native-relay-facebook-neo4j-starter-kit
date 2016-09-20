@@ -15,8 +15,8 @@ class UserEmailComponent extends React.Component {
     render() {
         const {email} = this.props.user;
         return (
-            <View>
-                <Text>Email: </Text><Text>{email}</Text>
+            <View style={emailContainerStyle}>
+                <Text style={emailTextStyle}>{email}</Text>
             </View>
         );
     }
@@ -33,3 +33,12 @@ export const UserEmail = Relay.createContainer(UserEmailComponent, {
     },
 });
 
+const emailContainerStyle = {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "space-around"
+};
+
+const emailTextStyle = {
+    fontSize: 12
+};
