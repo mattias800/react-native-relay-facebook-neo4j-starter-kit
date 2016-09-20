@@ -1,49 +1,54 @@
 /* @flow */
 
 import React from "react";
-import Relay from 'react-relay';
-
-import {
-    AppRegistry,
-    StyleSheet,
-    Text,
-    View
-} from 'react-native';
+import Relay from "react-relay";
+import {AppRegistry, StyleSheet, Text, View, ScrollView} from "react-native";
+import {createRootRelayComponent} from "../../common/util/RelayFactory";
+import {routeConfigParamsBuilder} from "../../common/util/RelayFactory";
 import {UserProfile} from "./components/UserProfile";
-import {ViewerProfileQueryConfig} from "./routes/ViewerProfileQueryConfig";
 
 class ViewerProfilePageComponent extends React.Component {
 
     render() {
-        const {viewer} = this.props;
+        const {actor} = this.props.user;
 
         return (
-            <View>
-                <Text>ProfilePage</Text>
-                <UserProfile user={viewer}
-                             viewer={viewer} />
-            </View>
+            <ScrollView>
+                <UserProfile user={actor}
+                             viewer={actor} />
+            </ScrollView>
         );
     }
 
 }
 
-export const ViewerProfilePage = Relay.createContainer(ViewerProfilePageComponent, {
+const ViewerProfilePageContainer = Relay.createContainer(ViewerProfilePageComponent, {
     fragments: {
-        viewer: () => Relay.QL`
-      fragment on User {
-             ${UserProfile.getFragment('user')}
-       }
+        user: () => Relay.QL`
+            fragment on Viewer {
+                actor {
+                    email
+                }
+            }
     `,
     },
 });
 
-export const ViewerProfilePageRoot = ({currentParams}) => {
-    return (
-        <Relay.Renderer
-            environment={Relay.Store}
-            Container={ViewerProfilePage}
-            queryConfig={new ViewerProfileQueryConfig()}
-        />
-    )
-};
+class QueryConfig extends Relay.Route {
+    static routeName = 'ViewerProfileRoute';
+    static prepareParams = routeConfigParamsBuilder;
+    static queries = {
+        user: (Component) =>
+            Relay.QL`
+                     query {
+                        viewer(token:$token) {
+                            ${Component.getFragment('user')}                                        
+                        }
+                     }
+        `,
+    };
+}
+
+export const ViewerProfilePage = createRootRelayComponent(ViewerProfilePageContainer, QueryConfig);
+
+

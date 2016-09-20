@@ -4,9 +4,9 @@ export function showMainApp() {
     Navigation.startTabBasedApp({
         tabs: [
             {
-                label: 'One',
-                screen: 'doggy.HomeScreen',
-                title: 'Screen One',
+                label: 'Users',
+                screen: 'doggy.UserListScreen',
+                title: 'Users',
                 navigatorStyle: {
                     navBarBackgroundColor: '#4dbce9',
                     navBarTextColor: '#ffff00',

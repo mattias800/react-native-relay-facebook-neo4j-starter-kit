@@ -11,6 +11,7 @@ import {
 } from 'react-native';
 import {UserEmail} from "./UserEmail";
 import {LogoutButton} from "../../session/LogoutButton";
+import {isSameEntity} from "../../../common/util/EntityUtil";
 
 class UserProfileComponent extends React.Component {
 
@@ -22,9 +23,8 @@ class UserProfileComponent extends React.Component {
                 <Text>UserProfile</Text>
                 <Text>{firstName}</Text>
                 <Text>{lastName}</Text>
-                <UserEmail user={user} />
                 {
-                    user.__dataID__ == viewer.__dataID__ && <LogoutButton />
+                    isSameEntity(user, viewer) && <LogoutButton />
                 }
             </View>
         );
@@ -37,8 +37,7 @@ export const UserProfile = Relay.createContainer(UserProfileComponent, {
         user: () => Relay.QL`
       fragment on User {
         firstName,
-        lastName,
-        ${UserEmail.getFragment('user')}
+        lastName
       }
     `,
     },

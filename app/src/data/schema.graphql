@@ -14,15 +14,20 @@ type Animal {
 }
 
 type Query {
-  user(id: String): User
-  users: [User]
-  viewer: User
+  viewer(token: String): Viewer
 }
 
 type User {
   uuid: String
+  token: String
   email: String
   firstName: String
   lastName: String
   animals: [Animal]
+}
+
+type Viewer {
+  user(id: String): User
+  users: [User]
+  actor: User
 }

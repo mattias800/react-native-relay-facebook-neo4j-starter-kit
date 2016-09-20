@@ -33,10 +33,12 @@ export class EnhancedRelayNetworkLayer {
     _uri: string;
     _init: $FlowIssue; // InitWithRetries
 
-    constructor(uri: string, init?: ?InitWithRetries, requestParametersProvider: Function<Promise<string>>) {
+    constructor(uri: string, init?: ?InitWithRetries, requestParametersProvider: ?Function<Promise<string>>) {
         this._uri = uri;
         this._init = {...init};
-        this.requestParametersProvider = requestParametersProvider;
+        this.requestParametersProvider = requestParametersProvider || function () {
+                return Promise.resolve({});
+            };
 
         // Facilitate reuse when creating custom network layers.
         (this: any).sendMutation = this.sendMutation.bind(this);
