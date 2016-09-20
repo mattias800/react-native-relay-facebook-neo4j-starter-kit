@@ -1,15 +1,19 @@
 var FB = require('fb');
 import {createUserAndAuthentication, getUserByAuthenticationService} from "../persistence/service/UserService";
+import {getUserByEmail} from "../persistence/service/UserService";
 
 export async function authenticateOrCreateUser(service: string, token: string) {
     if (service !== "facebook") {
         throw "Invalid service. Only Facebook supported.";
     }
     let userInDb = await getUserByAuthenticationService(service, token);
-    if (!userInDb) {
-        const facebookUser = await getProfileFromFacebook(token);
-        userInDb = await createUserAndAuthentication(facebookUser.first_name, facebookUser.last_name, facebookUser.email, service, facebookUser.id, token);
-    }
+    if (userInDb) return userInDb;
+
+    const facebookUser = await getProfileFromFacebook(token);
+    userInDb = await getUserByEmail(facebookUser.email);
+    if (userInDb) return userInDb;
+
+    userInDb = await createUserAndAuthentication(facebookUser.first_name, facebookUser.last_name, facebookUser.email, service, facebookUser.id, token);
     return userInDb;
 }
 

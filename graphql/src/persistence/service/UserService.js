@@ -20,6 +20,16 @@ export const getUserByAuthenticationService = (service: string, token: string) =
         .then(users => users.length > 0 ? users[0] : undefined);
 };
 
+export const getUserByEmail = (email: string) => {
+    return cypher(
+        "match (user:User {email: {email}}) return user",
+        {
+            email
+        })
+        .then(results => results.map(result => result.user))
+        .then(users => users.length > 0 ? users[0] : undefined);
+};
+
 export const getUserByUuid = (uuid: string) => {
     return cypher(
         "match (user:User {uuid: {uuid}}) return user", {uuid})

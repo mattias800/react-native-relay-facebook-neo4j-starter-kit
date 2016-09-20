@@ -6,7 +6,7 @@ import {AppRegistry, StyleSheet, Text, View} from "react-native";
 import {UserList} from "./components/UserList";
 import {routeConfigParamsBuilder, createRootRelayComponent} from "../../common/util/RelayFactory";
 
-class UserListPageComponent extends React.Component {
+class UserListPage extends React.Component {
 
     render() {
         console.log("this.props.users");
@@ -23,7 +23,7 @@ class UserListPageComponent extends React.Component {
 
 }
 
-export const UserListPageContainer = Relay.createContainer(UserListPageComponent, {
+UserListPage = Relay.createContainer(UserListPage, {
     fragments: {
         users: () => Relay.QL`
       fragment on Viewer {
@@ -50,6 +50,6 @@ class QueryConfig extends Relay.Route {
     };
 }
 
-export const UserListPage = createRootRelayComponent(UserListPageContainer, QueryConfig);
+export const UserListPageComponent = createRootRelayComponent(UserListPage, QueryConfig);
 
 

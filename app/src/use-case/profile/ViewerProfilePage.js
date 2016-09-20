@@ -7,7 +7,7 @@ import {createRootRelayComponent} from "../../common/util/RelayFactory";
 import {routeConfigParamsBuilder} from "../../common/util/RelayFactory";
 import {UserProfile} from "./components/UserProfile";
 
-class ViewerProfilePageComponent extends React.Component {
+class ViewerProfilePage extends React.Component {
 
     render() {
         const {actor} = this.props.user;
@@ -22,12 +22,12 @@ class ViewerProfilePageComponent extends React.Component {
 
 }
 
-const ViewerProfilePageContainer = Relay.createContainer(ViewerProfilePageComponent, {
+ViewerProfilePage = Relay.createContainer(ViewerProfilePage, {
     fragments: {
         user: () => Relay.QL`
             fragment on Viewer {
                 actor {
-                    email
+                    ${UserProfile.getFragment('user')}
                 }
             }
     `,
@@ -49,6 +49,6 @@ class QueryConfig extends Relay.Route {
     };
 }
 
-export const ViewerProfilePage = createRootRelayComponent(ViewerProfilePageContainer, QueryConfig);
+export const ViewerProfilePageComponent = createRootRelayComponent(ViewerProfilePage, QueryConfig);
 
 
