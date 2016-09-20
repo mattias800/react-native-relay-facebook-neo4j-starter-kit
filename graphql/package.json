@@ -1,0 +1,44 @@
+{
+  "name": "doggystyle-server",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "babel-node src/util/updateSchema.js; nodemon --exec babel-node --presets=es2015 src/server.js",
+    "update": "babel-node src/util/updateSchema.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "babel-plugin-syntax-flow": "^6.13.0",
+    "babel-plugin-transform-async-to-generator": "^6.8.0",
+    "babel-plugin-transform-flow-strip-types": "^6.14.0",
+    "babel-plugin-typecheck": "^3.9.0",
+    "babel-preset-es2017": "^6.14.0",
+    "babel-preset-stage-0": "^6.5.0",
+    "body-parser": "^1.15.2",
+    "chalk": "^1.1.3",
+    "express": "^4.13.4",
+    "express-graphql": "^0.5.3",
+    "express-jwt": "^5.0.0",
+    "express-unless": "^0.3.0",
+    "fb": "^1.1.1",
+    "graphql": "^0.6.0",
+    "jsonwebtoken": "^7.1.9",
+    "neo4j": "^2.0.0-RC2",
+    "node-fetch": "^1.5.3",
+    "node-uuid": "^1.4.7",
+    "rethinkdb": "^2.3.2",
+    "uuid": "^2.0.2"
+  },
+  "devDependencies": {
+    "babel-cli": "^6.10.1",
+    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-es2016": "^6.11.0",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^6.1.2",
+    "gulp-clean": "^0.3.2",
+    "gulp-graphql": "^0.2.0"
+  }
+}
