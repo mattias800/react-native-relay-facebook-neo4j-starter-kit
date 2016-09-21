@@ -24,10 +24,13 @@ class UserListComponent extends React.Component {
             <ScrollView>
                 <List containerStyle={{marginBottom: 20}}>
                     {
+                        console.log(users)
+                    }
+                    {
                         users.map((user, i) => (
                             <ListItem
                                 roundAvatar
-                                avatar={user.avatar_url}
+                                avatar={user.profilePhotoUrl}
                                 key={user.__dataID__}
                                 title={`${user.firstName} ${user.lastName}`}
                                 subtitle={user.email}
@@ -47,7 +50,8 @@ export const UserList = Relay.createContainer(UserListComponent, {
       fragment on User @relay(plural:true) {
         firstName,
         lastName,
-        email
+        email,
+        profilePhotoUrl
       }
     `,
     },

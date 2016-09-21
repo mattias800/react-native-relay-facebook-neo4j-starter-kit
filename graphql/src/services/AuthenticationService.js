@@ -38,7 +38,7 @@ export async function authenticateOrCreateUser(service: string, token: string) {
     const uuid = generateUuid();
     const userAuthToken = generateToken(uuid);
     userInDb = await createUserAndAuthentication(
-        new User(uuid, userAuthToken, facebookUser.first_name, facebookUser.last_name, facebookUser.email),
+        new User(uuid, userAuthToken, facebookUser.first_name, facebookUser.last_name, facebookUser.email, getProfilePhotoUrl(facebookUser)),
         service,
         facebookUser.id,
         token

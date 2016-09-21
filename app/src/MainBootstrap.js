@@ -31,6 +31,7 @@ export function showMainApp() {
                 screen: 'doggy.ViewerProfileScreen',
                 title: 'Me',
                 navigatorStyle: {
+                    navBarHidden: true,
                     tabBarBackgroundColor: '#4dbce9',
                 }
             }

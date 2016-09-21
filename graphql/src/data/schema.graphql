@@ -23,6 +23,7 @@ type User {
   email: String
   firstName: String
   lastName: String
+  profilePhotoUrl: String
   animals: [Animal]
 }
 
