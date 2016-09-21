@@ -22,7 +22,7 @@ app.get('/', function (req, res) {
 app.post('/authenticate', async function (req, res) {
     const {service, token} = req.body;
     const user = await authenticateOrCreateUser(service, token);
-    res.send(user.properties);
+    res.send(user);
 });
 
 app.use(graphQLHTTP({

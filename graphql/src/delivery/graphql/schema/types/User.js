@@ -1,6 +1,6 @@
 // @flow
 import {GraphQLObjectType, GraphQLString, GraphQLList} from "graphql";
-import {UserIdType, EmailType} from "../types";
+import {UserIdType, EmailType, AuthTokenType} from "../types";
 import {AnimalType} from "./Animal";
 import {getUserById} from "../../../../persistence/service/UserService";
 import {getAnimalOwnedByUserById} from "../../../../persistence/service/AnimalService";
@@ -11,24 +11,22 @@ export const UserType = new GraphQLObjectType({
 
     fields: () => ({
         uuid: {
-            type: UserIdType,
-            resolve: (user) => user.properties.uuid,
+            type: UserIdType
         },
         token: {
-            type: UserIdType,
-            resolve: (user) => user.properties.token,
+            type: AuthTokenType
         },
         email: {
-            type: EmailType,
-            resolve: (user) => user.properties.email
+            type: EmailType
         },
         firstName: {
-            type: GraphQLString,
-            resolve: (user) => user.properties.firstName
+            type: GraphQLString
         },
         lastName: {
-            type: GraphQLString,
-            resolve: (user) => user.properties.lastName
+            type: GraphQLString
+        },
+        profilePhotoUrl: {
+            type: GraphQLString
         },
         animals: {
             type: new GraphQLList(AnimalType),

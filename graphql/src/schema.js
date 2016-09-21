@@ -11,12 +11,12 @@ const QueryType = new GraphQLObjectType({
         viewer: {
             type: ViewerType,
             args: {token: {type: GraphQLString}},
-            resolve: async(root, args, context) => {
-                var actor = await getUserByAuthToken(args.token);
+            resolve: async(root, {token}) => {
+                var actor = await getUserByAuthToken(token);
                 if (!actor) {
                     throw "Unauthorized access.";
                 } else {
-                    return createViewer(actor, args.token);
+                    return createViewer(actor, token);
                 }
             }
         }

@@ -1,7 +1,7 @@
 // @flow
 import {GraphQLObjectType, GraphQLString, GraphQLList} from "graphql";
-import {getUserByUuid, getAllUsers, getUserByAuthToken} from "../../../../persistence/service/UserService";
 import {UserType} from "./User";
+import {User} from "../../../../models/User";
 
 export const ViewerType = new GraphQLObjectType({
     name: "Viewer",
@@ -11,11 +11,11 @@ export const ViewerType = new GraphQLObjectType({
         user: {
             type: UserType,
             args: {id: {type: GraphQLString}},
-            resolve: (viewer, args) => getUserByUuid(args.id)
+            resolve: (viewer, {id}) => User.getById(viewer, id)
         },
         users: {
             type: new GraphQLList(UserType),
-            resolve: (viewer, args) => getAllUsers()
+            resolve: (viewer, args) => User.getAll(viewer)
         },
         actor: {
             type: UserType,

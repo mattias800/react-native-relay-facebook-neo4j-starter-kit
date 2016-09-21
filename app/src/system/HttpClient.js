@@ -54,6 +54,11 @@ export function postJson(url: string, model: Object) {
         headers: getPostHeaders(),
         body: JSON.stringify(model)
     })
+        .then(response => {
+            console.log("response");
+            console.log(response);
+            return response;
+        })
         .then(checkStatus)
         .then(parseJSON);
 }

@@ -16,3 +16,5 @@ export const LitterIdType = EntityIdType;
 export const KennelIdType = EntityIdType;
 
 export const EmailType = GraphQLString;
+
+export const AuthTokenType = GraphQLString;

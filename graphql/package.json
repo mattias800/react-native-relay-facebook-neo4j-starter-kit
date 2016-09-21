@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "babel-node src/util/updateSchema.js; nodemon --exec babel-node --presets=es2015 src/server.js",
+    "start": "babel-node src/util/updateSchema.js; nodemon --exec babel-node src/server.js",
     "update": "babel-node src/util/updateSchema.js"
   },
   "author": "",
@@ -13,6 +13,7 @@
   "dependencies": {
     "babel-plugin-syntax-flow": "^6.13.0",
     "babel-plugin-transform-async-to-generator": "^6.8.0",
+    "babel-plugin-transform-class-properties": "^6.11.5",
     "babel-plugin-transform-flow-strip-types": "^6.14.0",
     "babel-plugin-typecheck": "^3.9.0",
     "babel-preset-es2017": "^6.14.0",

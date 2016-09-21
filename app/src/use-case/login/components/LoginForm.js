@@ -57,7 +57,8 @@ const LoginForm = React.createClass({
             })
             .catch(e => {
                 console.log("Login failed");
-
+                console.log(e);
+                
                 this.setState({fetching: false});
                 if (e.isCancelled) {
                     alert("Login was cancelled.");
