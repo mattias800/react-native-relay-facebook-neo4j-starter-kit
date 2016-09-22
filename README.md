@@ -131,6 +131,7 @@ For more info, see https://github.com/facebook/react-native-fbsdk
 
 Setup Facebook app id and app name according to Facebooks documentation.
 This is done in the info.plist file.
+The current config is for my test app, which you don't have access to, so login will fail.
 
 ### 5. Start app
 
