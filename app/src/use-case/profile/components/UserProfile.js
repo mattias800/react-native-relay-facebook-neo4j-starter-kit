@@ -19,14 +19,17 @@ import {Column} from "../../../common/ui/Column";
 class UserProfileComponent extends React.Component {
 
     render() {
-        const {user, viewer} = this.props;
+        const {user, isCurrentUser} = this.props;
+        console.log("isCurrentUser");
+        console.log(isCurrentUser);
+
         const {firstName, lastName} = user;
         return (
-            <Column>
-                <Row style={{height:75, marginTop:10}}
-                     justifyContent="center">
+            <View style={containerStyle}>
+                <Column justifyContent="center"
+                        alignItems="center">
                     <UserProfilePhoto user={user} />
-                </Row>
+                </Column>
 
                 <Row justifyContent="center">
                     <Text style={nameTextStyle}>{`${firstName} ${lastName}`}</Text>
@@ -36,10 +39,10 @@ class UserProfileComponent extends React.Component {
                 </Row>
                 <Row justifyContent="center">
                     {
-                        isSameEntity(user, viewer) && <LogoutButton />
+                        isCurrentUser && <LogoutButton />
                     }
                 </Row>
-            </Column>
+            </View>
         );
     }
 
@@ -57,6 +60,12 @@ export const UserProfile = Relay.createContainer(UserProfileComponent, {
     `,
     },
 });
+
+const containerStyle = {
+    backgroundColor: "red",
+    flexDirection: "column",
+    flex: 1
+};
 
 const nameContainerStyle = {
     flex: 1,

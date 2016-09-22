@@ -17,7 +17,7 @@ class UserProfilePhotoComponent extends React.Component {
         const {user} = this.props;
         return (
             <View style={containerStyle}>
-                <Image style={styles.image}
+                <Image style={imageStyle}
                        source={{uri: user.profilePhotoUrl}} />
             </View>
         );
@@ -36,14 +36,12 @@ export const UserProfilePhoto = Relay.createContainer(UserProfilePhotoComponent,
 });
 
 const containerStyle = {
-    width: 100,
-    height: 100
+    flex: 1,
+    flexDirection: "column"
 };
 
-var styles = StyleSheet.create({
-    image: {
-        height: 100,
-        borderRadius: 50,
-        width: 100
-    }
-});
+var imageStyle = {
+    height: 100,
+    borderRadius: 50,
+    width: 100
+};

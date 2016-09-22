@@ -15,7 +15,7 @@ class ViewerProfilePage extends React.Component {
         return (
             <ScrollView style={{marginTop:20}}>
                 <UserProfile user={actor}
-                             viewer={actor} />
+                             isCurrentUser={true} />
             </ScrollView>
         );
     }

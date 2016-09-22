@@ -10,15 +10,20 @@ import {UserProfile} from "./components/UserProfile";
 class ProfilePage extends React.Component {
 
     render() {
-        console.log("this.props.");
+        console.log("this.props--------------------------");
         console.log(this.props);
-
+        const {userId, currentUserId} = this.props;
         const {user} = this.props.user;
+        const isCurrentUser = userId === currentUserId;
+        console.log("userId", userId);
+        console.log("currentUserId", currentUserId);
+        console.log("isCurrentUser", isCurrentUser);
+
 
         return (
-            <ScrollView style={{marginTop:20}}>
+            <ScrollView style={{paddingTop:20, flex:1, backgroundColor:"blue"}}>
                 <UserProfile user={user}
-                             viewer={user} />
+                             isCurrentUser={isCurrentUser} />
             </ScrollView>
         );
     }
