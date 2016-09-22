@@ -2,6 +2,31 @@
 
 This is a starter kit that shows how a couple of frameworks can run together.
 
+### App
+* React Native
+* Relay
+* react-native-navigation
+* react-native-fbsdk
+* react-native-elements
+
+### Backend
+* Node
+* Express
+* GraphQL
+* Neo4j
+
+## What it shows
+
+It demonstrates a couple of things.
+
+* How backend can communicate with Facebook
+* How the app can communicate with Facebook
+* How Node can communicate with Neo4j
+* How to implement a GraphQL backend with Node
+* How to use Relay with React Native
+* How to use react-native-navigation with Relay
+* How to do per request authentication in GraphQL requests
+
 The app allows you to login using Facebook.
 After authentication with Facebook, the users token is sent to backend which
 validates the user.
@@ -14,17 +39,29 @@ You can press these users to open up their profile.
 
 For current user, a logout button is shown on the profile page.
 
-### App
-* React Native
-* Relay
-* react-native-navigation
-* react-native-fbsdk
+## GraphQL authentication
 
-### Backend
-* Node
-* Express
-* GraphQL
-* Neo4j
+GraphQL queries are structured as following.
+
+```
+{
+    viewer(token:"tokenProvidedByBackend") {
+        actor {
+            firstName,
+            lastName,
+            email
+        }
+    }
+}
+```
+
+All fragments under viewer needs a correct token to be provided.
+
+## Disclaimer
+
+I am not proposing that this is the correct, best, or even good way to do this.
+I just wanted to show one way of doing it.
+Use it, improve it, send pull requests if you want.
 
 ## Usage ##
 
