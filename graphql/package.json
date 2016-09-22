@@ -23,14 +23,13 @@
     "express": "^4.13.4",
     "express-graphql": "^0.5.3",
     "express-jwt": "^5.0.0",
-    "express-unless": "^0.3.0",
     "fb": "^1.1.1",
     "graphql": "^0.6.0",
     "jsonwebtoken": "^7.1.9",
     "neo4j": "^2.0.0-RC2",
     "node-fetch": "^1.5.3",
     "node-uuid": "^1.4.7",
-    "rethinkdb": "^2.3.2",
+    "nodemon": "^1.10.2",
     "uuid": "^2.0.2"
   },
   "devDependencies": {
