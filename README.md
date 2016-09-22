@@ -15,16 +15,16 @@ You can press these users to open up their profile.
 For current user, a logout button is shown on the profile page.
 
 ### App
-React Native
-Relay
-react-native-navigation
-react-native-fbsdk
+* React Native
+* Relay
+* react-native-navigation
+* react-native-fbsdk
 
 ### Backend
-Node
-Express
-GraphQL
-Neo4j
+* Node
+* Express
+* GraphQL
+* Neo4j
 
 ## Usage ##
 
