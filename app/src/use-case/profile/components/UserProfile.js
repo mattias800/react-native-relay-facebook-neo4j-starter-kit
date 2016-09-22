@@ -63,7 +63,6 @@ export const UserProfile = Relay.createContainer(UserProfileComponent, {
 
 const containerStyle = {
     backgroundColor: "red",
-    flexDirection: "column",
     flex: 1
 };
 

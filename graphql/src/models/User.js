@@ -47,7 +47,7 @@ export class User {
         return user;
     }
 
-    static async getAll(viewer): Promise<?Array<User>> {
+    static async getAll(viewer): Promise<Array<User>> {
         const users = await getAllUsers();
         if (users == null) return [];
         return users

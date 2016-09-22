@@ -7,8 +7,6 @@ import updateSchema from "./util/updateSchema";
 
 const serverPort = 5000;
 
-const token = "EAAFEfLDlRZBcBAOq08fFrTBXzC7mV0YGIZAnzvGiDL8DuYKnl9VNYZCFUxYEsnMiutQxVDzmEAA1eZAprfkdQ3CUTZBgmSVXDUTumZB9EF75W2DDSbZCAVIRgAUJH5WxslSt57VcKF0xUblurQZA6qOZARBVZBEZA1xakxdYyqtAyZCiqLP3gOix0KRIg0lXvuuGS7FOE4hA2mbyeYxnILgJT1IbPB4nyEfzH6IZD";
-
 updateSchema().then(startServer);
 
 function startServer() {
