@@ -38,6 +38,7 @@ validates the user.
 It does this by checking if user has been validated with that token before.
 If not, it fetches the profile from Facebook and checks if there is a user with that email.
 If not, a new user is created.
+The resulting user is returned.
 
 The app then shows two views. The users profile, and a list of all users.
 You can press these users to open up their profile.
@@ -45,6 +46,9 @@ You can press these users to open up their profile.
 For current user, a logout button is shown on the profile page.
 
 ## GraphQL authentication
+
+Login is done through a normal REST endpoint (but could be moved to a GraphQL mutation),
+but all other communications is done over GraphQL and needs authentication.
 
 GraphQL queries are structured as following.
 
@@ -99,6 +103,10 @@ $ npm start
 ```
 ### 3. Start app packager
 
+First, install React Native according to their instructions.
+This includes `brew install watchman`.
+
+Then:
 ```
 $ cd app
 $ npm install
