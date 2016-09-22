@@ -2,6 +2,9 @@
 
 This is a starter kit that shows how a couple of frameworks can run together.
 
+This was developed on iOS. 
+All frameworks used support Android, so if anyone wants to make it work on Android, feel free to make a pull request.
+
 ### App
 * React Native
 * Relay
@@ -124,7 +127,7 @@ $ npm start
 Download FacebookSDK for iOS and put in `~/Documents/FacebookSDK`.
 For more info, see https://github.com/facebook/react-native-fbsdk
 
-####
+#### Setup Facebook app id and app name
 
 Setup Facebook app id and app name according to Facebooks documentation.
 This is done in the info.plist file.
