@@ -67,10 +67,10 @@ When starting backend, Graphiql is included.
 
 Open `http://localhost:5000/graphiql` in a browser and you can start writing queries immediately.
 
-You will need a token provided by backend when logging in with the app first though.
+You will need a token though, which is provided by backend when logging in with the app.
 
 Easiest way to get it is to open the app, log in, and then open `http://localhost:7474/browser/`.
-In the database you can enter `match (u:User) return u.token`.
+In the database you can enter `match (u:User) return u.token` to get the token.
 
 
 ## Disclaimer
