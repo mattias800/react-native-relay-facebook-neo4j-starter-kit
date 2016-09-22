@@ -9,9 +9,9 @@ import {
 } from 'react-native';
 import LoginForm from "./LoginForm";
 import * as HttpClient from "../../../system/HttpClient";
-import * as AuthTokenStorage from "../../../system/AuthTokenStorage";
+import * as SessionStorage from "../../../system/SessionStorage";
 import {showMainApp} from "../../../MainBootstrap";
-import {setRelayAuthToken} from "../../../network/RelayNetworkConfig";
+import {setRelaySession} from "../../../network/RelayNetworkConfig";
 
 class LoginPage extends React.Component {
 
@@ -24,10 +24,10 @@ class LoginPage extends React.Component {
     }
 
     async onLogin(user) {
-        const authToken = user.token;
-        HttpClient.setAuthToken(authToken);
-        setRelayAuthToken(authToken);
-        await AuthTokenStorage.setAuthToken(authToken);
+        const {token, id} = user;
+        HttpClient.setAuthToken(token);
+        setRelaySession(token, id);
+        await SessionStorage.setSession(token, id);
         showMainApp()
     }
 

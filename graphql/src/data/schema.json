@@ -119,7 +119,7 @@
           "description": "A user.",
           "fields": [
             {
-              "name": "uuid",
+              "name": "id",
               "description": null,
               "args": [],
               "type": {

@@ -4,6 +4,7 @@ import DogList from "./use-case/dog-list/components/DogList";
 import LoginPage from "./use-case/login/components/LoginPage";
 import {ViewerProfilePageComponent} from "./use-case/profile/ViewerProfilePage";
 import {UserListPageComponent} from "./use-case/user-list/UserListPage";
+import {ProfilePageComponent} from "./use-case/profile/ProfilePage";
 
 // register all screens of the app (including internal ones)
 export function registerScreens() {
@@ -12,4 +13,5 @@ export function registerScreens() {
     Navigation.registerComponent('doggy.HomeScreen', () => Home);
     Navigation.registerComponent('doggy.DogListScreen', () => DogList);
     Navigation.registerComponent('doggy.ViewerProfileScreen', () => ViewerProfilePageComponent);
+    Navigation.registerComponent('doggy.UserProfileScreen', () => ProfilePageComponent);
 }

@@ -6,7 +6,8 @@ import {User} from "../../models/User";
 export const getAllUsers = () => {
     return cypher(
         "MATCH (user:User) return user")
-        .then(results => results.map(result => result.user));
+        .then(results => results.map(result => result.user))
+        .then(users => users.map(user => User.createFromEntity(user)));
 
 };
 

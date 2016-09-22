@@ -18,7 +18,7 @@ type Query {
 }
 
 type User {
-  uuid: String
+  id: String
   token: String
   email: String
   firstName: String

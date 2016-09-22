@@ -37,19 +37,20 @@ export class User {
 
     static async getByEmail(viewer, email: string): Promise<?User> {
         const user = await getUserByEmail(email);
-        if (data == null) return null;
-        return User.createFromEntity(user);
+        if (user == null) return null;
+        return user;
     }
 
     static async getById(viewer, id: string): Promise<?User> {
         const user = await getUserByUuid(id);
-        if (data == null) return null;
-        return User.createFromEntity(user);
+        if (user == null) return null;
+        return user;
     }
 
     static async getAll(viewer): Promise<?Array<User>> {
         const users = await getAllUsers();
-        return users.map(user => User.createFromEntity(user));
+        if (users == null) return [];
+        return users
     }
 
 }

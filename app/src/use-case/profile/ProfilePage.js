@@ -10,12 +10,15 @@ import {UserProfile} from "./components/UserProfile";
 class ProfilePage extends React.Component {
 
     render() {
-        const {actor} = this.props.user;
+        console.log("this.props.");
+        console.log(this.props);
+
+        const {user} = this.props.user;
 
         return (
             <ScrollView style={{marginTop:20}}>
-                <UserProfile user={actor}
-                             viewer={actor} />
+                <UserProfile user={user}
+                             viewer={user} />
             </ScrollView>
         );
     }
@@ -23,10 +26,20 @@ class ProfilePage extends React.Component {
 }
 
 ProfilePage = Relay.createContainer(ProfilePage, {
+    initialVariables: {
+        userId: ''
+    },
+    prepareVariables: prevVariables => {
+        console.log("ProfilePage.prepareVariables");
+        console.log(prevVariables);
+        return {
+            ...prevVariables,
+        };
+    },
     fragments: {
         user: () => Relay.QL`
             fragment on Viewer {
-                actor {
+                user(id: $userId) {
                     ${UserProfile.getFragment('user')}
                 }
             }
@@ -36,19 +49,22 @@ ProfilePage = Relay.createContainer(ProfilePage, {
 
 class QueryConfig extends Relay.Route {
     static routeName = 'ViewerProfileRoute';
+    static paramDefinitions = {
+        userId: {required: true},
+    };
     static prepareParams = routeConfigParamsBuilder;
     static queries = {
-        user: (Component) =>
+        user: (Component, vars) =>
             Relay.QL`
                      query {
                         viewer(token:$token) {
-                            ${Component.getFragment('user')}                                        
+                            ${Component.getFragment('user', vars)}
                         }
                      }
         `,
     };
 }
 
-export const ProfilePageComponent = createRootRelayComponent(ProfilePage, QueryConfig);
+export const ProfilePageComponent = createRootRelayComponent(ProfilePage, QueryConfig, props => ({userId: props.userId}));
 
 

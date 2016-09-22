@@ -2,23 +2,22 @@ import {AsyncStorage} from "react-native";
 import {registerScreens} from "./AppScreens";
 import {showMainApp} from "./MainBootstrap";
 import {showLoginScreen} from "./use-case/login/LoginPageBootstrap";
-import {getAuthToken} from "./system/AuthTokenStorage";
 import * as HttpClient from "./system/HttpClient";
-import * as AuthTokenStorage from "./system/AuthTokenStorage";
+import * as SessionStorage from "./system/SessionStorage";
 import {setupRelayNetworkLayerWithTokenProvider} from "./network/RelayNetworkConfig";
-import {setRelayAuthToken} from "./network/RelayNetworkConfig";
+import {setRelaySession} from "./network/RelayNetworkConfig";
 
 registerScreens();
 bootApp();
 
 
 async function bootApp() {
-    var authToken = await getAuthToken();
-    console.log("authToken", authToken);
+    var session = await SessionStorage.getSession();
 
-    if (authToken) {
-        HttpClient.setAuthToken(authToken);
-        setRelayAuthToken(authToken);
+    if (session) {
+        const {token, currentUserId} = session;
+        HttpClient.setAuthToken(token);
+        setRelaySession(token, currentUserId);
         showMainApp();
     } else {
         showLoginScreen();

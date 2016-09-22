@@ -42,9 +42,15 @@ class UserListComponent extends React.Component {
     }
 
     userPressed(user) {
+        console.log("click on user");
+        console.log(user);
+
         this.props.navigator.push({
-            screen: 'doggy.ViewerProfileScreen',
-            title: `${user.firstName} ${user.lastName}`
+            screen: 'doggy.UserProfileScreen',
+            title: `${user.firstName} ${user.lastName}`,
+            passProps: {
+                userId: user.id
+            }
         });
     }
 
@@ -54,6 +60,7 @@ export const UserList = Relay.createContainer(UserListComponent, {
     fragments: {
         users: () => Relay.QL`
       fragment on User @relay(plural:true) {
+        id,
         firstName,
         lastName,
         email,

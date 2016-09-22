@@ -10,7 +10,7 @@ export const UserType = new GraphQLObjectType({
     description: "A user.",
 
     fields: () => ({
-        uuid: {
+        id: {
             type: UserIdType
         },
         token: {
