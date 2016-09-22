@@ -61,6 +61,12 @@ GraphQL queries are structured as following.
 
 All fragments under viewer needs a correct token to be provided.
 
+## Graphiql
+
+When starting backend, Graphiql is included.
+
+Open `http://localhost:5000/graphiql` in a browser and you can start writing queries immediately.
+
 ## Disclaimer
 
 I am not proposing that this is the correct, best, or even good way to do this.
