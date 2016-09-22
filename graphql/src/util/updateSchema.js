@@ -12,7 +12,7 @@ const graphQLFile = path.join(__dirname, '../data/schema.graphql');
 const graphQLFileForApp = path.join(__dirname, '../../../app/src/data/schema.graphql');
 
 async function updateSchema() {
-    console.log("Updating schema...");
+    console.log("Updating GraphQL schema...");
     try {
         const json = await graphql(schema, introspectionQuery);
         fs.writeFileSync(jsonFile, JSON.stringify(json, null, 2));

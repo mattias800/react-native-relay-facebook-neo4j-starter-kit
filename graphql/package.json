@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "babel-node src/util/updateSchema.js; nodemon --exec babel-node src/server.js",
+    "start": "nodemon --exec babel-node src/server.js",
     "update": "babel-node src/util/updateSchema.js"
   },
   "author": "",
