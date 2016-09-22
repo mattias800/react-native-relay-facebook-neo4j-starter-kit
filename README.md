@@ -30,25 +30,31 @@ For current user, a logout button is shown on the profile page.
 
 ### 1. Start database
 
+```
 $ cd graphql/docker
 $ docker-compose up
+```
 
 ### 2. Start backend
 
+```
 $ cd graphql
 $ npm install
 $ npm start
-
+```
 ### 3. Start app packager
 
+```
 $ cd app
 $ npm install
 $ npm start
+```
 
 ### 4. Start app
 
 Open project in Xcode and run.
 Or
+```
 $ cd app
 $ react-native run-ios
-
+```
