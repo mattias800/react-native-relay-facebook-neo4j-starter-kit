@@ -1,5 +1,5 @@
 import {loginWithFacebook} from "../system/facebook/FacebookService";
-import {postJson} from "../system/HttpClient";
+import {postJson} from "../network/HttpClient";
 
 export function loginUsingFacebook() {
     console.log("Authenticating with Facebook");

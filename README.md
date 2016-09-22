@@ -81,7 +81,11 @@ In the database you can enter `match (u:User) return u.token` to get the token.
 ## Disclaimer
 
 I am not proposing that this is the correct, best, or even good way to do this.
+
 I just wanted to show one way of doing it.
+
+There might be bugs, there might be stuff that is not used.
+
 Use it, improve it, send pull requests if you want.
 
 ## Usage ##
@@ -115,6 +119,9 @@ $ npm start
 
 ### 4. Start app
 
+Download FacebookSDK for iOS and put in `~/Documents/FacebookSDK`.
+For more info, see https://github.com/facebook/react-native-fbsdk
+ 
 Open project in Xcode and run.
 Or
 ```

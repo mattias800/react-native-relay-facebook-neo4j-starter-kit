@@ -7,7 +7,7 @@ import {
     Text,
     View
 } from 'react-native';
-import * as LogoutService from "./LogoutService";
+import * as LogoutService from "../../services/LogoutService";
 import {Button} from "react-native-elements";
 
 export const LogoutButton = React.createClass({

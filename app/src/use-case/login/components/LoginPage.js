@@ -8,7 +8,7 @@ import {
     View
 } from 'react-native';
 import LoginForm from "./LoginForm";
-import * as HttpClient from "../../../system/HttpClient";
+import * as HttpClient from "../../../network/HttpClient";
 import * as SessionStorage from "../../../system/SessionStorage";
 import {showMainApp} from "../../../MainBootstrap";
 import {setRelaySession} from "../../../network/RelayNetworkConfig";
