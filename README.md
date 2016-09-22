@@ -66,6 +66,10 @@ All fragments under viewer needs a correct token to be provided.
 When starting backend, Graphiql is included.
 
 Open `http://localhost:5000/graphiql` in a browser and you can start writing queries immediately.
+You will need a token provided by backend when logging in with the app first though.
+Easiest way to get it is to open the app, log in, and then open `http://localhost:7474/browser/`.
+In the database you can enter `match (u:User) return u.token`.
+
 
 ## Disclaimer
 
