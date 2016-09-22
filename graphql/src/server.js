@@ -22,7 +22,6 @@ function startServer() {
         res.send('hello world');
     });
 
-
     app.post('/authenticate', async function (req, res) {
         const {service, token} = req.body;
         const user = await authenticateOrCreateUser(service, token);

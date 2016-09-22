@@ -5,7 +5,7 @@ import {LoadingScreen} from "../../common/ui/LoadingScreen";
 import {getAuthTokenUsedByRelay} from "../../network/RelayNetworkConfig";
 
 export function createRootRelayComponent(PageContainer, QueryConfig) {
-    return ({currentParams}) => {
+    return ({navigator}) => {
         return (
             <Relay.Renderer
                 environment={Relay.Store}
@@ -15,7 +15,7 @@ export function createRootRelayComponent(PageContainer, QueryConfig) {
         if (error) {
           return <ErrorScreen error={error}/>;
         } else if (props) {
-          return <PageContainer {...props} />;
+          return <PageContainer {...props} navigator={navigator}/>;
         } else {
           return <LoadingScreen />;
         }

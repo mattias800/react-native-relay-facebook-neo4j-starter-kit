@@ -28,18 +28,24 @@ class UserListComponent extends React.Component {
                     }
                     {
                         users.map((user, i) => (
-                            <ListItem
-                                roundAvatar
-                                avatar={user.profilePhotoUrl}
-                                key={user.__dataID__}
-                                title={`${user.firstName} ${user.lastName}`}
-                                subtitle={user.email}
-                            />
+                            <ListItem roundAvatar
+                                      avatar={user.profilePhotoUrl}
+                                      key={user.__dataID__}
+                                      title={`${user.firstName} ${user.lastName}`}
+                                      subtitle={user.email}
+                                      onPress={() => this.userPressed(user)} />
                         ))
                     }
                 </List>
             </ScrollView>
         );
+    }
+
+    userPressed(user) {
+        this.props.navigator.push({
+            screen: 'doggy.ViewerProfileScreen',
+            title: `${user.firstName} ${user.lastName}`
+        });
     }
 
 }

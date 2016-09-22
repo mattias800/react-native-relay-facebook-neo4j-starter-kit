@@ -9,14 +9,15 @@ import {routeConfigParamsBuilder, createRootRelayComponent} from "../../common/u
 class UserListPage extends React.Component {
 
     render() {
-        console.log("this.props.users");
-        console.log(this.props.users);
-
+        console.log("this.props-.-------------------");
+        console.log(this.props);
+        const {navigator} = this.props;
         const {users} = this.props.users;
 
         return (
-            <View>
-                <UserList users={users} />
+            <View style={{flex:1}}>
+                <UserList users={users}
+                          navigator={navigator} />
             </View>
         );
     }
@@ -51,5 +52,4 @@ class QueryConfig extends Relay.Route {
 }
 
 export const UserListPageComponent = createRootRelayComponent(UserListPage, QueryConfig);
-
 
