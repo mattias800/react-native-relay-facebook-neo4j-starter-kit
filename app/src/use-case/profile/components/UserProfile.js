@@ -26,22 +26,12 @@ class UserProfileComponent extends React.Component {
         const {firstName, lastName} = user;
         return (
             <View style={containerStyle}>
-                <Column justifyContent="center"
-                        alignItems="center">
-                    <UserProfilePhoto user={user} />
-                </Column>
-
-                <Row justifyContent="center">
-                    <Text style={nameTextStyle}>{`${firstName} ${lastName}`}</Text>
-                </Row>
-                <Row justifyContent="center">
-                    <UserEmail user={user} />
-                </Row>
-                <Row justifyContent="center">
-                    {
-                        isCurrentUser && <LogoutButton />
-                    }
-                </Row>
+                <UserProfilePhoto user={user} />
+                <Text style={nameTextStyle}>{`${firstName} ${lastName}`}</Text>
+                <UserEmail user={user} />
+                {
+                    isCurrentUser && <LogoutButton />
+                }
             </View>
         );
     }
@@ -62,8 +52,9 @@ export const UserProfile = Relay.createContainer(UserProfileComponent, {
 });
 
 const containerStyle = {
-    backgroundColor: "red",
-    flex: 1
+    flex: 1,
+    flexDirection: "column",
+    alignItems: "center"
 };
 
 const nameContainerStyle = {
