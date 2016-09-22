@@ -29,6 +29,8 @@ It demonstrates a couple of things.
 * How to use Relay @plural annotation
 * How to do per request authentication in GraphQL requests
 
+## The app
+
 The app allows you to login using Facebook.
 After authentication with Facebook, the users token is sent to backend which
 validates the user.
