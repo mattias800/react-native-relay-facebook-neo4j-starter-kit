@@ -46,7 +46,7 @@ class UserListComponent extends React.Component {
         console.log(user);
 
         this.props.navigator.push({
-            screen: 'doggy.UserProfileScreen',
+            screen: 'example.UserProfileScreen',
             title: `${user.firstName} ${user.lastName}`,
             passProps: {
                 userId: user.id

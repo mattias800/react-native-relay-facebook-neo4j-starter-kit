@@ -3,7 +3,7 @@ import {Navigation} from 'react-native-navigation';
 export function showLoginScreen() {
     Navigation.startSingleScreenApp({
         screen: {
-            screen: 'doggy.LoginScreen',
+            screen: 'example.LoginScreen',
             title: 'Navigation',
             navigatorStyle: {
                 navBarHidden: true,

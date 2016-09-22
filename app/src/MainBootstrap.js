@@ -5,7 +5,7 @@ export function showMainApp() {
         tabs: [
             {
                 label: 'Users',
-                screen: 'doggy.UserListScreen',
+                screen: 'example.UserListScreen',
                 title: 'Users',
                 navigatorStyle: {
                     navBarBackgroundColor: '#4dbce9',
@@ -19,16 +19,8 @@ export function showMainApp() {
                 }
             },
             {
-                label: 'Two',
-                screen: 'doggy.DogListScreen',
-                title: 'Screen Two',
-                navigatorStyle: {
-                    tabBarBackgroundColor: '#4dbce9',
-                }
-            },
-            {
                 label: 'Me',
-                screen: 'doggy.ViewerProfileScreen',
+                screen: 'example.ViewerProfileScreen',
                 title: 'Me',
                 navigatorStyle: {
                     navBarHidden: true,
