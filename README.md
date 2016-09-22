@@ -84,7 +84,8 @@ Use it, improve it, send pull requests if you want.
 ### 1. Start database
 
 ```
-$ cd graphql/docker
+$ cd graphql/docker/neo4j
+$ mkdir data
 $ docker-compose up
 ```
 
