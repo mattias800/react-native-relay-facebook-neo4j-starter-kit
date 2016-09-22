@@ -28,6 +28,7 @@ It demonstrates a couple of things.
 * How to send props down to component through Relay.renderer
 * How to use Relay @plural annotation
 * How to do per request authentication in GraphQL requests
+* How to generate GraphQL schema and include it in Babel when compiling the app
 
 ## The app
 
