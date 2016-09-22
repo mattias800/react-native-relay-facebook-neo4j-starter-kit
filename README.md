@@ -117,11 +117,20 @@ $ npm install
 $ npm start
 ```
 
-### 4. Start app
+### 4. Configure app
+
+#### Setup Facebook SDK
 
 Download FacebookSDK for iOS and put in `~/Documents/FacebookSDK`.
 For more info, see https://github.com/facebook/react-native-fbsdk
- 
+
+####
+
+Setup Facebook app id and app name according to Facebooks documentation.
+This is done in the info.plist file.
+
+### 5. Start app
+
 Open project in Xcode and run.
 Or
 ```
