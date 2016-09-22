@@ -25,6 +25,8 @@ It demonstrates a couple of things.
 * How to implement a GraphQL backend with Node
 * How to use Relay with React Native
 * How to use react-native-navigation with Relay
+* How to send props down to component through Relay.renderer
+* How to use Relay @plural annotation
 * How to do per request authentication in GraphQL requests
 
 The app allows you to login using Facebook.
