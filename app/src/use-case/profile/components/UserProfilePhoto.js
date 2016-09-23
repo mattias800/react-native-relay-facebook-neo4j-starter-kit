@@ -10,14 +10,26 @@ import {
     View,
     Image
 } from 'react-native';
+import {
+    Icon
+} from "react-native-elements";
 
 class UserProfilePhotoComponent extends React.Component {
 
     render() {
         const {user} = this.props;
         return (
-            <Image style={imageStyle}
-                   source={{uri: user.profilePhotoUrl}} />
+            user.profilePhotoUrl
+                ?
+                <Image style={imageStyle}
+                       source={{uri: user.profilePhotoUrl}} />
+                :
+                <View style={iconStyle}>
+                    <Icon name='user'
+                          type='font-awesome'
+                          size={46}
+                          color="#ccc" />
+                </View>
         );
     }
 
@@ -33,8 +45,18 @@ export const UserProfilePhoto = Relay.createContainer(UserProfilePhotoComponent,
     },
 });
 
-var imageStyle = {
+const imageStyle = {
     height: 100,
     borderRadius: 50,
     width: 100
+};
+
+const iconStyle = {
+    height: 100,
+    width: 100,
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    borderWidth: 1,
+    borderColor: "#ccc"
 };

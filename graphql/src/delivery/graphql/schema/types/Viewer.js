@@ -15,7 +15,7 @@ export const ViewerType = new GraphQLObjectType({
         },
         users: {
             type: new GraphQLList(UserType),
-            resolve: (viewer, args) => User.getAll(viewer)
+            resolve: (viewer, args) => User.getAllWithCompleteProfile(viewer)
         },
         actor: {
             type: UserType,

@@ -55,6 +55,7 @@
         <key>CFBundleURLSchemes</key>
         <array>
           <string>fb659270244132300</string>
+          <string>ak659270244132300</string>
         </array>
       </dict>
     </array>
@@ -62,6 +63,8 @@
     <string>659270244132300</string>
     <key>FacebookDisplayName</key>
     <string>MChat</string>
+    <key>AccountKitClientToken</key>
+    <string>ba5bafb4c88fcfd9e8a454f0f0f35299</string>
     <key>LSApplicationQueriesSchemes</key>
     <array>
       <string>fbapi</string>

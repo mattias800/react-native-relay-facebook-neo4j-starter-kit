@@ -1,21 +1,22 @@
 import {getUserByEmail} from "../persistence/service/UserService";
 import {getUserByUuid} from "../persistence/service/UserService";
 import {getAllUsers} from "../persistence/service/UserService";
+import {getAllUsersWithCompleteProfile} from "../persistence/service/UserService";
 
 export class User {
 
     id: string;
     token: string;
-    firstName: string;
-    lastName: string;
-    email: string;
+    firstName: ?string;
+    lastName: ?string;
+    email: ?string;
     profilePhotoUrl: ?string;
 
     constructor(id: string,
                 token: string,
-                firstName: string,
-                lastName: string,
-                email: string,
+                firstName: ?string,
+                lastName: ?string,
+                email: ?string,
                 profilePhotoUrl: ?string) {
         this.id = id;
         this.token = token;
@@ -49,6 +50,12 @@ export class User {
 
     static async getAll(viewer): Promise<Array<User>> {
         const users = await getAllUsers();
+        if (users == null) return [];
+        return users
+    }
+
+    static async getAllWithCompleteProfile(viewer): Promise<Array<User>> {
+        const users = await getAllUsersWithCompleteProfile();
         if (users == null) return [];
         return users
     }

@@ -4,6 +4,8 @@ import React from "react";
 import {AppRegistry, StyleSheet, Text, View, ActivityIndicator} from "react-native";
 import {Button} from "react-native-elements";
 import {loginUsingFacebook} from "../../../services/LoginService";
+import {loginUsingSms} from "../../../services/LoginService";
+import {loginUsingEmail} from "../../../services/LoginService";
 const FBSDK = require('react-native-fbsdk');
 const {
     LoginButton,
@@ -36,33 +38,36 @@ const LoginForm = React.createClass({
                             <Text>Signing in...</Text>
                         </View>
                         :
-                        <Button raised
-                                icon={{name: 'facebook',  type: 'font-awesome'}}
-                                title='LOGIN WITH FACEBOOK'
-                                onPress={this.login} />
+                        <View>
+                            <Button raised
+                                    icon={{name: 'facebook',  type: 'font-awesome'}}
+                                    title='LOGIN WITH FACEBOOK'
+                                    onPress={() => this.loginWithService(loginUsingFacebook)} />
+                            <Button raised
+                                    icon={{name: 'phone',  type: 'font-awesome'}}
+                                    title='LOGIN WITH SMS'
+                                    onPress={() => this.loginWithService(loginUsingSms)} />
+                            <Button raised
+                                    icon={{name: 'envelope',  type: 'font-awesome'}}
+                                    title='LOGIN WITH EMAIL'
+                                    onPress={() => this.loginWithService(loginUsingEmail)} />
+                        </View>
                 }
             </View>
         );
     },
 
-    login() {
+    loginWithService(loginService: Function) {
         const {onLogin} = this.props;
         this.setState({fetching: true});
-        loginUsingFacebook()
+        loginService()
             .then(result => {
-                console.log("Login success");
-
                 this.setState({fetching: false});
                 onLogin(result);
             })
             .catch(e => {
-                console.log("Login failed");
-                console.log(e);
-                
                 this.setState({fetching: false});
-                if (e.isCancelled) {
-                    alert("Login was cancelled.");
-                } else {
+                if (!e.isCancelled) {
                     alert("Error when trying to login.");
                 }
             });

@@ -27,7 +27,7 @@ class UserProfileComponent extends React.Component {
         return (
             <View style={containerStyle}>
                 <UserProfilePhoto user={user} />
-                <Text style={nameTextStyle}>{`${firstName} ${lastName}`}</Text>
+                <Text style={nameTextStyle}>{`${firstName || ""} ${lastName || ""}`}</Text>
                 <UserEmail user={user} />
                 {
                     isCurrentUser && <LogoutButton />

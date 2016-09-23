@@ -5,7 +5,9 @@ import {showLoginScreen} from "./use-case/login/LoginPageBootstrap";
 import * as HttpClient from "./network/HttpClient";
 import * as SessionStorage from "./system/SessionStorage";
 import {setRelaySession} from "./network/RelayNetworkConfig";
+import {configureAccountKit} from "./system/account-kit/AccountKitConfigurator";
 
+configureAccountKit();
 registerScreens();
 bootApp();
 

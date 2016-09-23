@@ -2,7 +2,7 @@ import express from "express";
 import bodyParser from "body-parser";
 import graphQLHTTP from "express-graphql";
 import schema from "./schema";
-import {authenticateOrCreateUser} from "./services/AuthenticationService";
+import {authenticateOrCreateUserByPayload} from "./services/AuthenticationService";
 import updateSchema from "./util/updateSchema";
 
 const serverPort = 5000;
@@ -21,9 +21,16 @@ function startServer() {
     });
 
     app.post('/authenticate', async function (req, res) {
-        const {service, token} = req.body;
-        const user = await authenticateOrCreateUser(service, token);
-        res.send(user);
+        const {service, payload} = req.body;
+        try {
+            const user = await authenticateOrCreateUserByPayload(service, payload);
+            res.send(user);
+        } catch (e) {
+            console.log(e);
+            res.send("Error!");
+        }
+
+
     });
 
     app.use(graphQLHTTP({
