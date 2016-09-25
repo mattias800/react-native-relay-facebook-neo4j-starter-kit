@@ -1,10 +1,10 @@
 // @flow
 import {GraphQLObjectType, GraphQLString, GraphQLList} from "graphql";
-import {UserType} from "./User";
-import {User} from "../../../../models/User";
+import {UserType} from "./delivery/graphql/schema/types/User";
+import {User} from "./models/User";
 
-export const ViewerType = new GraphQLObjectType({
-    name: "Viewer",
+export const QueryViewerType = new GraphQLObjectType({
+    name: "QueryViewer",
     description: "Viewer type",
 
     fields: () => ({

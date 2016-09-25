@@ -1,5 +1,6 @@
 schema {
   query: Query
+  mutation: Mutation
 }
 
 type Animal {
@@ -13,8 +14,23 @@ type Animal {
   birthDate: String
 }
 
+type Mutation {
+  viewer(token: String): MutationViewer
+}
+
+type MutationViewer {
+  user(id: String): UserMutation
+  actor: UserMutation
+}
+
 type Query {
-  viewer(token: String): Viewer
+  viewer(token: String): QueryViewer
+}
+
+type QueryViewer {
+  user(id: String): User
+  users: [User]
+  actor: User
 }
 
 type User {
@@ -27,8 +43,10 @@ type User {
   animals: [Animal]
 }
 
-type Viewer {
-  user(id: String): User
-  users: [User]
-  actor: User
+type UserMutation {
+  setToken(token: String!): String
+  setEmail(email: String!): String
+  setFirstName(firstName: String!): String
+  setLastName(lastName: String!): String
+  setProfilePhotoUrl(profilePhotoUrl: String!): String
 }

@@ -78,6 +78,12 @@ export const getUserByAuthToken = (token: string) => {
 };
 
 export const updateUser = (user: User) => {
+    if (!user) {
+        throw "Unable to update user: no user was specified.";
+    }
+    if (!user.id) {
+        throw "Unable to update user: specified user has no id.";
+    }
     return cypher(
         "MATCH (user:User {uuid: {uuid}}) " +
         "SET user.firstName = {firstName} " +
@@ -91,7 +97,7 @@ export const updateUser = (user: User) => {
             lastName: user.lastName,
             email: user.email,
             profilePhotoUrl: user.profilePhotoUrl,
-            completedProfile: isCompleteProfile(user)
+            completedProfile: user.isCompleteProfile()
         })
         .then(results => results.map(result => result.user))
         .then(users => users.length > 0 ? users[0] : undefined)
@@ -130,7 +136,7 @@ export async function createUserAndAuthentication(user: User,
             serviceAppId: authentication.appId,
             serviceLastRefresh: authentication.lastRefresh,
             serviceRefreshIntervalSeconds: authentication.refreshIntervalSeconds,
-            completedProfile: isCompleteProfile(user),
+            completedProfile: user.isCompleteProfile(),
             date: new Date()
         })
         .then(results => results.map(result => result.user))
@@ -139,6 +145,3 @@ export async function createUserAndAuthentication(user: User,
 }
 
 
-function isCompleteProfile(user: User) {
-    return Boolean(user.firstName && user.lastName && user.email);
-}

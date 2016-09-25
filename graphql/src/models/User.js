@@ -2,6 +2,7 @@ import {getUserByEmail} from "../persistence/service/UserService";
 import {getUserByUuid} from "../persistence/service/UserService";
 import {getAllUsers} from "../persistence/service/UserService";
 import {getAllUsersWithCompleteProfile} from "../persistence/service/UserService";
+import {updateUser} from "../persistence/service/UserService";
 
 export class User {
 
@@ -36,13 +37,13 @@ export class User {
         );
     }
 
-    static async getByEmail(viewer, email: string): Promise<?User> {
+    static async getByEmail(viewer: User, email: string): Promise<?User> {
         const user = await getUserByEmail(email);
         if (user == null) return null;
         return user;
     }
 
-    static async getById(viewer, id: string): Promise<?User> {
+    static async getById(viewer: User, id: string): Promise<?User> {
         const user = await getUserByUuid(id);
         if (user == null) return null;
         return user;
@@ -54,10 +55,21 @@ export class User {
         return users
     }
 
-    static async getAllWithCompleteProfile(viewer): Promise<Array<User>> {
+    static async getAllWithCompleteProfile(viewer: User): Promise<Array<User>> {
         const users = await getAllUsersWithCompleteProfile();
         if (users == null) return [];
         return users
+    }
+
+    static async updateUser(viewer: User, user: User) {
+        if (viewer.id !== user.id) {
+            throw "Updating other user than self is not allowed.";
+        }
+        return await updateUser(user);
+    }
+
+    isCompleteProfile() {
+        return Boolean(this.firstName && this.lastName && this.email);
     }
 
 }

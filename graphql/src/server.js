@@ -33,9 +33,11 @@ function startServer() {
 
     });
 
-    app.use(graphQLHTTP({
-        schema,
-        graphiql: true
+    app.use(graphQLHTTP((req) => {
+        return {
+            schema,
+            graphiql: true
+        };
     }));
 
     app.listen(serverPort);
