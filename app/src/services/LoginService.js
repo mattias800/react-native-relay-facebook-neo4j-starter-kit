@@ -2,6 +2,11 @@ import {loginWithFacebook} from "../system/facebook/FacebookService";
 import {postJson} from "../network/HttpClient";
 import {loginWithSms} from "../system/account-kit/AccountKitService";
 import {loginWithEmail} from "../system/account-kit/AccountKitService";
+import * as SessionStorage from "../system/SessionStorage";
+import * as HttpClient from "../network/HttpClient";
+import {setRelaySession} from "../network/RelayNetworkConfig";
+import {showMainAppScreen} from "../bootstraps/MainBootstrap";
+import {showRegistrationScreen} from "../bootstraps/RegistrationPageBootstrap";
 
 export function loginUsingFacebook() {
     return loginUsingService(loginWithFacebook, "facebook", result => ({token: result.token.accessToken}));
@@ -18,12 +23,16 @@ export function loginUsingEmail() {
 function loginUsingService(loginFunction: Function, serviceName: string, payloadTransformer: Function) {
     console.log("Authenticating with service=" + serviceName);
     return loginFunction()
-        .then(r => {
+        .then(async serviceUser => {
             console.log("Authenticated with service=" + serviceName);
-            console.log(r);
-            return r;
+            console.log(serviceUser);
+            return serviceUser;
         })
-        .then(result => authenticateWithBackend(serviceName, payloadTransformer(result)));
+        .then(result => authenticateWithBackend(serviceName, payloadTransformer(result)))
+        .then(async user => {
+            await SessionStorage.setSession(user.token, user.id, user);
+            return user;
+        });
 }
 
 export function authenticateWithBackend(service: string, payload: Object) {
@@ -34,4 +43,19 @@ export function authenticateWithBackend(service: string, payload: Object) {
             console.log(r);
             return r;
         });
+}
+
+export function loadSessionIntoClients(token: string, userId: string) {
+    HttpClient.setAuthToken(token);
+    setRelaySession(token, userId);
+}
+
+export function whenLoggedIn(user: Object, token: string, userId: string) {
+    loadSessionIntoClients(token, userId);
+    if (user.completeProfile) {
+        showRegistrationScreen();
+        //showMainAppScreen()
+    } else {
+        showRegistrationScreen();
+    }
 }

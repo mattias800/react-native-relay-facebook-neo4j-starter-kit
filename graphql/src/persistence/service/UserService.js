@@ -18,9 +18,16 @@ export const getAllUsersWithCompleteProfile = () => {
         .then(users => users.map(user => User.createFromEntity(user)));
 };
 
+export const getAllUsersWithIncompleteProfile = () => {
+    return cypher(
+        "MATCH (user:User) WHERE user.completedProfile = false OR NOT EXISTS (user.completedProfile) RETURN user")
+        .then(results => results.map(result => result.user))
+        .then(users => users.map(user => User.createFromEntity(user)));
+};
+
 export const getUserByAuthenticationServiceToken = (service: string, token: string) => {
     return cypher(
-        "MATCH (user:User)-[:LOGGED_IN_USING]->(auth:Authentication {service: {service}, token: {token}}) return user",
+        "MATCH (user:User)-[:LOGGED_IN_USING]->(auth:Authentication {service: {service}, token: {token}}) RETURN user",
         {
             token,
             service
@@ -32,7 +39,7 @@ export const getUserByAuthenticationServiceToken = (service: string, token: stri
 
 export const getUserByAuthenticationServiceAccountId = (service: string, accountId: string) => {
     return cypher(
-        "MATCH (user:User)-[:LOGGED_IN_USING]->(auth:Authentication {service: {service}, accountId: {accountId}}) return user",
+        "MATCH (user:User)-[:LOGGED_IN_USING]->(auth:Authentication {service: {service}, accountId: {accountId}}) RETURN user",
         {
             accountId,
             service

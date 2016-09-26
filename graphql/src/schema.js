@@ -1,5 +1,5 @@
 import {GraphQLSchema, GraphQLObjectType} from "graphql";
-import {QueryViewerType} from "./QueryViewerType";
+import {ViewerType} from "./ViewerType";
 import {MutationViewerType} from "./MutationViewerType";
 import {GraphQLString} from "graphql";
 import {getUserByAuthToken} from "./persistence/service/UserService";
@@ -10,7 +10,7 @@ const QueryType = new GraphQLObjectType({
 
     fields: () => ({
         viewer: {
-            type: QueryViewerType,
+            type: ViewerType,
             args: {token: {type: GraphQLString}},
             resolve: async(root, {token}) => {
                 var actor = await getUserByAuthToken(token);

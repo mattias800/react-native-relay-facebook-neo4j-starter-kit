@@ -12,19 +12,22 @@ export class User {
     lastName: ?string;
     email: ?string;
     profilePhotoUrl: ?string;
+    completeProfile: boolean;
 
     constructor(id: string,
                 token: string,
                 firstName: ?string,
                 lastName: ?string,
                 email: ?string,
-                profilePhotoUrl: ?string) {
+                profilePhotoUrl: ?string,
+                completeProfile: boolean) {
         this.id = id;
         this.token = token;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.profilePhotoUrl = profilePhotoUrl;
+        this.completeProfile = completeProfile;
     }
 
     static createFromEntity(entity: Object): User {
@@ -33,7 +36,8 @@ export class User {
             entity.properties.firstName,
             entity.properties.lastName,
             entity.properties.email,
-            entity.properties.profilePhotoUrl
+            entity.properties.profilePhotoUrl,
+            entity.properties.completeProfile || User.isEntityCompleteProfile(entity)
         );
     }
 
@@ -70,6 +74,10 @@ export class User {
 
     isCompleteProfile() {
         return Boolean(this.firstName && this.lastName && this.email);
+    }
+
+    static isEntityCompleteProfile(entity) {
+        return Boolean(entity.properties.firstName && entity.properties.lastName && entity.properties.email);
     }
 
 }

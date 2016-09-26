@@ -11,7 +11,10 @@ export const MutationViewerType = new GraphQLObjectType({
         user: {
             type: UserMutationType,
             args: {id: {type: GraphQLString}},
-            resolve: (viewer, {id}) => User.getById(viewer, id)
+            resolve: async({actor}, {id}) => {
+                const user = await User.getById(actor, id);
+                return {viewer: actor, user: user};
+            }
         },
         actor: {
             type: UserMutationType,

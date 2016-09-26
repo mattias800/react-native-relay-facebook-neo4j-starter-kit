@@ -24,13 +24,7 @@ type MutationViewer {
 }
 
 type Query {
-  viewer(token: String): QueryViewer
-}
-
-type QueryViewer {
-  user(id: String): User
-  users: [User]
-  actor: User
+  viewer(token: String): Viewer
 }
 
 type User {
@@ -44,9 +38,26 @@ type User {
 }
 
 type UserMutation {
-  setToken(token: String!): String
-  setEmail(email: String!): String
-  setFirstName(firstName: String!): String
-  setLastName(lastName: String!): String
-  setProfilePhotoUrl(profilePhotoUrl: String!): String
+  update(input: UserMutationInputType): UserMutationPayload
+}
+
+input UserMutationInputType {
+  clientMutationId: String
+  token: String
+  email: String
+  firstName: String
+  lastName: String
+  profilePhotoUrl: String
+}
+
+type UserMutationPayload {
+  clientMutationId: String
+  user: User
+}
+
+type Viewer {
+  user(id: String): User
+  users: [User]
+  incompleteUsers: [User]
+  actor: User
 }

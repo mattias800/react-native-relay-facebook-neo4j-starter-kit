@@ -1,17 +1,9 @@
 /* @flow */
 
 import React from "react";
-import {
-    AppRegistry,
-    StyleSheet,
-    Text,
-    View
-} from 'react-native';
+import {AppRegistry, StyleSheet, Text, View} from "react-native";
 import LoginForm from "./LoginForm";
-import * as HttpClient from "../../../network/HttpClient";
-import * as SessionStorage from "../../../system/SessionStorage";
-import {showMainApp} from "../../../MainBootstrap";
-import {setRelaySession} from "../../../network/RelayNetworkConfig";
+import {whenLoggedIn} from "../../../services/LoginService";
 
 class LoginPage extends React.Component {
 
@@ -24,11 +16,7 @@ class LoginPage extends React.Component {
     }
 
     async onLogin(user) {
-        const {token, id} = user;
-        HttpClient.setAuthToken(token);
-        setRelaySession(token, id);
-        await SessionStorage.setSession(token, id);
-        showMainApp()
+        whenLoggedIn(user, user.token, user.id)
     }
 
 }

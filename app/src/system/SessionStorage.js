@@ -4,21 +4,23 @@ export const SESSION_STORAGE_KEY = "currentUserSession";
 
 export async function getSession() {
     const data = await AsyncStorage.getItem(SESSION_STORAGE_KEY);
-    return JSON.parse(data);
+    const session = JSON.parse(data);
+    return validateSession(session);
 }
 
-export async function getAuthToken() {
-    return await getSession().token;
-}
-
-export async function getCurrentUserId() {
-    return await getSession().currentUserId;
-}
-export async function setSession(token: string, currentUserId: string) {
-    return await AsyncStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify({token, currentUserId}));
+export async function setSession(token: string, currentUserId: string, user: Object) {
+    return await AsyncStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify({token, currentUserId, user}));
 }
 
 export async function clearSession(token: string) {
     return await AsyncStorage.removeItem(SESSION_STORAGE_KEY);
 }
 
+function validateSession(session) {
+    const {token, currentUserId, user} = session;
+    if (token && currentUserId && user) {
+        return session;
+    } else {
+        return undefined;
+    }
+}

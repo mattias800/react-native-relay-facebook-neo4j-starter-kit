@@ -1,6 +1,6 @@
 import {Navigation} from 'react-native-navigation';
 
-export function showMainApp() {
+export function showMainAppScreen() {
     Navigation.startTabBasedApp({
         tabs: [
             {
