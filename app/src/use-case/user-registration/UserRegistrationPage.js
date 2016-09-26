@@ -20,7 +20,6 @@ class UserRegistrationPage extends React.Component {
 
         return (
             <ScrollView>
-                <Text>UserRegistrationPage</Text>
                 <UserRegistration user={actor} />
             </ScrollView>
         );
