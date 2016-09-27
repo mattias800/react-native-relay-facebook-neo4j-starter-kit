@@ -1,6 +1,6 @@
 schema {
   query: Query
-  mutation: Mutation
+  mutation: MutationRoot
 }
 
 type Animal {
@@ -14,13 +14,8 @@ type Animal {
   birthDate: String
 }
 
-type Mutation {
-  viewer(token: String): MutationViewer
-}
-
-type MutationViewer {
-  user(id: String): UserMutation
-  actor: UserMutation
+type MutationRoot {
+  updateUser(input: UserMutationInputType): UserMutationPayload
 }
 
 type Query {
@@ -37,12 +32,9 @@ type User {
   animals: [Animal]
 }
 
-type UserMutation {
-  update(input: UserMutationInputType): UserMutationPayload
-}
-
 input UserMutationInputType {
   clientMutationId: String
+  id: String
   token: String
   email: String
   firstName: String

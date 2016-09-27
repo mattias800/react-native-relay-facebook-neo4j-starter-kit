@@ -17,7 +17,7 @@ export function createRootRelayComponent(PageContainer, QueryConfig, queryParams
         if (error) {
           return <ErrorScreen error={error}/>;
         } else if (props) {
-          return <PageContainer {...props} {...parentProps} currentUserId={getCurrentUserId()}/>;
+          return <PageContainer {...parentProps} currentUserId={getCurrentUserId()} {...props} />;
         } else {
           return <LoadingScreen />;
         }
@@ -27,14 +27,9 @@ export function createRootRelayComponent(PageContainer, QueryConfig, queryParams
     };
 }
 
-export const routeConfigParamsBuilder = (prevParams) => {
-    var p = {
+export const routeConfigParamsBuilder = (prevParams) =>
+    ({
         ...prevParams,
         token: getAuthTokenUsedByRelay(),
         currentUserId: getCurrentUserId()
-    };
-    console.log("created route params");
-    console.log(p);
-
-    return p;
-};
+    });

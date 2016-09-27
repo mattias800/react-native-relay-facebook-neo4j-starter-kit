@@ -13,6 +13,7 @@ export class User {
     email: ?string;
     profilePhotoUrl: ?string;
     completeProfile: boolean;
+    isSuperUser: boolean;
 
     constructor(id: string,
                 token: string,
@@ -20,7 +21,8 @@ export class User {
                 lastName: ?string,
                 email: ?string,
                 profilePhotoUrl: ?string,
-                completeProfile: boolean) {
+                completeProfile: boolean,
+                isSuperUser: boolean) {
         this.id = id;
         this.token = token;
         this.firstName = firstName;
@@ -28,6 +30,7 @@ export class User {
         this.email = email;
         this.profilePhotoUrl = profilePhotoUrl;
         this.completeProfile = completeProfile;
+        this.isSuperUser = isSuperUser;
     }
 
     static createFromEntity(entity: Object): User {
@@ -37,7 +40,8 @@ export class User {
             entity.properties.lastName,
             entity.properties.email,
             entity.properties.profilePhotoUrl,
-            entity.properties.completeProfile || User.isEntityCompleteProfile(entity)
+            entity.properties.completeProfile || User.isEntityCompleteProfile(entity),
+            Boolean(entity.properties.isSuperUser)
         );
     }
 
@@ -66,10 +70,12 @@ export class User {
     }
 
     static async updateUser(viewer: User, user: User) {
-        if (viewer.id !== user.id) {
-            throw "Updating other user than self is not allowed.";
+        if (viewer.id === user.id || viewer.isSuperUser) {
+            return await updateUser(user);
+        } else {
+            throw "Updating other user is not allowed.";
         }
-        return await updateUser(user);
+
     }
 
     isCompleteProfile() {

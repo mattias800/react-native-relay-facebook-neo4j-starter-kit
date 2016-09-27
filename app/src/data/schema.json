@@ -5,7 +5,7 @@
         "name": "Query"
       },
       "mutationType": {
-        "name": "Mutation"
+        "name": "MutationRoot"
       },
       "subscriptionType": null,
       "types": [
@@ -339,91 +339,11 @@
         },
         {
           "kind": "OBJECT",
-          "name": "Mutation",
+          "name": "MutationRoot",
           "description": "Root mutation",
           "fields": [
             {
-              "name": "viewer",
-              "description": null,
-              "args": [
-                {
-                  "name": "token",
-                  "description": null,
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  },
-                  "defaultValue": null
-                }
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "MutationViewer",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
-          "name": "MutationViewer",
-          "description": "Viewer type",
-          "fields": [
-            {
-              "name": "user",
-              "description": null,
-              "args": [
-                {
-                  "name": "id",
-                  "description": null,
-                  "type": {
-                    "kind": "SCALAR",
-                    "name": "String",
-                    "ofType": null
-                  },
-                  "defaultValue": null
-                }
-              ],
-              "type": {
-                "kind": "OBJECT",
-                "name": "UserMutation",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            },
-            {
-              "name": "actor",
-              "description": null,
-              "args": [],
-              "type": {
-                "kind": "OBJECT",
-                "name": "UserMutation",
-                "ofType": null
-              },
-              "isDeprecated": false,
-              "deprecationReason": null
-            }
-          ],
-          "inputFields": null,
-          "interfaces": [],
-          "enumValues": null,
-          "possibleTypes": null
-        },
-        {
-          "kind": "OBJECT",
-          "name": "UserMutation",
-          "description": "A user mutation",
-          "fields": [
-            {
-              "name": "update",
+              "name": "updateUser",
               "description": null,
               "args": [
                 {
@@ -459,6 +379,16 @@
           "inputFields": [
             {
               "name": "clientMutationId",
+              "description": null,
+              "type": {
+                "kind": "SCALAR",
+                "name": "String",
+                "ofType": null
+              },
+              "defaultValue": null
+            },
+            {
+              "name": "id",
               "description": null,
               "type": {
                 "kind": "SCALAR",

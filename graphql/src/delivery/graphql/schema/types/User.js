@@ -4,6 +4,7 @@ import {UserIdType, EmailType, AuthTokenType} from "../types";
 import {AnimalType} from "./Animal";
 import {getAnimalOwnedByUserById} from "../../../../persistence/service/AnimalService";
 import {User} from "../../../../models/User";
+import {getUserByAuthToken} from "../../../../persistence/service/UserService";
 
 export const UserType = new GraphQLObjectType({
     name: "User",
@@ -27,6 +28,7 @@ export const UserMutationInputType = new GraphQLInputObjectType({
     name: "UserMutationInputType",
     fields: () => ({
         clientMutationId: {type: GraphQLString},
+        id: {type: UserIdType},
         token: {type: AuthTokenType},
         email: {type: EmailType},
         firstName: {type: GraphQLString},
@@ -43,26 +45,25 @@ export const UserMutationPayload = new GraphQLObjectType({
     })
 });
 
-export const UserMutationType = new GraphQLObjectType({
-    name: "UserMutation",
-    description: "A user mutation",
-    fields: () => ({
-        update: {
-            type: UserMutationPayload,
-            args: {input: {type: UserMutationInputType}},
-            resolve: async({viewer, user}, {input}) => {
-                input.token !== undefined && (user.token = input.token);
-                input.email !== undefined && (user.email = input.email);
-                input.firstName !== undefined && (user.firstName = input.firstName);
-                input.lastName !== undefined && (user.lastName = input.lastName);
-                input.profilePhotoUrl !== undefined && (user.profilePhotoUrl = input.profilePhotoUrl);
-                const updatedUser = await User.updateUser(viewer, user);
-                return {
-                    clientMutationId: input.clientMutationId,
-                    user: updatedUser
-                }
-            }
+export const updateUserMutation = {
+    type: UserMutationPayload,
+    args: {input: {type: UserMutationInputType}},
+    resolve: async(root, {input}) => {
+        console.log("RESOLVE IT!");
+
+        const {id, token} = input;
+        const viewer = await getUserByAuthToken(token);
+        const user = await User.getById(viewer, id);
+        input.token !== undefined && (user.token = input.token);
+        input.email !== undefined && (user.email = input.email);
+        input.firstName !== undefined && (user.firstName = input.firstName);
+        input.lastName !== undefined && (user.lastName = input.lastName);
+        input.profilePhotoUrl !== undefined && (user.profilePhotoUrl = input.profilePhotoUrl);
+        const updatedUser = await User.updateUser(viewer, user);
+        return {
+            clientMutationId: input.clientMutationId,
+            user: updatedUser
         }
-    })
-});
+    }
+};
 

@@ -81,6 +81,12 @@ export const getUserByAuthToken = (token: string) => {
         "MATCH (user:User {token: {token}}) return user", {token})
         .then(results => results.map(result => result.user))
         .then(users => users.length > 0 ? users[0] : undefined)
+        .then(user => {
+            if (!user) {
+                throw "Invalid token.";
+            }
+            return user;
+        })
         .then(user => user && User.createFromEntity(user));
 };
 

@@ -13,9 +13,7 @@ import {
 export default class MainContent extends React.Component {
     render() {
         return (
-            <ScrollView>
-                <View style={{paddingTop:18}}>{this.props.children}</View>
-            </ScrollView>
+            <View style={{paddingTop:18}}>{this.props.children}</View>
         );
     }
 }

@@ -27,3 +27,7 @@ export function getCurrentUserId() {
     return currentUserId;
 }
 
+export function addToken(obj) {
+    obj.token = authTokenUsedByRelay;
+    return obj;
+}

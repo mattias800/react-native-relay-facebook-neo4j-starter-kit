@@ -1,10 +1,10 @@
 import {GraphQLSchema, GraphQLObjectType} from "graphql";
 import {ViewerType} from "./ViewerType";
-import {MutationViewerType} from "./MutationViewerType";
+import {MutationRoot} from "./MutationRoot";
 import {GraphQLString} from "graphql";
 import {getUserByAuthToken} from "./persistence/service/UserService";
 
-const QueryType = new GraphQLObjectType({
+const QueryRoot = new GraphQLObjectType({
     name: "Query",
     description: "Root query",
 
@@ -24,29 +24,9 @@ const QueryType = new GraphQLObjectType({
     })
 });
 
-const MutationType = new GraphQLObjectType({
-    name: "Mutation",
-    description: "Root mutation",
-
-    fields: () => ({
-        viewer: {
-            type: MutationViewerType,
-            args: {token: {type: GraphQLString}},
-            resolve: async(root, {token}) => {
-                var actor = await getUserByAuthToken(token);
-                if (!actor) {
-                    throw "Unauthorized access.";
-                } else {
-                    return createViewer(actor, token);
-                }
-            }
-        }
-    })
-});
-
 export default new GraphQLSchema({
-    query: QueryType,
-    mutation: MutationType
+    query: QueryRoot,
+    mutation: MutationRoot
 });
 
 function createViewer(actor, token) {
