@@ -46,6 +46,7 @@ export const UserMutationPayload = new GraphQLObjectType({
 });
 
 export const updateUserMutation = {
+    name: "UpdateUserMutation",
     type: UserMutationPayload,
     args: {input: {type: UserMutationInputType}},
     resolve: async(root, {input}) => {
@@ -53,6 +54,10 @@ export const updateUserMutation = {
 
         const {id, token} = input;
         const viewer = await getUserByAuthToken(token);
+        if (!viewer) {
+            console.log("NO VIEWER; FUCK OFF");
+        }
+
         const user = await User.getById(viewer, id);
         input.token !== undefined && (user.token = input.token);
         input.email !== undefined && (user.email = input.email);

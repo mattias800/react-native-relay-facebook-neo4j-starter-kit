@@ -3,14 +3,15 @@
 import React from "react";
 import Relay from "react-relay";
 import {AppRegistry, StyleSheet, Text, View, ScrollView} from "react-native";
-import {createRootRelayComponent} from "../../common/util/RelayFactory";
+import {createRelayRenderer} from "../../common/util/RelayFactory";
 import {routeConfigParamsBuilder} from "../../common/util/RelayFactory";
 import {UserProfile} from "./components/UserProfile";
+import {getAuthTokenUsedByRelay} from "../../network/RelayNetworkConfig";
 
 class ViewerProfilePage extends React.Component {
 
     render() {
-        const {actor} = this.props.user;
+        const {user} = this.props;
 
         return (
             <ScrollView style={{marginTop:20}}>
@@ -25,30 +26,42 @@ class ViewerProfilePage extends React.Component {
 ViewerProfilePage = Relay.createContainer(ViewerProfilePage, {
     fragments: {
         user: () => Relay.QL`
-            fragment on Viewer {
-                actor {
-                    ${UserProfile.getFragment('user')}
-                }
+            fragment on User {
+                ${UserProfile.getFragment('user')}
             }
     `,
     },
 });
 
-class QueryConfig extends Relay.Route {
-    static routeName = 'ViewerProfileRoute';
-    static prepareParams = routeConfigParamsBuilder;
-    static queries = {
-        user: (Component) =>
-            Relay.QL`
+export const ViewerProfilePageComponent = createRelayRenderer(
+    Relay.createContainer(
+        props => <ViewerProfilePage user={props.viewer.actor} />,
+        {
+            fragments: {
+                viewer: () => Relay.QL`
+            fragment on Viewer {
+                actor {
+                    ${ViewerProfilePage.getFragment('user')}
+                }
+            }
+        `,
+            },
+        }),
+
+    props => ({
+        queries: {
+            viewer: (Component) =>
+                Relay.QL`
                      query {
                         viewer(token:$token) {
-                            ${Component.getFragment('user')}                                        
+                            ${Component.getFragment('viewer')},
                         }
                      }
         `,
-    };
-}
-
-export const ViewerProfilePageComponent = createRootRelayComponent(ViewerProfilePage, QueryConfig);
-
-
+        },
+        params: {
+            token: getAuthTokenUsedByRelay()
+        },
+        name: 'ViewerProfileRoute',
+    })
+);

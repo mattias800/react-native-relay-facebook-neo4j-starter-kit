@@ -4,7 +4,7 @@ import React from "react";
 import Relay from "react-relay";
 import {AppRegistry, StyleSheet, Text, View} from "react-native";
 import {UserList} from "./components/UserList";
-import {routeConfigParamsBuilder, createRootRelayComponent} from "../../common/util/RelayFactory";
+import {routeConfigParamsBuilder, createRelayRenderer} from "../../common/util/RelayFactory";
 
 class UserListPage extends React.Component {
 
@@ -12,7 +12,7 @@ class UserListPage extends React.Component {
         console.log("this.props-.-------------------");
         console.log(this.props);
         const {navigator} = this.props;
-        const {users} = this.props.users;
+        const {users} = this.props.viewer;
 
         return (
             <View style={{flex:1}}>
@@ -26,7 +26,7 @@ class UserListPage extends React.Component {
 
 UserListPage = Relay.createContainer(UserListPage, {
     fragments: {
-        users: () => Relay.QL`
+        viewer: () => Relay.QL`
       fragment on Viewer {
           users {
              ${UserList.getFragment('users')}
@@ -40,7 +40,7 @@ class QueryConfig extends Relay.Route {
     static routeName = 'UsersListRoute';
     static prepareParams = routeConfigParamsBuilder;
     static queries = {
-        users: (Component) =>
+        viewer: (Component) =>
             Relay.QL`
                      query {
                         viewer(token:$token) {
@@ -51,5 +51,5 @@ class QueryConfig extends Relay.Route {
     };
 }
 
-export const UserListPageComponent = createRootRelayComponent(UserListPage, QueryConfig);
+export const UserListPageComponent = createRelayRenderer(UserListPage, QueryConfig);
 

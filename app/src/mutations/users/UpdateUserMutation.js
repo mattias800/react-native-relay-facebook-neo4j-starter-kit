@@ -1,14 +1,6 @@
 import Relay from "react-relay";
-import {getAuthTokenUsedByRelay} from "../../network/RelayNetworkConfig";
 
 export class UpdateUserMutation extends Relay.Mutation {
-
-    static prepareVariables = (prevVariables) => {
-        return {
-            ...prevVariables,
-            token: getAuthTokenUsedByRelay()
-        };
-    };
 
     // This method should return a GraphQL operation that represents
     // the mutation to be performed. This presumes that the server
@@ -22,7 +14,7 @@ export class UpdateUserMutation extends Relay.Mutation {
     // one variable as input – the ID of the story to like.
     getVariables() {
         return {
-            id: this.props.id,
+            id: this.props.user.id,
             firstName: this.props.firstName,
             lastName: this.props.lastName,
             email: this.props.email
@@ -40,11 +32,10 @@ export class UpdateUserMutation extends Relay.Mutation {
         return Relay.QL`
         fragment on UserMutationPayload { 
             user {
-                id,
                 firstName,
                 lastName,
                 email
-            },
+            }
         }
     `;
     }
@@ -58,9 +49,7 @@ export class UpdateUserMutation extends Relay.Mutation {
         return [{
             type: 'FIELDS_CHANGE',
             fieldIDs: {
-                firstName: this.props.firstName,
-                lastName: this.props.lastName,
-                email: this.props.email
+                user: this.props.user.id
             },
         }];
     }

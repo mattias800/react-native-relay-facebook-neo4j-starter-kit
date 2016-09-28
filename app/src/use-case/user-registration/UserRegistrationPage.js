@@ -8,12 +8,19 @@ import {UserRegistration} from "./components/UserRegistration";
 import {UpdateUserMutation} from "../../mutations/users/UpdateUserMutation";
 import {addToken} from "../../network/RelayNetworkConfig";
 import {getCurrentUserId} from "../../network/RelayNetworkConfig";
-import {createRootRelayComponent} from "../../common/util/RelayFactory";
+import {createRelayRenderer} from "../../common/util/RelayFactory";
+import {getAuthTokenUsedByRelay} from "../../network/RelayNetworkConfig";
 
 class UserRegistrationPage extends React.Component {
 
     render() {
-        const user = this.props.user;
+        const {user} = this.props;
+        console.log("user.-----------------");
+        console.log(user);
+        console.log(user.id);
+        console.log(user.firstName);
+        console.log(user.lastName);
+
         return (
             <UserRegistration user={user}
                               onSubmit={(model) => this.submit(model) } />
@@ -21,17 +28,19 @@ class UserRegistrationPage extends React.Component {
     }
 
     submit(model) {
-        const user = this.props.user;
+        const {user} = this.props;
         console.log("submit user");
         console.log(user);
+        // Silvie Deluxe
 
         var data = {
-            user,
-            id: user.id,
+            token: getAuthTokenUsedByRelay(),
+            user: user,
             ...model
         };
         console.log("data");
         console.log(data);
+
 
         this.props.relay.commitUpdate(
             new UpdateUserMutation(data, {
@@ -51,6 +60,7 @@ UserRegistrationPage = Relay.createContainer(UserRegistrationPage, {
     fragments: {
         user: () => Relay.QL`
             fragment on User {
+                id,
                 ${UserRegistration.getFragment('user')},
                 ${UpdateUserMutation.getFragment('user')}
             }
@@ -58,43 +68,36 @@ UserRegistrationPage = Relay.createContainer(UserRegistrationPage, {
     },
 });
 
-//////////////////////////////
-
-class UserRegistrationViewer extends React.Component {
-
-    render() {
-        return <UserRegistrationPage user={this.props.viewer.actor} />
-    }
-
-}
-
-UserRegistrationViewer = Relay.createContainer(UserRegistrationViewer, {
-    fragments: {
-        viewer: () => Relay.QL`
+export const UserRegistrationPageComponent = createRelayRenderer(
+    Relay.createContainer(
+        props => <UserRegistrationPage user={props.viewer.actor} />,
+        {
+            fragments: {
+                viewer: () => Relay.QL`
             fragment on Viewer {
                 actor {
-                    ${UserRegistrationPage.getFragment('user')},
+                    ${UserRegistrationPage.getFragment('user')}
                 }
             }
         `,
-    },
-});
+            },
+        }),
 
-/////////////////////////////////
-
-class QueryConfig extends Relay.Route {
-    static routeName = 'UserRegistrationRoute';
-    static prepareParams = routeConfigParamsBuilder;
-    static queries = {
-        viewer: (Component) =>
-            Relay.QL`
+    props => ({
+        queries: {
+            viewer: (Component) =>
+                Relay.QL`
                      query {
                         viewer(token:$token) {
                             ${Component.getFragment('viewer')},
                         }
                      }
         `,
-    };
-}
-
-export const UserRegistrationPageComponent = createRootRelayComponent(UserRegistrationViewer, QueryConfig);
+        },
+        params: {
+            token: getAuthTokenUsedByRelay(),
+            currentUserId: getCurrentUserId()
+        },
+        name: 'UserRegistrationRoute',
+    })
+);

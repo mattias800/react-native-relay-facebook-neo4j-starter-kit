@@ -5,19 +5,18 @@ import {LoadingScreen} from "../../common/ui/LoadingScreen";
 import {getAuthTokenUsedByRelay} from "../../network/RelayNetworkConfig";
 import {getCurrentUserId} from "../../network/RelayNetworkConfig";
 
-export function createRootRelayComponent(PageContainer, QueryConfig, queryParamsProvider: ?Function) {
+export function createRelayRenderer(PageContainer, queryConfigFunction) {
     return (parentProps) => {
-        let queryParams = queryParamsProvider && queryParamsProvider(parentProps);
         return (
             <Relay.Renderer
                 environment={Relay.Store}
                 Container={PageContainer}
-                queryConfig={new QueryConfig(queryParams)}
+                queryConfig={queryConfigFunction(parentProps)}
                 render={({done, error, props, retry, stale}) => {
         if (error) {
           return <ErrorScreen error={error}/>;
         } else if (props) {
-          return <PageContainer {...parentProps} currentUserId={getCurrentUserId()} {...props} />;
+          return <PageContainer {...parentProps} {...props} />;
         } else {
           return <LoadingScreen />;
         }

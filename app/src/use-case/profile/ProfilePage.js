@@ -3,9 +3,10 @@
 import React from "react";
 import Relay from "react-relay";
 import {AppRegistry, StyleSheet, Text, View, ScrollView} from "react-native";
-import {createRootRelayComponent} from "../../common/util/RelayFactory";
+import {createRelayRenderer} from "../../common/util/RelayFactory";
 import {routeConfigParamsBuilder} from "../../common/util/RelayFactory";
 import {UserProfile} from "./components/UserProfile";
+import {getAuthTokenUsedByRelay} from "../../network/RelayNetworkConfig";
 
 class ProfilePage extends React.Component {
 
@@ -46,24 +47,35 @@ ProfilePage = Relay.createContainer(ProfilePage, {
     },
 });
 
-class QueryConfig extends Relay.Route {
-    static routeName = 'ViewerProfileRoute';
-    static paramDefinitions = {
-        userId: {required: true},
-    };
-    static prepareParams = routeConfigParamsBuilder;
-    static queries = {
-        user: (Component, vars) =>
-            Relay.QL`
+export const ProfilePageComponent = createRelayRenderer(
+    Relay.createContainer(
+        props => <ProfilePage user={props.viewer.user} />,
+        {
+            fragments: {
+                viewer: () => Relay.QL`
+                    fragment on Viewer {
+                        user(id: $userId) {
+                            ${UserProfile.getFragment('user')}
+                        }
+                    }`,
+            },
+        }),
+
+    props => ({
+        queries: {
+            viewer: (Component) =>
+                Relay.QL`
                      query {
                         viewer(token:$token) {
-                            ${Component.getFragment('user', vars)}
+                            ${Component.getFragment('viewer')},
                         }
                      }
         `,
-    };
-}
-
-export const ProfilePageComponent = createRootRelayComponent(ProfilePage, QueryConfig, props => ({userId: props.userId}));
-
-
+        },
+        params: {
+            token: getAuthTokenUsedByRelay(),
+            userId: props.userId
+        },
+        name: 'ProfilePageRoute',
+    })
+);

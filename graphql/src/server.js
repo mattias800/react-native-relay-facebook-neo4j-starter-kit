@@ -34,6 +34,8 @@ function startServer() {
     });
 
     app.use(graphQLHTTP((req) => {
+        console.log(req.body.query);
+        console.log(req.body.variables);
         return {
             schema,
             graphiql: true
