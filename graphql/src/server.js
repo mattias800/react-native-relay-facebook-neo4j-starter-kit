@@ -5,7 +5,7 @@ import graphQLHTTP from "express-graphql";
 import schema from "./schema";
 import {authenticateOrCreateUserByPayload} from "./services/AuthenticationService";
 import updateSchema from "./util/updateSchema";
-
+var colors = require('colors/safe');
 const serverPort = 5000;
 
 updateSchema().then(startServer);
@@ -27,6 +27,8 @@ function startServer() {
             const user = await authenticateOrCreateUserByPayload(service, payload);
             res.send(user);
         } catch (e) {
+            console.log("Error!");
+
             console.log(e);
             res.send("Error!");
         }
@@ -35,8 +37,10 @@ function startServer() {
     });
 
     app.use(graphQLHTTP((req) => {
-        console.log(req.body.query);
-        console.log(req.body.variables);
+        console.log("--- Request --- " + req.path);
+        console.log(colors.magenta(req.body.query || "No query."));
+        console.log(colors.yellow(req.body.variables || "No variables"));
+
         return {
             schema,
             graphiql: true

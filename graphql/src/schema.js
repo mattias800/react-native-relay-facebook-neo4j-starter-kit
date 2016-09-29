@@ -1,9 +1,10 @@
 /* @flow */
-import {GraphQLSchema, GraphQLObjectType} from "graphql";
+import {GraphQLSchema, GraphQLObjectType, GraphQLString} from "graphql";
 import {ViewerType} from "./ViewerType";
 import {MutationRoot} from "./MutationRoot";
-import {GraphQLString} from "graphql";
 import {getUserByAuthToken} from "./persistence/service/UserService";
+import {nodeField} from "./NodeField";
+import {UserType} from "./delivery/graphql/schema/types/UserType";
 
 const QueryRoot = new GraphQLObjectType({
     name: "Query",
@@ -21,7 +22,8 @@ const QueryRoot = new GraphQLObjectType({
                     return createViewer(actor, token);
                 }
             }
-        }
+        },
+        node: nodeField
     })
 });
 

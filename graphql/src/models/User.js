@@ -6,6 +6,7 @@ import {
     getAllUsers,
     updateUser
 } from "../persistence/service/UserService";
+import {toGlobalId} from "graphql-relay";
 
 export class User {
 
@@ -39,7 +40,7 @@ export class User {
     }
 
     static createFromEntity(entity: Object): User {
-        return new User(entity.properties.uuid,
+        return new User(toGlobalId("User", entity.properties.uuid),
             entity.properties.token,
             entity.properties.firstName,
             entity.properties.lastName,
@@ -91,3 +92,5 @@ export class User {
     }
 
 }
+
+export const userMock = new User("", "");

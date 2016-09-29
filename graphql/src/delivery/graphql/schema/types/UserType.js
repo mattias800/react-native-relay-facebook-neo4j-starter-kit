@@ -2,16 +2,19 @@
 import {GraphQLInputObjectType, GraphQLObjectType, GraphQLString, GraphQLList, GraphQLNonNull} from "graphql";
 import {UserIdType, EmailType, AuthTokenType} from "../types";
 import {AnimalType} from "./Animal";
-import {getAnimalOwnedByUserById} from "../../../../persistence/service/AnimalService";
 import {User} from "../../../../models/User";
-import {getUserByAuthToken} from "../../../../persistence/service/UserService";
+import {getUserByAuthToken, getUserByUuid} from "../../../../persistence/service/UserService";
+import {registerType} from "../../../../registry";
+import {nodeInterface} from "../../../../NodeField";
+import {globalIdField} from "graphql-relay";
 
 export const UserType = new GraphQLObjectType({
     name: "User",
     description: "A user.",
+    interfaces: [nodeInterface],
 
     fields: () => ({
-        id: {type: UserIdType},
+        id: globalIdField('User'),
         token: {type: AuthTokenType},
         email: {type: EmailType},
         firstName: {type: GraphQLString},
@@ -19,8 +22,8 @@ export const UserType = new GraphQLObjectType({
         profilePhotoUrl: {type: GraphQLString},
         animals: {
             type: new GraphQLList(AnimalType),
-            resolve: (user) => getAnimalOwnedByUserById(user.id)
-        }
+            resolve: (user) => []
+        },
     })
 });
 
@@ -85,3 +88,4 @@ export const updateUserMutation = {
     }
 };
 
+registerType(UserType, (id: string) => getUserByUuid(id))

@@ -3,9 +3,10 @@ schema {
   mutation: MutationRoot
 }
 
-type Animal {
-  id: String
-  type: Animal
+# A animal.
+type Animal implements Node {
+  # The ID of an object
+  id: ID!
   owner: String
   profilePhoto: String
   litter: String
@@ -14,16 +15,32 @@ type Animal {
   birthDate: String
 }
 
+# Root mutation
 type MutationRoot {
   updateUser(input: UserMutationInputType): UserMutationPayload
 }
 
-type Query {
-  viewer(token: String): Viewer
+# An object with an ID
+interface Node {
+  # The id of the object.
+  id: ID!
 }
 
-type User {
-  id: String
+# Root query
+type Query {
+  viewer(token: String): Viewer
+
+  # Fetches an object given its ID
+  node(
+    # The ID of an object
+    id: ID!
+  ): Node
+}
+
+# A user.
+type User implements Node {
+  # The ID of an object
+  id: ID!
   token: String
   email: String
   firstName: String
@@ -47,6 +64,7 @@ type UserMutationPayload {
   user: User
 }
 
+# Viewer type
 type Viewer {
   user(id: String): User
   userByEmail(email: String): User
