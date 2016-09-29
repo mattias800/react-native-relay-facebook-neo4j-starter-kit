@@ -1,6 +1,8 @@
-import {SERVICE_FACEBOOK, SERVICE_SMS, SERVICE_EMAIL} from "../services/AuthenticationService";
+/* @flow */
+import {SERVICE_FACEBOOK} from "../services/AuthenticationService";
+import {Authentication} from "./Authentication";
 
-export class FacebookAuthentication {
+export class FacebookAuthentication extends Authentication {
 
     service: string = SERVICE_FACEBOOK;
     userId: string;
@@ -8,8 +10,8 @@ export class FacebookAuthentication {
 
 
     constructor(userId: string, token: string) {
+        super(token);
         this.userId = userId;
-        this.token = token;
     }
 
     static createFromPayload(payload: Object) {

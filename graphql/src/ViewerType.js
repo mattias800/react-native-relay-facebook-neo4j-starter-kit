@@ -1,4 +1,4 @@
-// @flow
+/* @flow */
 import {GraphQLObjectType, GraphQLString, GraphQLList} from "graphql";
 import {UserType} from "./delivery/graphql/schema/types/User";
 import {User} from "./models/User";

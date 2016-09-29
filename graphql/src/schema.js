@@ -1,3 +1,4 @@
+/* @flow */
 import {GraphQLSchema, GraphQLObjectType} from "graphql";
 import {ViewerType} from "./ViewerType";
 import {MutationRoot} from "./MutationRoot";

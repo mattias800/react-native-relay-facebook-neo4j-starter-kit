@@ -1,21 +1,27 @@
-import {SERVICE_FACEBOOK, SERVICE_SMS, SERVICE_EMAIL} from "../services/AuthenticationService";
+/* @flow */
+import {SERVICE_SMS, SERVICE_EMAIL} from "../services/AuthenticationService";
+import {Authentication} from "./Authentication";
 
-export class AccountKitAuthentication {
+export class AccountKitAuthentication extends Authentication {
 
     service: string;
     accountId: string;
     appId: string;
     lastRefresh: number;
     refreshIntervalSeconds: number;
-    token: string;
 
-    constructor(service: string, accountId: string, appId: string, lastRefresh: number, refreshIntervalSeconds: number, token: string) {
+    constructor(service: string,
+                accountId: string,
+                appId: string,
+                lastRefresh: number,
+                refreshIntervalSeconds: number,
+                token: string) {
+        super(token);
         this.service = service;
         this.accountId = accountId;
         this.appId = appId;
         this.lastRefresh = lastRefresh;
         this.refreshIntervalSeconds = refreshIntervalSeconds;
-        this.token = token;
     }
 
     static createFromPayload(service: string, payload: Object) {

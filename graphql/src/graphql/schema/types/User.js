@@ -1,4 +1,4 @@
-// @flow
+/* @flow */
 import {GraphQLObjectType, GraphQLString, GraphQLList} from "graphql";
 import {PhotoIdType, UserIdType, EmailType} from "../types";
 import {AuthenticatedDeviceType} from "../all";

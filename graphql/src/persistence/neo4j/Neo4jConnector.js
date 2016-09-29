@@ -1,5 +1,6 @@
 var neo4j = require('neo4j');
 //var db = new neo4j.GraphDatabase('http://username:password@localhost:7474');
+import Rx, {Observable} from "rx";
 
 const dbUrl = "http://localhost:7474";
 console.log(`Connecting to Neo4j at ${dbUrl}`);

@@ -1,3 +1,4 @@
+/* @flow */
 var FB = require('fb');
 import {
     createUserAndAuthentication,
@@ -131,7 +132,7 @@ export function getProfileFromFacebook(token: string) {
 
 export async function updateUserWithFacebookDataIfNeeded(facebookToken: string,
                                                          user: User,
-                                                         facebookUser: ?Object): User {
+                                                         facebookUser: ?Object): Promise<User> {
     if (!user.id) {
         throw "Trying to update user, but user has no id.";
     }
@@ -144,7 +145,6 @@ export async function updateUserWithFacebookDataIfNeeded(facebookToken: string,
             console.log("Is missing facebook user, fetching");
             facebookUser = await getProfileFromFacebook(facebookToken);
             console.log("fetch done");
-
         }
         user.firstName = facebookUser.first_name;
         user.lastName = facebookUser.last_name;

@@ -1,4 +1,4 @@
-// @flow
+/* @flow */
 import {GraphQLInputObjectType, GraphQLObjectType, GraphQLString, GraphQLList, GraphQLNonNull} from "graphql";
 import {UserIdType, EmailType, AuthTokenType} from "../types";
 import {AnimalType} from "./Animal";
@@ -49,7 +49,7 @@ export const updateUserMutation = {
     name: "UpdateUserMutation",
     type: UserMutationPayload,
     args: {input: {type: UserMutationInputType}},
-    resolve: async(root, {input}) => {
+    resolve: async(root: Object, {input}:{input:Object}) => {
         console.log("RESOLVE IT!");
 
         const {id, token} = input;
@@ -59,11 +59,24 @@ export const updateUserMutation = {
         }
 
         const user = await User.getById(viewer, id);
-        input.token !== undefined && (user.token = input.token);
-        input.email !== undefined && (user.email = input.email);
-        input.firstName !== undefined && (user.firstName = input.firstName);
-        input.lastName !== undefined && (user.lastName = input.lastName);
-        input.profilePhotoUrl !== undefined && (user.profilePhotoUrl = input.profilePhotoUrl);
+        if (!user) {
+            throw "No such user.";
+        }
+        if (input.token !== undefined) {
+            user.token = input.token;
+        }
+        if (input.email !== undefined) {
+            user.email = input.email;
+        }
+        if (input.firstName !== undefined) {
+            user.firstName = input.firstName;
+        }
+        if (input.lastName !== undefined) {
+            user.lastName = input.lastName;
+        }
+        if (input.profilePhotoUrl !== undefined) {
+            user.profilePhotoUrl = input.profilePhotoUrl;
+        }
         const updatedUser = await User.updateUser(viewer, user);
         return {
             clientMutationId: input.clientMutationId,

@@ -1,4 +1,4 @@
-// @flow
+/* @flow */
 import {GraphQLObjectType, GraphQLString} from "graphql";
 
 export const AuthenticatedDeviceType = new GraphQLObjectType({

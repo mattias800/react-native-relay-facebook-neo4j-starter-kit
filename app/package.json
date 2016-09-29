@@ -20,5 +20,9 @@
     "react-relay": "^0.9.3",
     "sync-request": "^3.0.1",
     "tcomb-form-native": "^0.6.1"
+  },
+  "devDependencies": {
+    "babel-plugin-typecheck": "^3.9.0",
+    "flow-bin": "^0.32.0"
   }
 }

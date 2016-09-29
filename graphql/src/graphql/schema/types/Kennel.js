@@ -1,4 +1,4 @@
-// @flow
+/* @flow */
 import {GraphQLObjectType, GraphQLString} from "graphql";
 import {KennelIdType, PhotoIdType, UserIdType} from "../types";
 import {CoordinatesType} from "./Coordinates";

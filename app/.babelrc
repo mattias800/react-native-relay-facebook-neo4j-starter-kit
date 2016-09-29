@@ -3,7 +3,10 @@
   "presets": [
     {
       "plugins": [
-        "./plugins/babelRelayPlugin"
+        "./plugins/babelRelayPlugin",
+        "typecheck",
+        "syntax-flow",
+        "transform-flow-strip-types"
       ]
     },
     "react-native"

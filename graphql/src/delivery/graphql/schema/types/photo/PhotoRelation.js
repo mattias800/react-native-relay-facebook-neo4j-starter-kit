@@ -1,4 +1,4 @@
-// @flow
+/* @flow */
 import {GraphQLObjectType} from "graphql";
 import {PhotoIdType} from "../../types";
 

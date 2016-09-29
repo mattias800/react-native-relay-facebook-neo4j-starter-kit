@@ -9,7 +9,6 @@ configureAccountKit();
 registerScreens();
 bootApp();
 
-
 async function bootApp() {
     console.log("Fetching session from storage.");
 

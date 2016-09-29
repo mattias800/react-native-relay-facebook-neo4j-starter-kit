@@ -25,7 +25,7 @@ export function clearAuthToken() {
 }
 
 export function get(url: string) {
-    var fullUrl = endpoint + validateUrl(url);
+    const fullUrl = endpoint + validateUrl(url);
     console.log("GET", fullUrl);
     return fetch(fullUrl, {
         headers: getGetHeaders()
@@ -35,7 +35,7 @@ export function get(url: string) {
 }
 
 export function postDelete(url: string) {
-    var fullUrl = endpoint + validateUrl(url);
+    const fullUrl = endpoint + validateUrl(url);
     console.log("DELETE", fullUrl);
     return fetch(fullUrl, {
         method: "delete",
@@ -45,7 +45,7 @@ export function postDelete(url: string) {
 }
 
 export function postJson(url: string, model: Object) {
-    var fullUrl = endpoint + validateUrl(url);
+    const fullUrl = endpoint + validateUrl(url);
     console.log("POST", fullUrl, model);
     console.log(JSON.stringify(model));
 
@@ -64,7 +64,7 @@ export function postJson(url: string, model: Object) {
 }
 
 export function putJson(url: string, model: Object) {
-    var fullUrl = endpoint + validateUrl(url);
+    const fullUrl = endpoint + validateUrl(url);
     console.log("PUT", fullUrl, model);
     console.log(JSON.stringify(model));
 
@@ -105,7 +105,7 @@ function checkStatus(response) {
         if (response.status === 401) {
             onNotAuthorized();
         }
-        var error = new Error(response.statusText);
+        const error = new Error(response.statusText);
         error.response = response;
         throw error;
     }

@@ -1,4 +1,4 @@
-// @flow
+/* @flow */
 import {GraphQLObjectType, GraphQLFloat} from "graphql";
 
 export const CoordinatesType = new GraphQLObjectType({

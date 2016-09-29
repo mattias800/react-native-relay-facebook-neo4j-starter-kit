@@ -1,4 +1,4 @@
-// @flow
+/* @flow */
 import {GraphQLObjectType} from "graphql";
 import {DateType, AnimalIdType, KennelIdType, LitterIdType, PhotoIdType, UserIdType} from "../types";
 

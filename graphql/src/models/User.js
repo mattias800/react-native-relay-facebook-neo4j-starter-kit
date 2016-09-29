@@ -1,8 +1,11 @@
-import {getUserByEmail} from "../persistence/service/UserService";
-import {getUserByUuid} from "../persistence/service/UserService";
-import {getAllUsers} from "../persistence/service/UserService";
-import {getAllUsersWithCompleteProfile} from "../persistence/service/UserService";
-import {updateUser} from "../persistence/service/UserService";
+/* @flow */
+import {
+    getUserByEmail,
+    getAllUsersWithCompleteProfile,
+    getUserByUuid,
+    getAllUsers,
+    updateUser
+} from "../persistence/service/UserService";
 
 export class User {
 
@@ -21,16 +24,18 @@ export class User {
                 lastName: ?string,
                 email: ?string,
                 profilePhotoUrl: ?string,
-                completeProfile: boolean,
-                isSuperUser: boolean) {
+                isSuperUser: boolean = false) {
         this.id = id;
         this.token = token;
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
         this.profilePhotoUrl = profilePhotoUrl;
-        this.completeProfile = completeProfile;
         this.isSuperUser = isSuperUser;
+    }
+
+    isCompleteProfile() {
+        return Boolean(this.firstName && this.lastName && this.email);
     }
 
     static createFromEntity(entity: Object): User {
@@ -40,7 +45,6 @@ export class User {
             entity.properties.lastName,
             entity.properties.email,
             entity.properties.profilePhotoUrl,
-            entity.properties.completeProfile || User.isEntityCompleteProfile(entity),
             Boolean(entity.properties.isSuperUser)
         );
     }
@@ -76,10 +80,6 @@ export class User {
             throw "Updating other user is not allowed.";
         }
 
-    }
-
-    isCompleteProfile() {
-        return Boolean(this.firstName && this.lastName && this.email);
     }
 
     static isEntityCompleteProfile(entity) {
