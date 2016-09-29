@@ -49,6 +49,7 @@ type UserMutationPayload {
 
 type Viewer {
   user(id: String): User
+  userByEmail(email: String): User
   users: [User]
   incompleteUsers: [User]
   actor: User

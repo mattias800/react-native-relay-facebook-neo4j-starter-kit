@@ -7,19 +7,24 @@ import {AccountKitAuthentication} from "../../models/AccountKitAuthentication";
 import {Authentication} from "../../models/Authentication";
 import Rx, {Observable} from "rx";
 
-export async function getAllUsers(): Promise<User> {
-    return await cypher(
-        "MATCH (user:User) return user")
-        .then(results => results.map(result => result.user))
-        .then(users => users.map(user => User.createFromEntity(user)));
+export async function getAllUsers(): Promise<Array<User>> {
+    return Observable.fromPromise(cypher("MATCH (user:User) return user"))
+        .flatMap(Observable.from)
+        .map(result => result.user)
+        .map(User.createFromEntity)
+        .toArray()
+        .toPromise()
 }
 
 export async function getAllUsersWithCompleteProfile(): Promise<Array<User>> {
-    return getAllUsers.then(users => users.filter(user => user.isCompleteProfile()));
+    console.log("getAllUsersWithCompleteProfile");
+    const users = await getAllUsers();
+    return users.filter(user => user.isCompleteProfile());
 }
 
 export async function getAllUsersWithIncompleteProfile(): Promise<Array<User>> {
-    return getAllUsers.then(users => users.filter(user => !user.isCompleteProfile()));
+    const users = await getAllUsers();
+    return users.filter(user => !user.isCompleteProfile());
 }
 
 export async function getUserByAuthenticationServiceToken(service: string, token: string): Promise<User> {
@@ -47,14 +52,13 @@ export async function getUserByAuthenticationServiceAccountId(service: string, a
 }
 
 export async function getUserByEmail(email: string): Promise<User> {
-    return await cypher(
-        "MATCH (user:User {email: {email}}) return user",
-        {
-            email
-        })
-        .then(results => results.map(result => result.user))
-        .then(users => users.length > 0 ? users[0] : undefined)
-        .then(user => user && User.createFromEntity(user));
+    return Observable
+        .fromPromise(cypher("MATCH (user:User {email: {email}}) return user", {email}))
+        .flatMap(Observable.from)
+        .map(result => result.user)
+        .first()
+        .map(User.createFromEntity)
+        .toPromise();
 }
 
 export async function getUserByUuid(uuid: string): Promise<User> {

@@ -14,6 +14,11 @@ export const ViewerType = new GraphQLObjectType({
             args: {id: {type: GraphQLString}},
             resolve: ({actor}, {id}) => User.getById(actor, id)
         },
+        userByEmail: {
+            type: UserType,
+            args: {email: {type: GraphQLString}},
+            resolve: ({actor}, {email}) => User.getByEmail(actor, email)
+        },
         users: {
             type: new GraphQLList(UserType),
             resolve: ({actor}, args) => User.getAllWithCompleteProfile(actor)

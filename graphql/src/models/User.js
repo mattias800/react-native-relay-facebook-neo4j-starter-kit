@@ -62,12 +62,16 @@ export class User {
     }
 
     static async getAll(viewer): Promise<Array<User>> {
+        console.log("getAll");
+
         const users = await getAllUsers();
         if (users == null) return [];
         return users
     }
 
     static async getAllWithCompleteProfile(viewer: User): Promise<Array<User>> {
+        console.log("getAllWithCompleteProfile");
+
         const users = await getAllUsersWithCompleteProfile();
         if (users == null) return [];
         return users
