@@ -1,9 +1,9 @@
 /* @flow */
-import {GraphQLInputObjectType, GraphQLObjectType, GraphQLString, GraphQLList, GraphQLNonNull} from "graphql";
+import {GraphQLInputObjectType, GraphQLObjectType, GraphQLString, GraphQLList} from "graphql";
 import {UserIdType, EmailType, AuthTokenType} from "../types";
 import {User} from "../../../../entities/User";
-import {getUserByAuthToken, getUserByUuid} from "../../../../persistence/service/UserService";
-import {registerType} from "../../../../registry";
+import {getUserByAuthToken, getUserByUuid, getFriendsFor} from "../../../../persistence/service/UserService";
+import {registerType} from "../../../../type-registry/registry";
 import {nodeInterface} from "../../../../NodeField";
 import {globalIdField} from "graphql-relay";
 
@@ -18,7 +18,11 @@ export const UserType = new GraphQLObjectType({
         email: {type: EmailType},
         firstName: {type: GraphQLString},
         lastName: {type: GraphQLString},
-        profilePhotoUrl: {type: GraphQLString}
+        profilePhotoUrl: {type: GraphQLString},
+        friends: {
+            type: new GraphQLList(UserType),
+            resolve: (user => getFriendsFor(user))
+        }
     })
 });
 
@@ -54,6 +58,7 @@ export const updateUserMutation = {
         const viewer = await getUserByAuthToken(token);
         if (!viewer) {
             console.log("NO VIEWER; FUCK OFF");
+            throw "Illegal access";
         }
 
         const user = await User.getById(viewer, id);
@@ -83,4 +88,4 @@ export const updateUserMutation = {
     }
 };
 
-registerType(UserType, (id: string) => getUserByUuid(id))
+registerType(UserType, User, (id: string) => getUserByUuid(id));

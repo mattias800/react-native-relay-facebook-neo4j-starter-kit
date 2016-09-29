@@ -12,7 +12,7 @@ module.exports = function (wallaby) {
 
         files: [
             {pattern: 'node_modules/babel-polyfill/lib/index.js', instrument: false},
-            'src/**/*.js',
+            'src/type-registry/**/*.js',
             {pattern: 'src/system/**/*.js', ignore: true},
             {pattern: 'src/**/__tests__/*.js', ignore: true},
         ],

@@ -5,7 +5,7 @@ import {SERVICE_FACEBOOK} from "../../services/AuthenticationService";
 import {FacebookAuthentication} from "../../entities/FacebookAuthentication";
 import {AccountKitAuthentication} from "../../entities/AccountKitAuthentication";
 import {Authentication} from "../../entities/Authentication";
-import Rx, {Observable} from "rx";
+import {Observable} from "rx";
 
 export async function getAllUsers(): Promise<Array<User>> {
     return Observable.fromPromise(cypher("MATCH (user:User) return user"))
@@ -89,6 +89,17 @@ export async function getUserByAuthToken(token: string): Promise<User> {
             return user;
         })
         .then(user => user && User.createFromEntity(user));
+}
+
+export async function getFriendsFor(user: User): Promise<Array<User>> {
+    const {entityId} = user;
+    return Observable
+        .fromPromise(cypher("MATCH (u:User {uuid:{entityId}})-[:IS_FRIENDS_WITH]->(friend:User) return friend;", {entityId}))
+        .flatMap(Observable.from)
+        .map(result => result.friend)
+        .map(User.createFromEntity)
+        .toArray()
+        .toPromise();
 }
 
 export async function updateUser(user: User): Promise<User> {

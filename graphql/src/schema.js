@@ -4,7 +4,6 @@ import {ViewerType} from "./ViewerType";
 import {MutationRoot} from "./MutationRoot";
 import {getUserByAuthToken} from "./persistence/service/UserService";
 import {nodeField} from "./NodeField";
-import {UserType} from "./delivery/graphql/schema/types/UserType";
 
 const QueryRoot = new GraphQLObjectType({
     name: "Query",

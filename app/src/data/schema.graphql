@@ -3,18 +3,6 @@ schema {
   mutation: MutationRoot
 }
 
-# A animal.
-type Animal implements Node {
-  # The ID of an object
-  id: ID!
-  owner: String
-  profilePhoto: String
-  litter: String
-  fullName: String
-  nickName: String
-  birthDate: String
-}
-
 # Root mutation
 type MutationRoot {
   updateUser(input: UserMutationInputType): UserMutationPayload
@@ -46,7 +34,7 @@ type User implements Node {
   firstName: String
   lastName: String
   profilePhotoUrl: String
-  animals: [Animal]
+  friends: [User]
 }
 
 input UserMutationInputType {
