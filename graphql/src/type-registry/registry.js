@@ -9,8 +9,6 @@ export function registerType(type, typeClass, getItemOverride) {
     types[type.name] = type;
     typeClasses[type.name] = typeClass;
     getItemOverrides[type] = getItemOverride;
-
-    // Allow e.g. `export default registerType(MyType);`.
     return type;
 }
 

@@ -39,7 +39,7 @@ function startServer() {
     app.use(graphQLHTTP((req) => {
         console.log("--- Request --- " + req.path);
         console.log(colors.magenta(req.body.query || "No query."));
-        console.log(colors.yellow(req.body.variables || "No variables"));
+        console.log(colors.yellow(JSON.stringify(req.body.variables) || "No variables"));
 
         return {
             schema,

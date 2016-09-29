@@ -14,11 +14,10 @@
 
 const RelayMutationRequest = require('react-relay/lib/RelayMutationRequest');
 
-const fetch = require('fetch');
 const fetchWithRetries = require('fbjs/lib/fetchWithRetries');
 
-import type {InitWithRetries} from 'fbjs/lib/fetchWithRetries';
-import type RelayQueryRequest from 'react-relay/lib/RelayQueryRequest';
+import type {InitWithRetries} from "fbjs/lib/fetchWithRetries";
+import type RelayQueryRequest from "react-relay/lib/RelayQueryRequest";
 
 type GraphQLError = {
     message: string,

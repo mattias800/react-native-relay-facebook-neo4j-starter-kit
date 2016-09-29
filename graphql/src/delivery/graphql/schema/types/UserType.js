@@ -2,10 +2,11 @@
 import {GraphQLInputObjectType, GraphQLObjectType, GraphQLString, GraphQLList} from "graphql";
 import {UserIdType, EmailType, AuthTokenType} from "../types";
 import {User} from "../../../../entities/User";
-import {getUserByAuthToken, getUserByUuid, getFriendsFor} from "../../../../persistence/service/UserService";
+import {getUserByAuthToken, getUserById, getFriendsFor} from "../../../../persistence/service/UserService";
 import {registerType} from "../../../../type-registry/registry";
 import {nodeInterface} from "../../../../NodeField";
 import {globalIdField} from "graphql-relay";
+import {fromGlobalId} from "graphql-relay/lib/node/node";
 
 export const UserType = new GraphQLObjectType({
     name: "User",
@@ -51,20 +52,22 @@ export const updateUserMutation = {
     name: "UpdateUserMutation",
     type: UserMutationPayload,
     args: {input: {type: UserMutationInputType}},
-    resolve: async(root: Object, {input}:{input:Object}) => {
+    resolve: async(root, {input}) => {
         console.log("RESOLVE IT!");
 
         const {id, token} = input;
         const viewer = await getUserByAuthToken(token);
+
         if (!viewer) {
-            console.log("NO VIEWER; FUCK OFF");
-            throw "Illegal access";
+            throw "Invalid access token";
         }
 
-        const user = await User.getById(viewer, id);
+        const user = await User.getById(viewer, fromGlobalId(id).id);
+
         if (!user) {
             throw "No such user.";
         }
+
         if (input.token !== undefined) {
             user.token = input.token;
         }
@@ -81,6 +84,7 @@ export const updateUserMutation = {
             user.profilePhotoUrl = input.profilePhotoUrl;
         }
         const updatedUser = await User.updateUser(viewer, user);
+
         return {
             clientMutationId: input.clientMutationId,
             user: updatedUser
@@ -88,4 +92,4 @@ export const updateUserMutation = {
     }
 };
 
-registerType(UserType, User, (id: string) => getUserByUuid(id));
+registerType(UserType, User, (id: string) => getUserById(id));

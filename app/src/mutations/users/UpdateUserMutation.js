@@ -14,6 +14,7 @@ export class UpdateUserMutation extends Relay.Mutation {
     // one variable as input – the ID of the story to like.
     getVariables() {
         return {
+            token: this.props.token,
             id: this.props.user.id,
             firstName: this.props.firstName,
             lastName: this.props.lastName,

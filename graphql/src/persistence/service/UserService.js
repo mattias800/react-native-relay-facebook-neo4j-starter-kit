@@ -61,7 +61,7 @@ export async function getUserByEmail(email: string): Promise<User> {
         .toPromise();
 }
 
-export async function getUserByUuid(uuid: string): Promise<User> {
+export async function getUserById(uuid: string): Promise<User> {
     return await cypher(
         "MATCH (user:User {uuid: {uuid}}) return user", {uuid})
         .then(results => results.map(result => result.user))

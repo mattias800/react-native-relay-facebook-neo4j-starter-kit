@@ -2,16 +2,14 @@
 import {
     getUserByEmail,
     getAllUsersWithCompleteProfile,
-    getUserByUuid,
+    getUserById,
     getAllUsers,
     updateUser
 } from "../persistence/service/UserService";
-import {toGlobalId} from "graphql-relay";
 
 export class User {
 
     id: string;
-    entityId: string;
     token: string;
     firstName: ?string;
     lastName: ?string;
@@ -21,7 +19,6 @@ export class User {
     isSuperUser: boolean;
 
     constructor(id: string,
-                entityId: string,
                 token: string,
                 firstName: ?string,
                 lastName: ?string,
@@ -29,7 +26,6 @@ export class User {
                 profilePhotoUrl: ?string,
                 isSuperUser: boolean = false) {
         this.id = id;
-        this.entityId = entityId;
         this.token = token;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -44,7 +40,6 @@ export class User {
 
     static createFromEntity(entity: Object): User {
         return new User(
-            toGlobalId("User", entity.properties.uuid),
             entity.properties.uuid,
             entity.properties.token,
             entity.properties.firstName,
@@ -62,7 +57,7 @@ export class User {
     }
 
     static async getById(viewer: User, id: string): Promise<?User> {
-        const user = await getUserByUuid(id);
+        const user = await getUserById(id);
         if (user == null) return null;
         return user;
     }
@@ -94,4 +89,4 @@ export class User {
 
 }
 
-export const userMock = new User("", "", "");
+export const userMock = new User("", "");

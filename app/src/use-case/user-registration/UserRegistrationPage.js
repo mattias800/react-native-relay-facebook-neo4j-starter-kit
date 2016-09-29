@@ -3,13 +3,10 @@
 import React from "react";
 import Relay from "react-relay";
 import {AppRegistry, StyleSheet, Text, View, ScrollView} from "react-native";
-import {routeConfigParamsBuilder} from "../../common/util/RelayFactory";
+import {createRelayRenderer} from "../../common/util/RelayFactory";
 import {UserRegistration} from "./components/UserRegistration";
 import {UpdateUserMutation} from "../../mutations/users/UpdateUserMutation";
-import {addToken} from "../../network/RelayNetworkConfig";
-import {getCurrentUserId} from "../../network/RelayNetworkConfig";
-import {createRelayRenderer} from "../../common/util/RelayFactory";
-import {getAuthTokenUsedByRelay} from "../../network/RelayNetworkConfig";
+import {getCurrentUserId, getAuthTokenUsedByRelay} from "../../network/RelayNetworkConfig";
 
 class UserRegistrationPage extends React.Component {
 
@@ -42,16 +39,18 @@ class UserRegistrationPage extends React.Component {
         console.log(data);
 
 
-        this.props.relay.commitUpdate(
-            new UpdateUserMutation(data, {
-                onSuccess: response => {
-                    console.log("SUCCESS!");
-                    console.log(response);
-                },
-                onFailure: () => {
-                    console.log("FAIL!");
-                }
-            }));
+        let mutation = new UpdateUserMutation(data);
+        this.props.relay.commitUpdate(mutation, {
+            onSuccess: response => {
+                console.log("SUCCESS!");
+                console.log(response);
+            },
+            onFailure: (transaction) => {
+                console.log("FAIL!");
+                console.log(transaction.getError());
+
+            }
+        });
     }
 
 }
