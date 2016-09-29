@@ -11,6 +11,7 @@ import {toGlobalId} from "graphql-relay";
 export class User {
 
     id: string;
+    entityId: string;
     token: string;
     firstName: ?string;
     lastName: ?string;
@@ -20,6 +21,7 @@ export class User {
     isSuperUser: boolean;
 
     constructor(id: string,
+                entityId: string,
                 token: string,
                 firstName: ?string,
                 lastName: ?string,
@@ -27,6 +29,7 @@ export class User {
                 profilePhotoUrl: ?string,
                 isSuperUser: boolean = false) {
         this.id = id;
+        this.entityId = entityId;
         this.token = token;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -40,7 +43,9 @@ export class User {
     }
 
     static createFromEntity(entity: Object): User {
-        return new User(toGlobalId("User", entity.properties.uuid),
+        return new User(
+            toGlobalId("User", entity.properties.uuid),
+            entity.properties.uuid,
             entity.properties.token,
             entity.properties.firstName,
             entity.properties.lastName,
@@ -78,7 +83,7 @@ export class User {
         return users
     }
 
-    static async updateUser(viewer: User, user: User) {
+    static async updateUser(viewer: User, user: User): Promise<User> {
         if (viewer.id === user.id || viewer.isSuperUser) {
             return await updateUser(user);
         } else {
@@ -87,10 +92,6 @@ export class User {
 
     }
 
-    static isEntityCompleteProfile(entity) {
-        return Boolean(entity.properties.firstName && entity.properties.lastName && entity.properties.email);
-    }
-
 }
 
-export const userMock = new User("", "");
+export const userMock = new User("", "", "");

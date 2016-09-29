@@ -7,11 +7,11 @@ import {
     updateUser,
     getUserByEmail
 } from "../persistence/service/UserService";
-import {AccountKitAuthentication} from "../models/AccountKitAuthentication";
-import {FacebookAuthentication} from "../models/FacebookAuthentication";
+import {AccountKitAuthentication} from "../entities/AccountKitAuthentication";
+import {FacebookAuthentication} from "../entities/FacebookAuthentication";
 import {generateToken} from "../util/service/JwtService";
 import {generateUuid} from "../util/service/UuidService";
-import {User} from "../models/User";
+import {User} from "../entities/User";
 
 export const SERVICE_FACEBOOK = "facebook";
 export const SERVICE_SMS = "sms";

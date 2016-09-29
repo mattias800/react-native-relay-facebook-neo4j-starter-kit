@@ -1,7 +1,7 @@
 /* @flow */
 import {GraphQLObjectType, GraphQLString, GraphQLList} from "graphql";
 import {UserType} from "./delivery/graphql/schema/types/UserType";
-import {User} from "./models/User";
+import {User} from "./entities/User";
 import * as UserService from "./persistence/service/UserService";
 
 export const ViewerType = new GraphQLObjectType({

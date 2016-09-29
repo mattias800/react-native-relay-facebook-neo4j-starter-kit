@@ -5,7 +5,7 @@ import graphQLHTTP from "express-graphql";
 import schema from "./schema";
 import {authenticateOrCreateUserByPayload} from "./services/AuthenticationService";
 import updateSchema from "./util/updateSchema";
-var colors = require('colors/safe');
+const colors = require('colors/safe');
 const serverPort = 5000;
 
 updateSchema().then(startServer);

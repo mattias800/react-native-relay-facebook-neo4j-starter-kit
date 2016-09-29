@@ -1,10 +1,10 @@
 /* @flow */
 import {cypher} from "../neo4j/Neo4jConnector";
-import {User} from "../../models/User";
+import {User} from "../../entities/User";
 import {SERVICE_FACEBOOK} from "../../services/AuthenticationService";
-import {FacebookAuthentication} from "../../models/FacebookAuthentication";
-import {AccountKitAuthentication} from "../../models/AccountKitAuthentication";
-import {Authentication} from "../../models/Authentication";
+import {FacebookAuthentication} from "../../entities/FacebookAuthentication";
+import {AccountKitAuthentication} from "../../entities/AccountKitAuthentication";
+import {Authentication} from "../../entities/Authentication";
 import Rx, {Observable} from "rx";
 
 export async function getAllUsers(): Promise<Array<User>> {

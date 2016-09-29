@@ -1,8 +1,7 @@
 /* @flow */
 import {GraphQLInputObjectType, GraphQLObjectType, GraphQLString, GraphQLList, GraphQLNonNull} from "graphql";
 import {UserIdType, EmailType, AuthTokenType} from "../types";
-import {AnimalType} from "./Animal";
-import {User} from "../../../../models/User";
+import {User} from "../../../../entities/User";
 import {getUserByAuthToken, getUserByUuid} from "../../../../persistence/service/UserService";
 import {registerType} from "../../../../registry";
 import {nodeInterface} from "../../../../NodeField";
@@ -19,11 +18,7 @@ export const UserType = new GraphQLObjectType({
         email: {type: EmailType},
         firstName: {type: GraphQLString},
         lastName: {type: GraphQLString},
-        profilePhotoUrl: {type: GraphQLString},
-        animals: {
-            type: new GraphQLList(AnimalType),
-            resolve: (user) => []
-        },
+        profilePhotoUrl: {type: GraphQLString}
     })
 });
 
