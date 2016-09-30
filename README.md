@@ -39,6 +39,7 @@ It demonstrates a couple of things.
 * How backend can communicate with Facebook
 * How the app can communicate with Facebook
 * How Node can communicate with Neo4j
+* How to use JWT (JSON Web Tokens) for authentication
 * How to implement a GraphQL backend with Node
 * How to use Relay with React Native
 * How to use react-native-navigation with Relay
