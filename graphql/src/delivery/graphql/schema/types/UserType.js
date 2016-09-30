@@ -54,7 +54,8 @@ export const updateUserMutation = {
     type: UserMutationPayload,
     args: {input: {type: UserMutationInputType}},
     resolve: async(root, args) => {
-        const {id, token} = args.input;
+        const {input} = args;
+        const {id, token} = input;
 
         const viewer = await validateToken(token);
 

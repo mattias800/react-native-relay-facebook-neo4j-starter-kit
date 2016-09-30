@@ -1,9 +1,8 @@
 import {loginWithFacebook} from "../system/facebook/FacebookService";
-import {postJson} from "../network/HttpClient";
-import {loginWithSms} from "../system/account-kit/AccountKitService";
-import {loginWithEmail} from "../system/account-kit/AccountKitService";
-import * as SessionStorage from "../system/SessionStorage";
 import * as HttpClient from "../network/HttpClient";
+import {postJson} from "../network/HttpClient";
+import {loginWithSms, loginWithEmail} from "../system/account-kit/AccountKitService";
+import * as SessionStorage from "../system/SessionStorage";
 import {setRelaySession} from "../network/RelayNetworkConfig";
 import {showMainAppScreen} from "../bootstraps/MainBootstrap";
 import {showRegistrationScreen} from "../bootstraps/RegistrationPageBootstrap";
@@ -53,8 +52,7 @@ export function loadSessionIntoClients(token: string, userId: string) {
 export function whenLoggedIn(user: Object, token: string, userId: string) {
     loadSessionIntoClients(token, userId);
     if (user.completeProfile) {
-        showRegistrationScreen();
-        //showMainAppScreen()
+        showMainAppScreen()
     } else {
         showRegistrationScreen();
     }

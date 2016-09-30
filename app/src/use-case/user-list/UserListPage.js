@@ -4,7 +4,8 @@ import React from "react";
 import Relay from "react-relay";
 import {AppRegistry, StyleSheet, Text, View} from "react-native";
 import {UserList} from "./components/UserList";
-import {routeConfigParamsBuilder, createRelayRenderer} from "../../common/util/RelayFactory";
+import {createRelayRenderer} from "../../common/util/RelayFactory";
+import {getAuthTokenUsedByRelay} from "../../network/RelayNetworkConfig";
 
 class UserListPage extends React.Component {
 
@@ -12,7 +13,7 @@ class UserListPage extends React.Component {
         console.log("this.props-.-------------------");
         console.log(this.props);
         const {navigator} = this.props;
-        const {users} = this.props.viewer;
+        const {users} = this.props;
 
         return (
             <View style={{flex:1}}>
@@ -26,30 +27,43 @@ class UserListPage extends React.Component {
 
 UserListPage = Relay.createContainer(UserListPage, {
     fragments: {
-        viewer: () => Relay.QL`
-      fragment on Viewer {
-          users {
-             ${UserList.getFragment('users')}
-          }
-       }
+        users: () => Relay.QL`
+            fragment on User @relay(plural:true) {
+                ${UserList.getFragment('users')}
+            }
     `,
     },
 });
 
-class QueryConfig extends Relay.Route {
-    static routeName = 'UsersListRoute';
-    static prepareParams = routeConfigParamsBuilder;
-    static queries = {
-        viewer: (Component) =>
-            Relay.QL`
+export const UserListPageComponent = createRelayRenderer(
+    Relay.createContainer(
+        props => <UserListPage users={props.viewer.users} />,
+        {
+            fragments: {
+                viewer: () => Relay.QL`
+                    fragment on Viewer {
+                        users {
+                            ${UserListPage.getFragment('users')}
+                        }
+                    }
+        `,
+            },
+        }),
+
+    props => ({
+        queries: {
+            viewer: (Component) =>
+                Relay.QL`
                      query {
                         viewer(token:$token) {
-                            ${Component.getFragment('users')}                                        
+                            ${Component.getFragment('viewer')},
                         }
                      }
         `,
-    };
-}
-
-export const UserListPageComponent = createRelayRenderer(UserListPage, QueryConfig);
-
+        },
+        params: {
+            token: getAuthTokenUsedByRelay()
+        },
+        name: 'ViewerProfileRoute',
+    })
+);

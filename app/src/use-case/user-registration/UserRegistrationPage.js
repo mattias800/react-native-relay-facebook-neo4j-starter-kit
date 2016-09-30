@@ -8,6 +8,7 @@ import {UserRegistration} from "./components/UserRegistration";
 import {UpdateUserMutation} from "../../mutations/users/UpdateUserMutation";
 import {getCurrentUserId, getAuthTokenUsedByRelay} from "../../network/RelayNetworkConfig";
 import {ProgressOverlay} from "../../common/ui/progress/ProgressOverlay";
+import {showMainAppScreen} from "../../bootstraps/MainBootstrap";
 
 class UserRegistrationPage extends React.Component {
 
@@ -52,9 +53,9 @@ class UserRegistrationPage extends React.Component {
             onSuccess: response => {
                 this.setState({
                     saveSuccess: true,
-                    progressText: "Done!"
+                    progressText: null
                 });
-                setTimeout(() => this.setState({saveInProgress: false}), 3000);
+                setTimeout(() => showMainAppScreen(), 3000);
 
                 console.log("SUCCESS!");
                 console.log(response);

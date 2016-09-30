@@ -21,7 +21,10 @@ export const ProgressOverlay = React.createClass({
     }),
 
     render() {
-        const {text, success, show, fail} = this.props;
+        let {text, success, show, fail} = this.props;
+        if (success) {
+            fail = false;
+        }
         return (
             <FadeView show={show}
                       opacity={0.7}
