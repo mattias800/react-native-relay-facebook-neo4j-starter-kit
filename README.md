@@ -7,16 +7,19 @@ All frameworks used support Android, so if anyone wants to make it work on Andro
 
 ### App
 * React Native
-* Relay
-* react-native-navigation
-* react-native-fbsdk
-* react-native-elements
+* Relay (`react-relay`, `babel-relay-plugin`)
+* `react-native-navigation`
+* Integration with Facebook (`react-native-fbsdk`)
+* Integration with Account Kit (`react-native-facebook-account-kit`)
+* `react-native-elements`
+* Animations (`react-motion`)
 
 ### Backend
-* Node
-* Express
-* GraphQL
-* Neo4j
+* Node (`nodemon`, `babel-node`)
+* Express (`express`)
+* JWT (`express-jwt`)
+* GraphQL (`graphql`, `express-graphql`, `graphql-relay`)
+* Neo4j (`neo4j`)
 
 ## What it shows
 
@@ -29,19 +32,26 @@ It demonstrates a couple of things.
 * How to use Relay with React Native
 * How to use react-native-navigation with Relay
 * How to send props down to component through Relay.renderer
-* How to use Relay @plural annotation
+* How to use Relay `@plural` annotation
+* How to implement node interface (not NodeJS) in GraphQL schema for Relay compatibility
+* Hot do do mutations with Relay
 * How to do per request authentication in GraphQL requests
 * How to generate GraphQL schema and include it in Babel when compiling the app
+* How to use Account Kit with React Native
+* How to do animations with `react-motion` (but there are of course other options as well)
 
 ## The app
 
-The app allows you to login using Facebook.
+The app allows you to login using Facebook or Account Kit.
 After authentication with Facebook, the users token is sent to backend which
 validates the user.
 It does this by checking if user has been validated with that token before.
 If not, it fetches the profile from Facebook and checks if there is a user with that email.
 If not, a new user is created.
 The resulting user is returned.
+
+If the user logs in with phone number or e-mail (using Account Kit), then the user is taken to a registration
+screen where the user has to enter first name, last name and e-mail.
 
 The app then shows two views. The users profile, and a list of all users.
 You can press these users to open up their profile.
@@ -132,6 +142,11 @@ For more info, see https://github.com/facebook/react-native-fbsdk
 Setup Facebook app id and app name according to Facebooks documentation.
 This is done in the info.plist file.
 The current config is for my test app, which you don't have access to, so login will fail.
+
+#### Setup Account Kit
+
+Set app id for AK in info.plist as well.
+See documentation here: https://github.com/underscopeio/react-native-facebook-account-kit
 
 ### 5. Start app
 
