@@ -3,6 +3,7 @@ import {GraphQLObjectType, GraphQLString, GraphQLList} from "graphql";
 import {UserType} from "./delivery/graphql/schema/types/UserType";
 import {User} from "./entities/User";
 import * as UserService from "./persistence/service/UserService";
+import {fromGlobalId} from "graphql-relay/lib/node/node";
 
 export const ViewerType = new GraphQLObjectType({
     name: "Viewer",
@@ -12,7 +13,7 @@ export const ViewerType = new GraphQLObjectType({
         user: {
             type: UserType,
             args: {id: {type: GraphQLString}},
-            resolve: ({actor}, {id}) => User.getById(actor, id)
+            resolve: ({actor}, {id}) => User.getById(actor, fromGlobalId(id).id)
         },
         userByEmail: {
             type: UserType,

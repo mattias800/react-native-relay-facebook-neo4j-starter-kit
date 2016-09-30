@@ -37,7 +37,8 @@ UserListPage = Relay.createContainer(UserListPage, {
 
 export const UserListPageComponent = createRelayRenderer(
     Relay.createContainer(
-        props => <UserListPage users={props.viewer.users} />,
+        props => <UserListPage users={props.viewer.users}
+                               navigator={props.navigator} />,
         {
             fragments: {
                 viewer: () => Relay.QL`
