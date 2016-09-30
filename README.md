@@ -2,7 +2,17 @@
 
 This is a starter kit that shows how a couple of frameworks can run together.
 
+The main showcase here is GraphQL and Relay. There is no Redux.
+
+The only state that is stored outside of Relay is a session object which contains a user object with an auth token. 
+It is stored manually in AsyncStorage.
+
+The only communication that is not over GraphQL is authentication, which is a normal REST endpoint.
+
+#### iOS only, Android possible but not implemented
+
 This was developed on iOS. 
+
 All frameworks used support Android, so if anyone wants to make it work on Android, feel free to make a pull request.
 
 ### App
@@ -20,6 +30,7 @@ All frameworks used support Android, so if anyone wants to make it work on Andro
 * JWT (`express-jwt`)
 * GraphQL (`graphql`, `express-graphql`, `graphql-relay`)
 * Neo4j (`neo4j`)
+* Flowtype
 
 ## What it shows
 
@@ -39,6 +50,7 @@ It demonstrates a couple of things.
 * How to generate GraphQL schema and include it in Babel when compiling the app
 * How to use Account Kit with React Native
 * How to do animations with `react-motion` (but there are of course other options as well)
+* How to use Flowtype to add typing to Javascript
 
 ## The app
 
@@ -78,6 +90,27 @@ GraphQL queries are structured as following.
 ```
 
 All fragments under viewer needs a correct token to be provided.
+
+#### With one exception, the node interface
+
+The node interface is a part of the GraphQL schema that can fetch any object, of any type.
+This is needed by Relay.
+
+```
+{
+    node(id: ".....") {
+        id,
+        ... on User {
+            firstName,
+            lastName
+        }
+    }
+}
+```
+
+The node interface does not require authentication, by specification.
+
+Authentication could be handled by moving it to request parameters instead, but this has not been done.
 
 ## Graphiql
 
