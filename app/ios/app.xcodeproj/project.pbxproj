@@ -25,6 +25,7 @@
 		140ED2AC1D01E1AD002B40FF /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		146834051AC3E58100842450 /* libReact.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 146834041AC3E56700842450 /* libReact.a */; };
 		446F7FF1D3D84BA29BAB5EDD /* MaterialIcons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 1AFF2181DEA84539B712EEED /* MaterialIcons.ttf */; };
+		5B50E3F32F634207B5BD9963 /* libRNSpinkit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = A49BE57E129A43CCA6BBA05C /* libRNSpinkit.a */; };
 		7BF84019955E497FBAE8E798 /* libRNAccountKit.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 4D000782D467490485EA301C /* libRNAccountKit.a */; };
 		7D880A9DE9A74905B423751D /* FontAwesome.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 21C18CC659FD42AE9F70247A /* FontAwesome.ttf */; };
 		832341BD1AAA6AB300B99B32 /* libRCTText.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 832341B51AAA6A8300B99B32 /* libRCTText.a */; };
@@ -127,6 +128,13 @@
 			remoteGlobalIDString = D2C7C6901CD1552900C9B392;
 			remoteInfo = RNAccountKit;
 		};
+		FE2176A21D9E8036009DB5E2 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = FFBDF0A888A74F95A4429146 /* RNSpinkit.xcodeproj */;
+			proxyType = 2;
+			remoteGlobalIDString = D42CB3511B2538DE00FD0AE2;
+			remoteInfo = RNSpinkit;
+		};
 		FE671DEB1D8AED3400CDE5F5 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = C3906A9F022949E4BD38FC4F /* RCTFBSDK.xcodeproj */;
@@ -185,6 +193,7 @@
 		89B6AB23E14C40638C5DCBAB /* RNVectorIcons.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNVectorIcons.xcodeproj; path = "../node_modules/react-native-vector-icons/RNVectorIcons.xcodeproj"; sourceTree = "<group>"; };
 		9A0536AC758C4C93B966A88E /* RNAccountKit.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNAccountKit.xcodeproj; path = "../node_modules/react-native-facebook-account-kit/ios/RNAccountKit.xcodeproj"; sourceTree = "<group>"; };
 		9B697F77D79A4B6797351D61 /* libRCTFBSDK.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRCTFBSDK.a; sourceTree = "<group>"; };
+		A49BE57E129A43CCA6BBA05C /* libRNSpinkit.a */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = archive.ar; path = libRNSpinkit.a; sourceTree = "<group>"; };
 		C3906A9F022949E4BD38FC4F /* RCTFBSDK.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTFBSDK.xcodeproj; path = "../node_modules/react-native-fbsdk/ios/RCTFBSDK.xcodeproj"; sourceTree = "<group>"; };
 		FE2176801D95542D009DB5E2 /* AccountKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AccountKit.framework; sourceTree = "<group>"; };
 		FE2176811D95542D009DB5E2 /* AccountKitStrings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AccountKitStrings.bundle; sourceTree = "<group>"; };
@@ -193,6 +202,7 @@
 		FE671DF91D8AEDC400CDE5F5 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKShareKit.framework; path = ../../../../Documents/FacebookSDK/FBSDKShareKit.framework; sourceTree = "<group>"; };
 		FE671E181D8B190900CDE5F5 /* app.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; name = app.entitlements; path = app/app.entitlements; sourceTree = "<group>"; };
 		FE671E191D8EBCEA00CDE5F5 /* ReactNativeControllers.xcodeproj */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.pb-project"; name = ReactNativeControllers.xcodeproj; path = "../node_modules/react-native-controllers/ios/ReactNativeControllers.xcodeproj"; sourceTree = "<group>"; };
+		FFBDF0A888A74F95A4429146 /* RNSpinkit.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RNSpinkit.xcodeproj; path = "../node_modules/react-native-spinkit/ios/RNSpinkit.xcodeproj"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -226,6 +236,7 @@
 				FE2176821D95542D009DB5E2 /* AccountKit.framework in Frameworks */,
 				C09F0D4F618B467A8E662BE3 /* libRNVectorIcons.a in Frameworks */,
 				7BF84019955E497FBAE8E798 /* libRNAccountKit.a in Frameworks */,
+				5B50E3F32F634207B5BD9963 /* libRNSpinkit.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -368,6 +379,7 @@
 				C3906A9F022949E4BD38FC4F /* RCTFBSDK.xcodeproj */,
 				89B6AB23E14C40638C5DCBAB /* RNVectorIcons.xcodeproj */,
 				9A0536AC758C4C93B966A88E /* RNAccountKit.xcodeproj */,
+				FFBDF0A888A74F95A4429146 /* RNSpinkit.xcodeproj */,
 			);
 			name = Libraries;
 			sourceTree = "<group>";
@@ -407,6 +419,14 @@
 			isa = PBXGroup;
 			children = (
 				FE21767E1D9553C7009DB5E2 /* libRNAccountKit.a */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		FE2176921D9E8036009DB5E2 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				FE2176A31D9E8036009DB5E2 /* libRNSpinkit.a */,
 			);
 			name = Products;
 			sourceTree = "<group>";
@@ -574,6 +594,10 @@
 					ProjectRef = 9A0536AC758C4C93B966A88E /* RNAccountKit.xcodeproj */;
 				},
 				{
+					ProductGroup = FE2176921D9E8036009DB5E2 /* Products */;
+					ProjectRef = FFBDF0A888A74F95A4429146 /* RNSpinkit.xcodeproj */;
+				},
+				{
 					ProductGroup = FE671E081D8AFAC500CDE5F5 /* Products */;
 					ProjectRef = 89B6AB23E14C40638C5DCBAB /* RNVectorIcons.xcodeproj */;
 				},
@@ -662,6 +686,13 @@
 			fileType = archive.ar;
 			path = libRNAccountKit.a;
 			remoteRef = FE21767D1D9553C7009DB5E2 /* PBXContainerItemProxy */;
+			sourceTree = BUILT_PRODUCTS_DIR;
+		};
+		FE2176A31D9E8036009DB5E2 /* libRNSpinkit.a */ = {
+			isa = PBXReferenceProxy;
+			fileType = archive.ar;
+			path = libRNSpinkit.a;
+			remoteRef = FE2176A21D9E8036009DB5E2 /* PBXContainerItemProxy */;
 			sourceTree = BUILT_PRODUCTS_DIR;
 		};
 		FE671DEC1D8AED3400CDE5F5 /* libRCTFBSDK.a */ = {
@@ -789,6 +820,7 @@
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 				);
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/app.app/app";
@@ -805,6 +837,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				LIBRARY_SEARCH_PATHS = (
 					"$(inherited)",
+					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
 					"\"$(SRCROOT)/$(TARGET_NAME)\"",
@@ -833,6 +866,7 @@
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-controllers/ios",
 					"$(SRCROOT)/../node_modules/react-native-facebook-account-kit/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-spinkit/ios/**",
 				);
 				INFOPLIST_FILE = app/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -863,6 +897,7 @@
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-controllers/ios",
 					"$(SRCROOT)/../node_modules/react-native-facebook-account-kit/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-spinkit/ios/**",
 				);
 				INFOPLIST_FILE = app/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
@@ -916,6 +951,7 @@
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-facebook-account-kit/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-spinkit/ios/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = YES;
@@ -959,6 +995,7 @@
 					"$(SRCROOT)/../node_modules/react-native-fbsdk/ios/RCTFBSDK/**",
 					"$(SRCROOT)/../node_modules/react-native-vector-icons/RNVectorIconsManager",
 					"$(SRCROOT)/../node_modules/react-native-facebook-account-kit/ios/**",
+					"$(SRCROOT)/../node_modules/react-native-spinkit/ios/**",
 				);
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				MTL_ENABLE_DEBUG_INFO = NO;

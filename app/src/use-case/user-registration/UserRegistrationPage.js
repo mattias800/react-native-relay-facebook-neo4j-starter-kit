@@ -7,20 +7,22 @@ import {createRelayRenderer} from "../../common/util/RelayFactory";
 import {UserRegistration} from "./components/UserRegistration";
 import {UpdateUserMutation} from "../../mutations/users/UpdateUserMutation";
 import {getCurrentUserId, getAuthTokenUsedByRelay} from "../../network/RelayNetworkConfig";
+import {ProgressOverlay} from "../../common/ui/progress/ProgressOverlay";
 
 class UserRegistrationPage extends React.Component {
 
     render() {
         const {user} = this.props;
-        console.log("user.-----------------");
-        console.log(user);
-        console.log(user.id);
-        console.log(user.firstName);
-        console.log(user.lastName);
-
         return (
-            <UserRegistration user={user}
-                              onSubmit={(model) => this.submit(model) } />
+            <View style={{flex:1}}>
+                <UserRegistration user={user}
+                                  onSubmit={(model) => this.submit(model) } />
+
+                <ProgressOverlay show={this.state && this.state.saveInProgress}
+                                 fail={this.state && this.state.saveFailed}
+                                 success={this.state && this.state.saveSuccess}
+                                 text={this.state && this.state.progressText} />
+            </View>
         );
     }
 
@@ -38,14 +40,32 @@ class UserRegistrationPage extends React.Component {
         console.log("data");
         console.log(data);
 
+        this.setState({
+            saveInProgress: true,
+            saveSuccess: false,
+            saveError: false,
+            progressText: "Saving your information..."
+        });
 
         let mutation = new UpdateUserMutation(data);
         this.props.relay.commitUpdate(mutation, {
             onSuccess: response => {
+                this.setState({
+                    saveSuccess: true,
+                    progressText: "Done!"
+                });
+                setTimeout(() => this.setState({saveInProgress: false}), 3000);
+
                 console.log("SUCCESS!");
                 console.log(response);
             },
             onFailure: (transaction) => {
+                this.setState({
+                    saveFailed: true,
+                    progressText: "Unable to save your information, please try again."
+                });
+
+                setTimeout(() => this.setState({saveInProgress: false}), 3000);
                 console.log("FAIL!");
                 console.log(transaction.getError());
 

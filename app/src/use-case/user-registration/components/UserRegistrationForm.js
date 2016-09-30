@@ -1,14 +1,8 @@
 /* @flow */
 
 import React from "react";
-import {
-    AppRegistry,
-    StyleSheet,
-    TouchableHighlight,
-    Text,
-    View
-} from 'react-native';
-import {Button, FormLabel, FormInput} from 'react-native-elements'
+import {AppRegistry, StyleSheet, TouchableHighlight, Text, View} from "react-native";
+import {Button} from "react-native-elements";
 import * as FormTypes from "../../../common/form/validation/FormTypes";
 var t = require('tcomb-form-native');
 
@@ -19,7 +13,7 @@ export class UserRegistrationForm extends React.Component {
 
     onSubmit() {
         // call getValue() to get the values of the form
-        var value = this.refs.form.getValue();
+        const value = this.refs.form.getValue();
         if (value) { // if validation fails, value will be null
             console.log(value); // value here is an instance of UserRegistrationFormModel
             this.props.onSubmit(value);
@@ -32,13 +26,13 @@ export class UserRegistrationForm extends React.Component {
         const {user} = this.props;
         const {id, firstName, lastName, email, profilePhotoUrl} = user;
 
-        var UserRegistrationFormModel = t.struct({
+        const UserRegistrationFormModel = t.struct({
             firstName: t.String,              // a required string
             lastName: t.String,  // an optional string
             email: FormTypes.Email
         });
 
-        var options = {
+        const options = {
             fields: {
                 firstName: {
                     placeholder: 'Enter your first name.',

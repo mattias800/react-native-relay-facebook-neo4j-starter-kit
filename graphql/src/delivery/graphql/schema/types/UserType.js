@@ -2,11 +2,12 @@
 import {GraphQLInputObjectType, GraphQLObjectType, GraphQLString, GraphQLList} from "graphql";
 import {UserIdType, EmailType, AuthTokenType} from "../types";
 import {User} from "../../../../entities/User";
-import {getUserByAuthToken, getUserById, getFriendsFor} from "../../../../persistence/service/UserService";
+import {getUserById, getFriendsFor} from "../../../../persistence/service/UserService";
 import {registerType} from "../../../../type-registry/registry";
 import {nodeInterface} from "../../../../NodeField";
 import {globalIdField} from "graphql-relay";
 import {fromGlobalId} from "graphql-relay/lib/node/node";
+import {validateToken} from "../../../../services/Authenticator";
 
 export const UserType = new GraphQLObjectType({
     name: "User",
@@ -52,15 +53,10 @@ export const updateUserMutation = {
     name: "UpdateUserMutation",
     type: UserMutationPayload,
     args: {input: {type: UserMutationInputType}},
-    resolve: async(root, {input}) => {
-        console.log("RESOLVE IT!");
+    resolve: async(root, args) => {
+        const {id, token} = args.input;
 
-        const {id, token} = input;
-        const viewer = await getUserByAuthToken(token);
-
-        if (!viewer) {
-            throw "Invalid access token";
-        }
+        const viewer = await validateToken(token);
 
         const user = await User.getById(viewer, fromGlobalId(id).id);
 
