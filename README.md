@@ -46,8 +46,9 @@ It demonstrates a couple of things.
 * How to send props down to component through Relay.renderer
 * How to use Relay `@plural` annotation
 * How to implement node interface (not NodeJS) in GraphQL schema for Relay compatibility
-* Hot to do mutations with Relay, and making a GraphQL schema that complies with Relay requirements for mutations
-* How to do per request authentication in GraphQL requests
+* Hot to do mutations with Relay
+* How to make a GraphQL schema that complies with Relay requirements for mutations
+* How to do per request authentication in GraphQL requests, using JWT
 * How to generate GraphQL schema and include it in Babel when compiling the app
 * How to use Account Kit with React Native
 * How to do animations with `react-motion` (but there are of course other options as well)
