@@ -1,27 +1,23 @@
 /* @flow */
 
 import React from "react";
-import {
-    AppRegistry,
-    StyleSheet,
-    Text,
-    View
-} from 'react-native';
+import {AppRegistry, StyleSheet, Text, View} from "react-native";
 
 export const Cell = React.createClass({
 
     propTypes: {
-        justifyContent: React.PropTypes.string,
-        alignItems: React.PropTypes.string,
-        alignSelf: React.PropTypes.string,
+        paddingLeft: React.PropTypes.number,
+        paddingRight: React.PropTypes.number,
+        paddingTop: React.PropTypes.number,
+        paddingBottom: React.PropTypes.number,
         backgroundColor: React.PropTypes.string,
         style: React.PropTypes.object
     },
 
     render() {
-        const {children, justifyContent, alignItems, backgroundColor, style} = this.props;
+        const {children, paddingLeft, paddingRight, paddingTop, paddingBottom, backgroundColor, style} = this.props;
         return (
-            <View style={{...containerStyle, justifyContent, alignItems, backgroundColor, ...style}}>
+            <View style={{...containerStyle, paddingLeft, paddingRight, paddingTop, paddingBottom, backgroundColor, ...style}}>
                 {children}
             </View>
         );
@@ -29,7 +25,4 @@ export const Cell = React.createClass({
 
 });
 
-const containerStyle = {
-    flex: 1,
-    flexDirection: "row"
-};
+const containerStyle = {};

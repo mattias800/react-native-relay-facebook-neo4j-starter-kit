@@ -25,9 +25,10 @@ class UserProfilePage extends React.Component {
 
 UserProfilePage = Relay.createContainer(UserProfilePage, {
     fragments: {
-        user: () => Relay.QL`
+        user: (params) => Relay.QL`
             fragment on User {
-                ${UserProfile.getFragment('user')}
+                id,
+                ${UserProfile.getFragment('user', params)}
             }
     `,
     },
@@ -42,10 +43,10 @@ export const UserProfilePageComponent = createRelayRenderer(
                 userId: null
             },
             fragments: {
-                viewer: () => Relay.QL`
+                viewer: (params) => Relay.QL`
                     fragment on Viewer {
                         user(id: $userId) {
-                            ${UserProfile.getFragment('user')}
+                            ${UserProfile.getFragment('user', params)}
                         }
                     }`,
             },

@@ -1,4 +1,4 @@
-import {Navigation} from 'react-native-navigation';
+import {Navigation} from "react-native-navigation";
 
 export function showMainAppScreen() {
     Navigation.startTabBasedApp({
@@ -7,6 +7,8 @@ export function showMainAppScreen() {
                 label: 'Users',
                 screen: 'example.UserListScreen',
                 title: 'Users',
+                icon: require('./tab-menu/people.png'), // local image asset for the tab icon unselected state (optional on iOS)
+                //selectedIcon: require('../img/one_selected.png'), // local image asset for the tab icon selected state (optional, iOS only. On Android, Use `tabBarSelectedButtonColor` instead)
                 navigatorStyle: {
                     navBarBackgroundColor: '#4dbce9',
                     navBarTextColor: '#ffff00',
@@ -22,6 +24,7 @@ export function showMainAppScreen() {
                 label: 'Me',
                 screen: 'example.ViewerProfileScreen',
                 title: 'Me',
+                icon: require('./tab-menu/profile.png'), // local image asset for the tab icon unselected state (optional on iOS)
                 navigatorStyle: {
                     navBarHidden: true,
                     tabBarBackgroundColor: '#4dbce9',

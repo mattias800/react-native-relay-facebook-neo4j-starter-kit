@@ -1,11 +1,13 @@
 /* @flow */
 
 import React from "react";
-import {AppRegistry, StyleSheet, Text, View, ActivityIndicator} from "react-native";
+import {AppRegistry, StyleSheet, Text, View, ActivityIndicator, TouchableHighlight} from "react-native";
 import {Button} from "react-native-elements";
-import {loginUsingFacebook} from "../../../services/LoginService";
-import {loginUsingSms} from "../../../services/LoginService";
-import {loginUsingEmail} from "../../../services/LoginService";
+import {loginUsingFacebook, loginUsingSms, loginUsingEmail} from "../../../services/LoginService";
+import {serviceColors} from "../../../common/ui/colors/ServiceColors";
+import {Column} from "../../../common/ui/Column";
+import {Cell} from "../../../common/ui/Cell";
+
 const FBSDK = require('react-native-fbsdk');
 const {
     LoginButton,
@@ -30,7 +32,6 @@ const LoginForm = React.createClass({
 
         return (
             <View style={containerStyle}>
-
                 {
                     fetching ?
                         <View>
@@ -38,20 +39,30 @@ const LoginForm = React.createClass({
                             <Text>Signing in...</Text>
                         </View>
                         :
-                        <View>
-                            <Button raised
+                        <Column>
+                            <Cell paddingBottom={10}>
+                                <View style={centeredTextContainer}>
+                                    <Text style={textStyle}>Sign up or log in with</Text>
+                                </View>
+                            </Cell>
+                            <Button small
+                                    backgroundColor={serviceColors.facebook}
                                     icon={{name: 'facebook',  type: 'font-awesome'}}
-                                    title='LOGIN WITH FACEBOOK'
+                                    title='Facebook'
                                     onPress={() => this.loginWithService(loginUsingFacebook)} />
-                            <Button raised
-                                    icon={{name: 'phone',  type: 'font-awesome'}}
-                                    title='LOGIN WITH SMS'
-                                    onPress={() => this.loginWithService(loginUsingSms)} />
-                            <Button raised
-                                    icon={{name: 'envelope',  type: 'font-awesome'}}
-                                    title='LOGIN WITH EMAIL'
-                                    onPress={() => this.loginWithService(loginUsingEmail)} />
-                        </View>
+                            <Button
+                                small
+                                icon={{name: 'phone',  type: 'font-awesome'}}
+                                backgroundColor="#489848"
+                                title='Mobile number'
+                                onPress={() => this.loginWithService(loginUsingSms)} />
+                            <Cell paddingTop={10}>
+                                <View style={centeredTextContainer}>
+                                    <Text style={textStyle}>Or log in or sign up </Text><Text style={{...textStyle, ...emailLink}}
+                                                                                              onPress={() => this.loginWithService(loginUsingEmail)}>via e-mail</Text>
+                                </View>
+                            </Cell>
+                        </Column>
                 }
             </View>
         );
@@ -75,11 +86,28 @@ const LoginForm = React.createClass({
 
 });
 
+const textStyle = {
+    fontSize: 12,
+    color: "#999999"
+};
 
 const containerStyle = {
     flex: 1,
+    flexDirection: "row",
     alignItems: "center",
     justifyContent: "center",
+    paddingLeft: 20,
+    paddingRight: 20
+};
+
+const centeredTextContainer = {
+    flex: 1,
+    flexDirection: "row",
+    justifyContent: "center",
+};
+
+const emailLink = {
+    color: "#44cc44"
 };
 
 export default LoginForm;

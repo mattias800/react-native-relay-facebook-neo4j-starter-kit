@@ -17,6 +17,9 @@ export async function clearSession(token: string) {
 }
 
 function validateSession(session) {
+    if (!session) {
+        return undefined;
+    }
     const {token, currentUserId, user} = session;
     if (token && currentUserId && user) {
         return session;
