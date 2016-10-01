@@ -8,22 +8,25 @@ export async function getSession() {
     return validateSession(session);
 }
 
-export async function setSession(token: string, currentUserId: string, user: Object) {
-    return await AsyncStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify({token, currentUserId, user}));
+export async function setSession(sessionObjectFromServer) {
+    console.log("Storing session in storage.");
+    console.log(sessionObjectFromServer);
+    return await AsyncStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(sessionObjectFromServer));
 }
 
-export async function clearSession(token: string) {
+export async function clearSession() {
     return await AsyncStorage.removeItem(SESSION_STORAGE_KEY);
 }
 
 function validateSession(session) {
-    if (!session) {
-        return undefined;
-    }
-    const {token, currentUserId, user} = session;
-    if (token && currentUserId && user) {
+    console.log("Validating session");
+    console.log(session);
+
+    if (session && session.user && session.user.token) {
+        console.log("Session OK!");
         return session;
     } else {
+        console.log("Invalid session");
         return undefined;
     }
 }

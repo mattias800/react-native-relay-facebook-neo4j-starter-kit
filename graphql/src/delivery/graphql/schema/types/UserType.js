@@ -8,6 +8,7 @@ import {nodeInterface} from "../../../../NodeField";
 import {globalIdField} from "graphql-relay";
 import {fromGlobalId} from "graphql-relay/lib/node/node";
 import {validateToken} from "../../../../services/Authenticator";
+import {GraphQLBoolean} from "graphql/type/scalars";
 
 export const UserType = new GraphQLObjectType({
     name: "User",
@@ -21,6 +22,10 @@ export const UserType = new GraphQLObjectType({
         firstName: {type: GraphQLString},
         lastName: {type: GraphQLString},
         profilePhotoUrl: {type: GraphQLString},
+        isCompleteProfile: {
+            type: GraphQLBoolean,
+            resolve: user => user.isCompleteProfile()
+        },
         friends: {
             type: new GraphQLList(UserType),
             resolve: (user => getFriendsFor(user))

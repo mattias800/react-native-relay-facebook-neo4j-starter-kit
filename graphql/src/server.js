@@ -25,7 +25,10 @@ function startServer() {
         const {service, payload} = req.body;
         try {
             const user = await authenticateOrCreateUserByPayload(service, payload);
-            res.send(user);
+            res.send({
+                user,
+                isCompleteProfile: user.isCompleteProfile()
+            });
         } catch (e) {
             console.log("Error!");
 

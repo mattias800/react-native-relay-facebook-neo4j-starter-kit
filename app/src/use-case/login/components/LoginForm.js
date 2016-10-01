@@ -3,7 +3,7 @@
 import React from "react";
 import {AppRegistry, StyleSheet, Text, View, ActivityIndicator, TouchableHighlight} from "react-native";
 import {Button} from "react-native-elements";
-import {loginUsingFacebook, loginUsingSms, loginUsingEmail} from "../../../services/LoginService";
+import {loginUsingFacebook, loginUsingSms, loginUsingEmail, whenLoggedIn} from "../../../services/LoginService";
 import {serviceColors} from "../../../common/ui/colors/ServiceColors";
 import {Column} from "../../../common/ui/Column";
 import {Cell} from "../../../common/ui/Cell";
@@ -16,9 +16,7 @@ const {
 
 const LoginForm = React.createClass({
 
-    propTypes: {
-        onLogin: React.PropTypes.func.isRequired
-    },
+    propTypes: {},
 
     getInitialState() {
         return {
@@ -72,9 +70,9 @@ const LoginForm = React.createClass({
         const {onLogin} = this.props;
         this.setState({fetching: true});
         loginService()
-            .then(result => {
+            .then(sessionObjectFromServer => {
                 this.setState({fetching: false});
-                onLogin(result);
+                whenLoggedIn(sessionObjectFromServer);
             })
             .catch(e => {
                 this.setState({fetching: false});

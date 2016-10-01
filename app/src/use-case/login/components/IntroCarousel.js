@@ -3,6 +3,9 @@
 import React from "react";
 import {AppRegistry, StyleSheet, Text, Image, View, Dimensions} from "react-native";
 import Carousel from "react-native-carousel";
+import {SwipeToLearnMore} from "./SwipeToLearnMore";
+import {OsMenuPadding} from "../../../common/ui/OsMenuPadding";
+import {APP_TITLE} from "../../../config/AppTitle";
 
 export const IntroCarousel = React.createClass({
 
@@ -25,21 +28,34 @@ export const IntroCarousel = React.createClass({
                 <View style={pageContainer}>
                     <Image style={imageStyle}
                            resizeMode="cover"
-                           source={require("../images/autumn-pitbull.jpg")}>
-                        <Text>Page 1</Text>
+                           source={require("../images/sobaka.jpg")}>
+                        <OsMenuPadding />
+                        <View justifyContent="center"
+                              alignItems="center">
+
+                            <View alignItems="center"
+                                  marginBottom={20}>
+                                <Text style={logoStyle}>{APP_TITLE}</Text>
+                            </View>
+                            <View paddingTop={240}>
+                                <SwipeToLearnMore />
+                            </View>
+                        </View>
                     </Image>
                 </View>
                 <View style={pageContainer}>
                     <Image style={imageStyle}
                            resizeMode="cover"
                            source={require("../images/happy-dog.jpg")}>
+                        <OsMenuPadding />
                         <Text>Page 2</Text>
                     </Image>
                 </View>
                 <View style={pageContainer}>
                     <Image style={imageStyle}
                            resizeMode="cover"
-                           source={require("../images/sobaka.jpg")}>
+                           source={require("../images/autumn-pitbull.jpg")}>
+                        <OsMenuPadding />
                         <Text>Page 3</Text>
                     </Image>
                 </View>
@@ -75,3 +91,16 @@ const imageStyle = {
     height: Dimensions.get('window').height,
 };
 
+const logoStyle = {
+    color: "#ffffff",
+    fontSize: 70,
+    fontFamily: "Cochin",
+    textShadowRadius: 5,
+    textShadowColor: "#000000",
+    textShadowOffset: {
+        height: 2,
+        width: 2
+    },
+    padding: 20,
+    paddingTop: 30
+};

@@ -6,6 +6,7 @@ import * as SessionStorage from "../system/SessionStorage";
 import {setRelaySession} from "../network/RelayNetworkConfig";
 import {showMainAppScreen} from "../bootstraps/MainBootstrap";
 import {showRegistrationScreen} from "../bootstraps/RegistrationPageBootstrap";
+import {showLoginScreen} from "../bootstraps/LoginPageBootstrap";
 
 export function loginUsingFacebook() {
     return loginUsingService(loginWithFacebook, "facebook", result => ({token: result.token.accessToken}));
@@ -28,19 +29,19 @@ function loginUsingService(loginFunction: Function, serviceName: string, payload
             return serviceUser;
         })
         .then(result => authenticateWithBackend(serviceName, payloadTransformer(result)))
-        .then(async user => {
-            await SessionStorage.setSession(user.token, user.id, user);
-            return user;
+        .then(async serverResponse => {
+            await SessionStorage.setSession(serverResponse);
+            return serverResponse;
         });
 }
 
 export function authenticateWithBackend(service: string, payload: Object) {
     console.log("Authenticating with backend");
     return postJson("/authenticate", {service, payload})
-        .then(r => {
+        .then(serverResponse => {
             console.log("Authenticated with backend!");
-            console.log(r);
-            return r;
+            console.log(serverResponse);
+            return serverResponse;
         });
 }
 
@@ -49,11 +50,19 @@ export function loadSessionIntoClients(token: string, userId: string) {
     setRelaySession(token, userId);
 }
 
-export function whenLoggedIn(user: Object, token: string, userId: string) {
-    loadSessionIntoClients(token, userId);
-    if (user.completeProfile) {
-        showMainAppScreen()
-    } else {
-        showRegistrationScreen();
+export function whenLoggedIn(serverResponse) {
+    try {
+        const {user, isCompleteProfile} = serverResponse;
+        loadSessionIntoClients(user.token, user.id);
+        if (isCompleteProfile) {
+            showMainAppScreen()
+        } else {
+            showRegistrationScreen();
+        }
+    } catch (e) {
+        console.log("Error when logging in");
+        console.log(e);
+        SessionStorage.clearSession();
+        showLoginScreen();
     }
 }

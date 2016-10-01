@@ -17,12 +17,7 @@ async function bootApp() {
     console.log("Booting app.");
 
     if (session) {
-        const {token, currentUserId, user} = session;
-        console.log("user", user);
-        console.log("token", token);
-        console.log("currentUserId", currentUserId);
-
-        whenLoggedIn(user, token, currentUserId);
+        whenLoggedIn(session);
     } else {
         showLoginScreen();
     }
