@@ -92,13 +92,21 @@ export async function getUserByAuthToken(token: string): Promise<User> {
 }
 
 export async function getFriendsFor(user: User): Promise<Array<User>> {
-    const {entityId} = user;
+    const {id} = user;
     return Observable
-        .fromPromise(cypher("MATCH (u:User {uuid:{entityId}})-[:IS_FRIENDS_WITH]->(friend:User) return friend;", {entityId}))
+        .fromPromise(cypher("MATCH (u:User {uuid:{id}})-[:IS_FRIENDS_WITH]->(friend:User) return friend;", {id}))
         .flatMap(Observable.from)
         .map(result => result.friend)
         .map(User.createFromEntity)
         .toArray()
+        .toPromise();
+}
+
+export async function getNumFriendsFor(user: User): Promise<Array<boolean>> {
+    const {id} = user;
+    return Observable
+        .fromPromise(cypher("MATCH (u:User {uuid:{id}})-[:IS_FRIENDS_WITH]->(friend:User) return count(friend);", {id}))
+        .map(result => result[0]["count(friend)"])
         .toPromise();
 }
 
