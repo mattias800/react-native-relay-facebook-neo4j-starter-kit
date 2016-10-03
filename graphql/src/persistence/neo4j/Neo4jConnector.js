@@ -16,6 +16,8 @@ export const cypher = (query, params) => {
                 let end = new Date();
                 logQuery(start, end, query, params);
                 if (err) {
+                    console.warn("Query error.");
+                    console.warn(err);
                     reject(err);
                 } else {
                     resolve(results);
@@ -63,8 +65,14 @@ export const getAnyById = (id) => {
 function logQuery(start, end, query, params) {
     console.log(
         `--- DB-query ${end.getTime() - start.getTime()}ms
-${colors.magenta(query)}
+${colors.magenta(reformatQuery(query))}
 ${colors.yellow(JSON.stringify(params) || "")}`
     );
 }
 
+function reformatQuery(query) {
+    return query.split("\n")
+        .map(row => row.trim())
+        .filter(row => row.length > 0)
+        .join("\n");
+}

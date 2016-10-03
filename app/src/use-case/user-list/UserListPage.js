@@ -2,34 +2,67 @@
 
 import React from "react";
 import Relay from "react-relay";
-import {AppRegistry, StyleSheet, Text, View} from "react-native";
-import {UserList} from "./components/UserList";
+import {AppRegistry, StyleSheet, Text, View, ScrollView} from "react-native";
 import {createRelayRenderer} from "../../common/util/RelayFactory";
 import {getAuthTokenUsedByRelay} from "../../network/RelayNetworkConfig";
+import {List} from "react-native-elements";
+import {UserListItem} from "./components/UserLiteItem";
+import {linkColor} from "../../common/ui/colors/AppColors";
+
+const PAGE_SIZE = 2;
 
 class UserListPage extends React.Component {
 
     render() {
-        console.log("this.props-.-------------------");
-        console.log(this.props);
-        const {navigator} = this.props;
-        const {users} = this.props;
-
+        const {navigator, viewer} = this.props;
+        const users = viewer.users;
+        const hasNextPage = viewer.users.pageInfo.hasNextPage;
         return (
-            <View style={{flex:1}}>
-                <UserList users={users}
-                          navigator={navigator} />
-            </View>
+            <ScrollView style={{flex:1}}>
+                <List containerStyle={{marginBottom: 20}}>
+                    {
+                        users.edges.map(edge => <UserListItem key={edge.node.id}
+                                                              user={edge.node} />)
+                    }
+                </List>
+                {
+                    hasNextPage &&
+                    <View alignItems="center">
+                        <Text onPress={() => this.showMore()}
+                              style={{color:linkColor}}>Show more</Text>
+                    </View>
+                }
+            </ScrollView>
+
         );
+    }
+
+    showMore() {
+        this.props.relay.setVariables({
+            count: this.props.relay.variables.count + PAGE_SIZE
+        });
     }
 
 }
 
 UserListPage = Relay.createContainer(UserListPage, {
+    initialVariables: {
+        count: PAGE_SIZE
+    },
     fragments: {
-        users: () => Relay.QL`
-            fragment on User @relay(plural:true) {
-                ${UserList.getFragment('users')}
+        viewer: () => Relay.QL`
+            fragment on Viewer {
+                users(first: $count) {
+                    pageInfo {
+                        hasNextPage
+                    }
+                    edges {
+                        node {
+                            id
+                            ${UserListItem.getFragment('user')}
+                        }
+                    }
+                }
             }
     `,
     },
@@ -37,15 +70,13 @@ UserListPage = Relay.createContainer(UserListPage, {
 
 export const UserListPageComponent = createRelayRenderer(
     Relay.createContainer(
-        props => <UserListPage users={props.viewer.users}
+        props => <UserListPage viewer={props.viewer}
                                navigator={props.navigator} />,
         {
             fragments: {
                 viewer: () => Relay.QL`
                     fragment on Viewer {
-                        users {
-                            ${UserListPage.getFragment('users')}
-                        }
+                        ${UserListPage.getFragment('viewer')}
                     }
         `,
             },

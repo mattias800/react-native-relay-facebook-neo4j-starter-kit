@@ -3,6 +3,8 @@ schema {
   mutation: MutationRoot
 }
 
+scalar Cursor
+
 # Root mutation
 type MutationRoot {
   updateUser(input: UserMutationInputType): UserMutationPayload
@@ -14,19 +16,9 @@ interface Node {
   id: ID!
 }
 
-# Information about pagination in a connection.
 type PageInfo {
-  # When paginating forwards, are there more items?
   hasNextPage: Boolean!
-
-  # When paginating backwards, are there more items?
   hasPreviousPage: Boolean!
-
-  # When paginating backwards, the cursor to continue.
-  startCursor: String
-
-  # When paginating forwards, the cursor to continue.
-  endCursor: String
 }
 
 # Root query
@@ -53,25 +45,17 @@ type User implements Node {
   isCurrentUser: Boolean
   isFriend: Boolean
   numFriends: Int
-  friends: UserConnection
+  friends(after: String, first: Int, before: String, last: Int): UserConnection
 }
 
-# A connection to a list of items.
 type UserConnection {
-  # Information to aid in pagination.
-  pageInfo: PageInfo!
-
-  # A list of edges.
   edges: [UserEdge]
+  pageInfo: PageInfo!
 }
 
-# An edge in a connection.
 type UserEdge {
-  # The item at the end of the edge
+  cursor: Cursor
   node: User
-
-  # A cursor for use in pagination
-  cursor: String!
 }
 
 input UserMutationInputType {
@@ -93,7 +77,7 @@ type UserMutationPayload {
 type Viewer {
   user(id: String): User
   userByEmail(email: String): User
-  users: [User]
+  users(after: String, first: Int, before: String, last: Int): UserConnection
   incompleteUsers: [User]
   actor: User
 }

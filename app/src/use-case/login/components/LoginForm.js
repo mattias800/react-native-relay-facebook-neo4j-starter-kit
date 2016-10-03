@@ -7,6 +7,7 @@ import {loginUsingFacebook, loginUsingSms, loginUsingEmail, whenLoggedIn} from "
 import {serviceColors} from "../../../common/ui/colors/ServiceColors";
 import {Column} from "../../../common/ui/Column";
 import {Cell} from "../../../common/ui/Cell";
+import {linkColor} from "../../../common/ui/colors/AppColors";
 
 const FBSDK = require('react-native-fbsdk');
 const {
@@ -105,7 +106,7 @@ const centeredTextContainer = {
 };
 
 const emailLink = {
-    color: "#44cc44"
+    color: linkColor
 };
 
 export default LoginForm;

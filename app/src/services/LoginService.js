@@ -55,7 +55,7 @@ export function whenLoggedIn(serverResponse) {
         const {user, isCompleteProfile} = serverResponse;
         loadSessionIntoClients(user.token, user.id);
         if (isCompleteProfile) {
-            showMainAppScreen()
+            showMainAppScreen();
         } else {
             showRegistrationScreen();
         }

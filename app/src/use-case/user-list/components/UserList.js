@@ -1,57 +1,25 @@
 /* @flow */
 
 import React from "react";
-import Relay from 'react-relay';
-
-import {
-    AppRegistry,
-    StyleSheet,
-    Text,
-    View,
-    ScrollView
-} from 'react-native';
-
-import {List, ListItem} from 'react-native-elements'
+import Relay from "react-relay";
+import {AppRegistry, StyleSheet, Text, View, ScrollView} from "react-native";
+import {List} from "react-native-elements";
+import {UserListItem} from "./UserLiteItem";
 
 class UserListComponent extends React.Component {
 
     render() {
-        const {users} = this.props;
-        console.log("users");
-        console.log(users);
 
+        const {users} = this.props;
         return (
             <ScrollView>
                 <List containerStyle={{marginBottom: 20}}>
                     {
-                        console.log(users)
-                    }
-                    {
-                        users.map((user, i) => (
-                            <ListItem roundAvatar
-                                      avatar={user.profilePhotoUrl}
-                                      key={user.__dataID__}
-                                      title={`${user.firstName} ${user.lastName}`}
-                                      subtitle={user.email}
-                                      onPress={() => this.userPressed(user)} />
-                        ))
+                        users.map((edge, i) => (<UserListItem user={edge.node} />))
                     }
                 </List>
             </ScrollView>
         );
-    }
-
-    userPressed(user) {
-        console.log("click on user");
-        console.log(user);
-
-        this.props.navigator.push({
-            screen: 'example.UserProfileScreen',
-            title: `${user.firstName} ${user.lastName}`,
-            passProps: {
-                userId: user.id
-            }
-        });
     }
 
 }
@@ -59,13 +27,9 @@ class UserListComponent extends React.Component {
 export const UserList = Relay.createContainer(UserListComponent, {
     fragments: {
         users: () => Relay.QL`
-      fragment on User @relay(plural:true) {
-        id,
-        firstName,
-        lastName,
-        email,
-        profilePhotoUrl
-      }
+        fragment on User @relay(plural:true) {
+            ${UserListItem.getFragment('user')}
+        }
     `,
     },
 });

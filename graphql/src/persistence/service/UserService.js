@@ -6,6 +6,7 @@ import {FacebookAuthentication} from "../../entities/FacebookAuthentication";
 import {AccountKitAuthentication} from "../../entities/AccountKitAuthentication";
 import {Authentication} from "../../entities/Authentication";
 import {Observable} from "rx";
+import {getConnectionCustomMatchQuery, getConnectionMatchQuery} from "../util/QueryGenerator";
 
 export async function getAllUsers(): Promise<Array<User>> {
     return Observable.fromPromise(cypher("MATCH (user:User) return user"))
@@ -14,6 +15,42 @@ export async function getAllUsers(): Promise<Array<User>> {
         .map(User.createFromEntity)
         .toArray()
         .toPromise()
+}
+
+export async function getAllUsersConnection(connectionArguments: Object,
+                                            orderByProperty: "id"|"createdAt" = "createdAt"): Promise<Array<User>> {
+    const {first, last, before, after} = connectionArguments;
+
+    return Observable
+        .fromPromise(cypher(getConnectionMatchQuery("User", "user", orderByProperty, connectionArguments)))
+        .flatMap(Observable.from)
+        .map(result => result.user)
+        .map(User.createFromEntity)
+        .toArray()
+        .toPromise();
+}
+
+export async function getFriendsOfUserConnection(user: User,
+                                                 connectionArguments: Object,
+                                                 orderByProperty: "id" | "createdAt" = "createdAt"): Promise<Array<User>> {
+    const {id} = user;
+    return Observable
+        .fromPromise(
+            cypher(
+                getConnectionCustomMatchQuery(
+                    "MATCH (u:User {uuid:{id}})-[:IS_FRIENDS_WITH]->(friend:User)",
+                    "friend",
+                    "friend",
+                    orderByProperty,
+                    connectionArguments
+                ),
+                {id}
+            ))
+        .flatMap(Observable.from)
+        .map(result => result.friend)
+        .map(User.createFromEntity)
+        .toArray()
+        .toPromise();
 }
 
 export async function getAllUsersWithCompleteProfile(): Promise<Array<User>> {
@@ -91,17 +128,6 @@ export async function getUserByAuthToken(token: string): Promise<User> {
         .then(user => user && User.createFromEntity(user));
 }
 
-export async function getFriendsFor(user: User): Promise<Array<User>> {
-    const {id} = user;
-    return Observable
-        .fromPromise(cypher("MATCH (u:User {uuid:{id}})-[:IS_FRIENDS_WITH]->(friend:User) return friend;", {id}))
-        .flatMap(Observable.from)
-        .map(result => result.friend)
-        .map(User.createFromEntity)
-        .toArray()
-        .toPromise();
-}
-
 export async function getNumFriendsFor(user: User): Promise<Array<boolean>> {
     const {id} = user;
     return Observable
@@ -123,14 +149,15 @@ export async function updateUser(user: User): Promise<User> {
         "SET user.lastName = {lastName} " +
         "SET user.email = {email} " +
         "SET user.completedProfile = {completedProfile} " +
-        "SET user.profilePhotoUrl = {profilePhotoUrl} " +
+        "SET user.modifiedAt = {modifiedAt} " +
         "return user", {
             uuid: user.id,
             firstName: user.firstName,
             lastName: user.lastName,
             email: user.email,
             profilePhotoUrl: user.profilePhotoUrl,
-            completedProfile: user.isCompleteProfile()
+            completedProfile: user.isCompleteProfile(),
+            modifiedAt: new Date()
         })
         .then(results => results.map(result => result.user))
         .then(users => users.length > 0 ? users[0] : undefined)

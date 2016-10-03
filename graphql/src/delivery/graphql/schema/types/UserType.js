@@ -2,14 +2,18 @@
 import {GraphQLInputObjectType, GraphQLObjectType, GraphQLString, GraphQLInt} from "graphql";
 import {UserIdType, EmailType, AuthTokenType} from "../types";
 import {User} from "../../../../entities/User";
-import {getUserById, getFriendsFor, getNumFriendsFor} from "../../../../persistence/service/UserService";
+import * as UserService from "../../../../persistence/service/UserService";
+import {getUserById, getNumFriendsFor} from "../../../../persistence/service/UserService";
 import {registerType} from "../../../../type-registry/registry";
 import {nodeInterface} from "../../../../NodeField";
-import {globalIdField, connectionDefinitions} from "graphql-relay";
+import {globalIdField, connectionArgs} from "graphql-relay";
 import {fromGlobalId} from "graphql-relay/lib/node/node";
 import {validateToken} from "../../../../services/Authenticator";
 import {GraphQLBoolean} from "graphql/type/scalars";
-import {connectionFromPromisedArray} from "graphql-relay/lib/connection/arrayconnection";
+import {GraphQLList, GraphQLNonNull} from "graphql/type/definition";
+import {PageInfo} from "./connection/PageInfo";
+import {CursorType} from "./connection/Cursor";
+import {limitResult, getPageInfo} from "../../../../persistence/util/GraphQlHelper";
 
 export const UserType = new GraphQLObjectType({
     name: "User",
@@ -40,13 +44,48 @@ export const UserType = new GraphQLObjectType({
             resolve: user => getNumFriendsFor(user)
         },
         friends: {
-            type: FriendConnection,
-            resolve: async(user, args) => connectionFromPromisedArray(getFriendsFor(user), args)
+            type: UserConnection,
+            args: connectionArgs,
+            resolve: async(user, args) => {
+                let friends = await UserService.getFriendsOfUserConnection(user, args);
+                return {
+                    users: limitResult(friends, args),
+                    pageInfo: getPageInfo(friends, args)
+                };
+            }
+
         }
     })
 });
 
-const {connectionType: FriendConnection} = connectionDefinitions({nodeType: UserType});
+export const UserConnection = new GraphQLObjectType({
+    name: 'UserConnection',
+
+    fields: () => ({
+        edges: {
+            type: new GraphQLList(UserEdge),
+            resolve: (parent) => parent.users
+        },
+        pageInfo: {
+            type: new GraphQLNonNull(PageInfo),
+            resolve: (parent) => parent.pageInfo
+        },
+    }),
+});
+
+export const UserEdge = new GraphQLObjectType({
+    name: 'UserEdge',
+    fields: () => ({
+        cursor: {
+            type: CursorType,
+            resolve: (user: User) => ({value: user.createdAt})
+        },
+        node: {
+            type: UserType,
+            resolve: (user: User) => user
+        },
+    }),
+});
 
 export const UserMutationInputType = new GraphQLInputObjectType({
     name: "UserMutationInputType",

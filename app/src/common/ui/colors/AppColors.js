@@ -1,0 +1,1 @@
+export const linkColor = "#44cc44";

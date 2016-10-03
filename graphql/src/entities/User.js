@@ -10,15 +10,16 @@ import {
 export class User {
 
     id: string;
+    createdAt: string;
     token: string;
     firstName: ?string;
     lastName: ?string;
     email: ?string;
     profilePhotoUrl: ?string;
-    completeProfile: boolean;
     isSuperUser: boolean;
 
     constructor(id: string,
+                createdAt: string,
                 token: string,
                 firstName: ?string,
                 lastName: ?string,
@@ -26,6 +27,7 @@ export class User {
                 profilePhotoUrl: ?string,
                 isSuperUser: boolean = false) {
         this.id = id;
+        this.createdAt = createdAt;
         this.token = token;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -38,9 +40,13 @@ export class User {
         return Boolean(this.firstName && this.lastName && this.email);
     }
 
-    static createFromEntity(entity: Object): User {
+    static createFromEntity(entity: ?Object): User {
+        if (!entity) {
+            throw "User.createFromEntity() got undefined entity as argument.";
+        }
         return new User(
             entity.properties.uuid,
+            entity.properties.createdAt || undefined,
             entity.properties.token,
             entity.properties.firstName,
             entity.properties.lastName,
@@ -89,4 +95,4 @@ export class User {
 
 }
 
-export const userMock = new User("", "");
+export const userMock = new User("", new Date().toISOString(), "");

@@ -1,9 +1,12 @@
 /* @flow */
 import {GraphQLObjectType, GraphQLString, GraphQLList} from "graphql";
-import {UserType} from "./delivery/graphql/schema/types/UserType";
+import {UserType, UserConnection} from "./delivery/graphql/schema/types/UserType";
 import {User} from "./entities/User";
 import * as UserService from "./persistence/service/UserService";
 import {fromGlobalId} from "graphql-relay/lib/node/node";
+import {connectionDefinitions, connectionArgs} from "graphql-relay/lib/connection/connection";
+import base64 from "base-64";
+import {getPageInfo, limitResult} from "./persistence/util/GraphQlHelper";
 
 export const ViewerType = new GraphQLObjectType({
     name: "Viewer",
@@ -21,8 +24,15 @@ export const ViewerType = new GraphQLObjectType({
             resolve: ({actor}, {email}) => User.getByEmail(actor, email)
         },
         users: {
-            type: new GraphQLList(UserType),
-            resolve: ({actor}, args) => User.getAllWithCompleteProfile(actor)
+            type: UserConnection,
+            args: connectionArgs,
+            resolve: async({actor}, args) => {
+                let users = await UserService.getAllUsersConnection(args);
+                return {
+                    users: limitResult(users, args),
+                    pageInfo: getPageInfo(users, args)
+                };
+            }
         },
         incompleteUsers: {
             type: new GraphQLList(UserType),
@@ -37,3 +47,11 @@ export const ViewerType = new GraphQLObjectType({
     })
 });
 
+const {connectionType: AllUsersConnection} = connectionDefinitions(
+    {
+        nodeType: UserType,
+        name: "AllUsersConnection",
+        resolveCursor: (edge) => {
+            return base64.encode(`User---${edge.node.createdAt}`);
+        }
+    });
