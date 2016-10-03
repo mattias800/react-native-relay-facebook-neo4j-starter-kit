@@ -4,8 +4,7 @@ import {UserType, UserConnection} from "./delivery/graphql/schema/types/UserType
 import {User} from "./entities/User";
 import * as UserService from "./persistence/service/UserService";
 import {fromGlobalId} from "graphql-relay/lib/node/node";
-import {connectionDefinitions, connectionArgs} from "graphql-relay/lib/connection/connection";
-import base64 from "base-64";
+import {connectionArgs} from "graphql-relay";
 import {getPageInfo, limitResult} from "./persistence/util/GraphQlHelper";
 
 export const ViewerType = new GraphQLObjectType({
@@ -47,11 +46,3 @@ export const ViewerType = new GraphQLObjectType({
     })
 });
 
-const {connectionType: AllUsersConnection} = connectionDefinitions(
-    {
-        nodeType: UserType,
-        name: "AllUsersConnection",
-        resolveCursor: (edge) => {
-            return base64.encode(`User---${edge.node.createdAt}`);
-        }
-    });
