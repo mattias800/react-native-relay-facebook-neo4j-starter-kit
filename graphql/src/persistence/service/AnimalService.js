@@ -102,7 +102,7 @@ export async function getOwnersOfAnimalConnection(animal: Animal,
         .fromPromise(
             cypher(
                 getConnectionCustomMatchQuery(
-                    "MATCH (user:User)-[:IS_FRIENDS_WITH]->(animal:Animal {id:{id}})",
+                    "MATCH (user:User)-[:OWNS]->(animal:Animal {id:{id}})",
                     "user",
                     "user",
                     orderByProperty,
@@ -111,7 +111,7 @@ export async function getOwnersOfAnimalConnection(animal: Animal,
                 {id}
             ))
         .flatMap(Observable.from)
-        .map(result => result.friend)
+        .map(result => result.user)
         .map(User.createFromEntity)
         .toArray()
         .toPromise();
