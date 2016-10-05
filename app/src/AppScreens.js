@@ -5,6 +5,7 @@ import {UserListPageComponent} from "./use-case/user-list/UserListPage";
 import {UserProfilePageComponent} from "./use-case/profile/UserProfilePage";
 import {UserRegistrationPageComponent} from "./use-case/user-registration/UserRegistrationPage";
 import {UserFriendListPageComponent} from "./use-case/user-friend-list/UserFriendListPage";
+import {UsersAnimalsPageComponent} from "./use-case/users-animals/UsersAnimalsPage";
 
 export function registerScreens() {
     Navigation.registerComponent('example.LoginScreen', () => LoginPage);
@@ -13,4 +14,5 @@ export function registerScreens() {
     Navigation.registerComponent('example.ViewerProfileScreen', () => ViewerProfilePageComponent);
     Navigation.registerComponent('example.UserProfileScreen', () => UserProfilePageComponent);
     Navigation.registerComponent('example.UserProfileFriendsScreen', () => UserFriendListPageComponent);
+    Navigation.registerComponent('example.UserProfileAnimalsScreen', () => UsersAnimalsPageComponent);
 }

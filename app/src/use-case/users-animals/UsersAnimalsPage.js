@@ -3,19 +3,35 @@
 import React from "react";
 import Relay from "react-relay";
 import {AppRegistry, StyleSheet, Text, ScrollView} from "react-native";
-import {createRootRelayComponent} from "../../common/util/RelayFactory";
-import {getAuthTokenUsedByRelay, getCurrentUserId} from "../../network/RelayNetworkConfig";
+import {createRootRelayComponent, createRelayRenderer} from "../../common/util/RelayFactory";
+import {getAuthTokenUsedByRelay} from "../../network/RelayNetworkConfig";
+import {List, ListItem} from "react-native-elements";
 
 class UsersAnimalsPage extends React.Component {
 
     render() {
         const {user} = this.props;
+        const animals = user.animals;
+
+        console.log("animals");
+        console.log(animals);
 
         return (
             <ScrollView>
-                <Text>UsersAnimalsPage</Text>
-                <Text>{!actor && "actor is undefined"}</Text>
-                <Text>{actor ? actor.email : "NO EMAIL"}</Text>
+                <List containerStyle={{marginBottom: 20}}>
+                    {
+                        animals.edges
+                            .map(edge => edge.node)
+                            .map(animal => (
+                                <ListItem roundAvatar
+                                          key={animal.id}
+                                          avatar={animal.profilePhotoUrl}
+                                          title={animal.nickName}
+                                          subtitle={animal.fullName}
+                                          onPress={() => {}} />
+                            ))
+                    }
+                </List>
             </ScrollView>
         );
     }
@@ -26,7 +42,16 @@ UsersAnimalsPage = Relay.createContainer(UsersAnimalsPage, {
     fragments: {
         user: () => Relay.QL`
             fragment on User {
-                email
+                animals(first: 10) {
+                    edges {
+                        node {
+                            id
+                            nickName
+                            fullName
+                            profilePhotoUrl
+                        }
+                    }
+                }
             }
     `,
     },
@@ -34,34 +59,37 @@ UsersAnimalsPage = Relay.createContainer(UsersAnimalsPage, {
 
 export const UsersAnimalsPageComponent = createRelayRenderer(
     Relay.createContainer(
-        props => <UsersAnimalsPage user={props.viewer.actor}
+        props => <UsersAnimalsPage user={props.viewer.user}
                                    navigator={props.navigator} />,
         {
+            initialVariables: {
+                userId: null
+            },
             fragments: {
                 viewer: () => Relay.QL`
-            fragment on Viewer {
-                actor {
-                    ${UsersAnimalsPage.getFragment('user')}
-                }
-            }
+                    fragment on Viewer {
+                        user(id: $userId) {
+                            ${UsersAnimalsPage.getFragment('user')}
+                        }
+                    }
         `,
             },
         }),
 
     props => ({
         queries: {
-            viewer: (Component) =>
+            viewer: (Component, params) =>
                 Relay.QL`
                      query {
                         viewer(token:$token) {
-                            ${Component.getFragment('viewer')},
+                            ${Component.getFragment('viewer', params)},
                         }
                      }
         `,
         },
         params: {
             token: getAuthTokenUsedByRelay(),
-            currentUserId: getCurrentUserId()
+            userId: props.userId
         },
         name: 'UserFriendListRoute',
     })

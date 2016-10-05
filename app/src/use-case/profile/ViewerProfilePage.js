@@ -10,11 +10,12 @@ import {getAuthTokenUsedByRelay} from "../../network/RelayNetworkConfig";
 class ViewerProfilePage extends React.Component {
 
     render() {
-        const {user} = this.props;
+        const {user, navigator} = this.props;
 
         return (
             <ScrollView style={{marginTop:20}}>
                 <UserProfile user={user}
+                             navigator={navigator}
                              isCurrentUser={true} />
             </ScrollView>
         );
@@ -34,7 +35,8 @@ ViewerProfilePage = Relay.createContainer(ViewerProfilePage, {
 
 export const ViewerProfilePageComponent = createRelayRenderer(
     Relay.createContainer(
-        props => <ViewerProfilePage user={props.viewer.actor} />,
+        props => <ViewerProfilePage user={props.viewer.actor}
+                                    navigator={props.navigator} />,
         {
             fragments: {
                 viewer: () => Relay.QL`

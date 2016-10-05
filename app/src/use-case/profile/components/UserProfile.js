@@ -20,7 +20,7 @@ class UserProfileComponent extends React.Component {
                 <UserProfilePhoto user={user} />
                 <Text style={nameTextStyle}>{`${firstName || ""} ${lastName || ""}`}</Text>
                 <Text>{user.numFriends} friends</Text>
-                <Text>{user.numAnimals} animals</Text>
+                <Text onPress={() => this.goToAnimals()}>{user.numAnimals} animals</Text>
                 <UserEmail user={user} />
                 {
                     isCurrentUser && <LogoutButton />
@@ -29,19 +29,38 @@ class UserProfileComponent extends React.Component {
         );
     }
 
+    goToAnimals() {
+        const {user} = this.props;
+
+        console.log("this.props");
+        console.log(this.props);
+        console.log("------user.idcl");
+        console.log(user.id);
+
+
+        this.props.navigator.push({
+            screen: 'example.UserProfileAnimalsScreen',
+            title: `${user.firstName}s dogs`,
+            passProps: {
+                userId: user.id
+            }
+        });
+    }
+
 }
 
 export const UserProfile = Relay.createContainer(UserProfileComponent, {
     fragments: {
         user: () => Relay.QL`
-      fragment on User {
-        firstName
-        lastName
-        numFriends
-        numAnimals
-        ${UserProfilePhoto.getFragment('user')}
-        ${UserEmail.getFragment('user')}
-      }
+        fragment on User {
+            id
+            firstName
+            lastName
+            numFriends
+            numAnimals
+            ${UserProfilePhoto.getFragment('user')}
+            ${UserEmail.getFragment('user')}
+        }
     `,
     },
 });

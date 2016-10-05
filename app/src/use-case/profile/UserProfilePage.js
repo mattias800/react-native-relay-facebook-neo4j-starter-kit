@@ -10,12 +10,16 @@ import {getAuthTokenUsedByRelay, getCurrentUserId} from "../../network/RelayNetw
 class UserProfilePage extends React.Component {
 
     render() {
-        const {user} = this.props;
+        const {user, navigator} = this.props;
+        console.log("navigator");
+        console.log(navigator);
+
         const isCurrentUser = user.id === getCurrentUserId();
 
         return (
             <ScrollView style={{paddingTop:20, flex:1}}>
                 <UserProfile user={user}
+                             navigator={navigator}
                              isCurrentUser={isCurrentUser} />
             </ScrollView>
         );
