@@ -19,9 +19,9 @@ export function createConnectionArguments() {
     };
 }
 
-export function decodeCursor(cursor) {
+export function decodeCursor(cursor: string): string {
     if (!cursor) {
-        return undefined;
+        throw "Error: decodeCursor() did not get cursor as parameter."
     }
     return base64.decode(cursor);
 }
@@ -51,3 +51,8 @@ export function limitResult(list, connectionArgs) {
     }
     return result;
 }
+
+export function getQueryProps(type) {
+    return Object.keys(type).map(key => `${key}: {${key}}`).join(", ");
+}
+

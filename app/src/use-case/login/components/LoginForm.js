@@ -78,6 +78,8 @@ const LoginForm = React.createClass({
             .catch(e => {
                 this.setState({fetching: false});
                 if (!e.isCancelled) {
+                    console.log("Error when trying to login.");
+                    console.log(e);
                     alert("Error when trying to login.");
                 }
             });

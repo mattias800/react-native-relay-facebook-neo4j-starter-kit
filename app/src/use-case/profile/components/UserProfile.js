@@ -20,6 +20,7 @@ class UserProfileComponent extends React.Component {
                 <UserProfilePhoto user={user} />
                 <Text style={nameTextStyle}>{`${firstName || ""} ${lastName || ""}`}</Text>
                 <Text>{user.numFriends} friends</Text>
+                <Text>{user.numAnimals} animals</Text>
                 <UserEmail user={user} />
                 {
                     isCurrentUser && <LogoutButton />
@@ -37,6 +38,7 @@ export const UserProfile = Relay.createContainer(UserProfileComponent, {
         firstName
         lastName
         numFriends
+        numAnimals
         ${UserProfilePhoto.getFragment('user')}
         ${UserEmail.getFragment('user')}
       }

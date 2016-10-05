@@ -3,6 +3,28 @@ schema {
   mutation: MutationRoot
 }
 
+# An animal.
+type Animal implements Node {
+  # The ID of an object
+  id: ID!
+  createdAt: String
+  fullName: String
+  nickName: String
+  profilePhotoUrl: String
+  numOwners: Int
+  owners(after: String, first: Int, before: String, last: Int): UserConnection
+}
+
+type AnimalConnection {
+  edges: [AnimalEdge]
+  pageInfo: PageInfo!
+}
+
+type AnimalEdge {
+  cursor: Cursor
+  node: Animal
+}
+
 scalar Cursor
 
 # Root mutation
@@ -37,6 +59,7 @@ type User implements Node {
   # The ID of an object
   id: ID!
   token: String
+  createdAt: String
   email: String
   firstName: String
   lastName: String
@@ -45,7 +68,9 @@ type User implements Node {
   isCurrentUser: Boolean
   isFriend: Boolean
   numFriends: Int
+  numAnimals: Int
   friends(after: String, first: Int, before: String, last: Int): UserConnection
+  animals(after: String, first: Int, before: String, last: Int): AnimalConnection
 }
 
 type UserConnection {
@@ -77,6 +102,7 @@ type UserMutationPayload {
 type Viewer {
   user(id: String): User
   userByEmail(email: String): User
+  animal(id: String): Animal
   users(after: String, first: Int, before: String, last: Int): UserConnection
   incompleteUsers: [User]
   actor: User

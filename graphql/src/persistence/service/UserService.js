@@ -38,7 +38,7 @@ export async function getFriendsOfUserConnection(user: User,
         .fromPromise(
             cypher(
                 getConnectionCustomMatchQuery(
-                    "MATCH (u:User {uuid:{id}})-[:IS_FRIENDS_WITH]->(friend:User)",
+                    "MATCH (u:User {id:{id}})-[:IS_FRIENDS_WITH]->(friend:User)",
                     "friend",
                     "friend",
                     orderByProperty,
@@ -98,9 +98,9 @@ export async function getUserByEmail(email: string): Promise<User> {
         .toPromise();
 }
 
-export async function getUserById(uuid: string): Promise<User> {
+export async function getUserById(id: string): Promise<User> {
     return await cypher(
-        "MATCH (user:User {uuid: {uuid}}) return user", {uuid})
+        "MATCH (user:User {id: {id}}) return user", {id})
         .then(results => results.map(result => result.user))
         .then(users => users.length > 0 ? users[0] : undefined)
         .then(user => user && User.createFromEntity(user));
@@ -128,10 +128,10 @@ export async function getUserByAuthToken(token: string): Promise<User> {
         .then(user => user && User.createFromEntity(user));
 }
 
-export async function getNumFriendsFor(user: User): Promise<Array<boolean>> {
+export async function getNumFriendsFor(user: User): Promise<number> {
     const {id} = user;
     return Observable
-        .fromPromise(cypher("MATCH (u:User {uuid:{id}})-[:IS_FRIENDS_WITH]->(friend:User) return count(friend);", {id}))
+        .fromPromise(cypher("MATCH (u:User {id:{id}})-[:IS_FRIENDS_WITH]->(friend:User) return count(friend);", {id}))
         .map(result => result[0]["count(friend)"])
         .toPromise();
 }
@@ -144,14 +144,14 @@ export async function updateUser(user: User): Promise<User> {
         throw "Unable to update user: specified user has no id.";
     }
     return await cypher(
-        "MATCH (user:User {uuid: {uuid}}) " +
+        "MATCH (user:User {id: {id}}) " +
         "SET user.firstName = {firstName} " +
         "SET user.lastName = {lastName} " +
         "SET user.email = {email} " +
         "SET user.completedProfile = {completedProfile} " +
         "SET user.modifiedAt = {modifiedAt} " +
         "return user", {
-            uuid: user.id,
+            id: user.id,
             firstName: user.firstName,
             lastName: user.lastName,
             email: user.email,
@@ -179,11 +179,11 @@ export async function createUserAndAuthentication(user: User,
             ? `CREATE (auth:Authentication {service:{service}, userId:{serviceUserId}, token:{serviceToken}, date:{date}})`
             : `CREATE (auth:Authentication {service:{service}, accountId:{serviceAccountId}, appId:{serviceAppId}, 
             lastRefresh:{serviceLastRefresh}, refreshIntervalSeconds:{serviceRefreshIntervalSeconds}, token:{serviceToken}, date:{date}})`}
-        CREATE (user:User {firstName:{firstName}, lastName:{lastName}, email:{email}, uuid:{uuid}, token:{token}, completedProfile:{completedProfile}})
+        CREATE (user:User {firstName:{firstName}, lastName:{lastName}, email:{email}, id:{id}, token:{token}, completedProfile:{completedProfile}})
         CREATE (user)-[:LOGGED_IN_USING]->(auth)
         RETURN user`,
         {
-            uuid: user.id,
+            id: user.id,
             token: user.token,
             firstName: user.firstName || null,
             lastName: user.lastName || null,

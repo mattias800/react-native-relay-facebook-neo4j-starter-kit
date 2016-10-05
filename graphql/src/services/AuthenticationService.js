@@ -62,10 +62,10 @@ async function authenticateOrCreateUserByAccountKit(service: string, payload: Ob
 
     console.log("Creating new user");
 
-    const uuid = generateUuid();
-    const userAuthToken = generateToken(uuid);
+    const userId = generateUuid();
+    const userAuthToken = generateToken(userId);
     userInDb = await createUserAndAuthentication(
-        new User(uuid, userAuthToken),
+        new User(userId, new Date(), userAuthToken),
         new AccountKitAuthentication(service, payload.accountId, payload.appId, payload.lastRefresh, payload.refreshIntervalSeconds, payload.token));
 
     return userInDb;
@@ -104,10 +104,10 @@ async function authenticateOrCreateUserByFacebook(service: string, payload: Obje
 
     console.log("Found no user, creating new.");
 
-    const uuid = generateUuid();
-    const userAuthToken = generateToken(uuid);
+    const userId = generateUuid();
+    const userAuthToken = generateToken(userId);
     userInDb = await createUserAndAuthentication(
-        new User(uuid, userAuthToken, facebookUser.first_name, facebookUser.last_name, facebookUser.email, getProfilePhotoUrl(facebookUser)),
+        new User(userId, new Date(), userAuthToken, facebookUser.first_name, facebookUser.last_name, facebookUser.email, getProfilePhotoUrl(facebookUser), false),
         new FacebookAuthentication(facebookUser.id, payload.token));
 
     return userInDb;

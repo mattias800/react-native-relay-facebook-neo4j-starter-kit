@@ -10,7 +10,7 @@ import {
 export class User {
 
     id: string;
-    createdAt: string;
+    createdAt: Date;
     token: string;
     firstName: ?string;
     lastName: ?string;
@@ -19,7 +19,7 @@ export class User {
     isSuperUser: boolean;
 
     constructor(id: string,
-                createdAt: string,
+                createdAt: Date,
                 token: string,
                 firstName: ?string,
                 lastName: ?string,
@@ -45,8 +45,8 @@ export class User {
             throw "User.createFromEntity() got undefined entity as argument.";
         }
         return new User(
-            entity.properties.uuid,
-            entity.properties.createdAt || undefined,
+            entity.properties.id,
+            new Date(entity.properties.createdAt),
             entity.properties.token,
             entity.properties.firstName,
             entity.properties.lastName,
@@ -95,4 +95,4 @@ export class User {
 
 }
 
-export const userMock = new User("", new Date().toISOString(), "");
+export const userMock = new User("", new Date(), "");

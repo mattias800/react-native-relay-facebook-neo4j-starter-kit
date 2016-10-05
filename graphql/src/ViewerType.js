@@ -6,6 +6,7 @@ import * as UserService from "./persistence/service/UserService";
 import {fromGlobalId} from "graphql-relay/lib/node/node";
 import {connectionArgs} from "graphql-relay";
 import {getPageInfo, limitResult} from "./persistence/util/GraphQlHelper";
+import {AnimalType} from "./delivery/graphql/schema/types/AnimalType";
 
 export const ViewerType = new GraphQLObjectType({
     name: "Viewer",
@@ -21,6 +22,11 @@ export const ViewerType = new GraphQLObjectType({
             type: UserType,
             args: {email: {type: GraphQLString}},
             resolve: ({actor}, {email}) => User.getByEmail(actor, email)
+        },
+        animal: {
+            type: AnimalType,
+            args: {id: {type: GraphQLString}},
+            resolve: ({actor}, {id}) => User.getById(actor, fromGlobalId(id).id)
         },
         users: {
             type: UserConnection,

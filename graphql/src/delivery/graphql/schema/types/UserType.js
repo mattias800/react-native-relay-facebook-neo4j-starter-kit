@@ -4,7 +4,7 @@ import {UserIdType, EmailType, AuthTokenType} from "../types";
 import {User} from "../../../../entities/User";
 import * as UserService from "../../../../persistence/service/UserService";
 import {getUserById, getNumFriendsFor} from "../../../../persistence/service/UserService";
-import {registerType} from "../../../../type-registry/registry";
+import {registerTypeInNodeInterface} from "../../../../type-registry/registry";
 import {nodeInterface} from "../../../../NodeField";
 import {globalIdField, connectionArgs} from "graphql-relay";
 import {fromGlobalId} from "graphql-relay/lib/node/node";
@@ -14,6 +14,9 @@ import {GraphQLList, GraphQLNonNull} from "graphql/type/definition";
 import {PageInfo} from "./connection/PageInfo";
 import {CursorType} from "./connection/Cursor";
 import {limitResult, getPageInfo} from "../../../../persistence/util/GraphQlHelper";
+import * as AnimalService from "../../../../persistence/service/AnimalService";
+import {getNumAnimalsFor} from "../../../../persistence/service/AnimalService";
+import {AnimalConnection} from "./AnimalType";
 
 export const UserType = new GraphQLObjectType({
     name: "User",
@@ -23,6 +26,7 @@ export const UserType = new GraphQLObjectType({
     fields: () => ({
         id: globalIdField('User'),
         token: {type: AuthTokenType},
+        createdAt: {type: GraphQLString},
         email: {type: EmailType},
         firstName: {type: GraphQLString},
         lastName: {type: GraphQLString},
@@ -43,17 +47,31 @@ export const UserType = new GraphQLObjectType({
             type: GraphQLInt,
             resolve: user => getNumFriendsFor(user)
         },
+        numAnimals: {
+            type: GraphQLInt,
+            resolve: user => getNumAnimalsFor(user)
+        },
         friends: {
             type: UserConnection,
             args: connectionArgs,
             resolve: async(user, args) => {
-                let friends = await UserService.getFriendsOfUserConnection(user, args);
+                const friends = await UserService.getFriendsOfUserConnection(user, args);
                 return {
                     users: limitResult(friends, args),
                     pageInfo: getPageInfo(friends, args)
                 };
             }
-
+        },
+        animals: {
+            type: AnimalConnection,
+            args: connectionArgs,
+            resolve: async(user, args) => {
+                const animals = await AnimalService.getAnimalsOwnedByUserConnection(user, args);
+                return {
+                    users: limitResult(animals, args),
+                    pageInfo: getPageInfo(animals, args)
+                };
+            }
         }
     })
 });
@@ -78,7 +96,7 @@ export const UserEdge = new GraphQLObjectType({
     fields: () => ({
         cursor: {
             type: CursorType,
-            resolve: (user: User) => ({value: user.createdAt})
+            resolve: (user: User) => ({value: user.createdAt.toISOString()})
         },
         node: {
             type: UserType,
@@ -112,7 +130,7 @@ export const updateUserMutation = {
     name: "UpdateUserMutation",
     type: UserMutationPayload,
     args: {input: {type: UserMutationInputType}},
-    resolve: async(root, args) => {
+    resolve: async(root: Object, args: Object) => {
         const {input} = args;
         const {id, token} = input;
 
@@ -148,4 +166,4 @@ export const updateUserMutation = {
     }
 };
 
-registerType(UserType, User, (id: string) => getUserById(id));
+registerTypeInNodeInterface(UserType, User, (id: string) => getUserById(id));

@@ -5,7 +5,7 @@ const types = {}; // GraphQL type
 const getItemOverrides = {}; // Fetcher override (if not specified, it uses getAnyById()
 const typeClasses = {}; // Entity type
 
-export function registerType(type, typeClass, getItemOverride) {
+export function registerTypeInNodeInterface(type, typeClass, getItemOverride) {
     types[type.name] = type;
     typeClasses[type.name] = typeClass;
     getItemOverrides[type] = getItemOverride;
