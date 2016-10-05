@@ -20,7 +20,8 @@ class UsersAnimalsPage extends React.Component {
             <ScrollView>
                 <List containerStyle={{marginBottom: 20}}>
                     {
-                        animals.edges
+                        animals.edges && animals.edges.length
+                            ? animals.edges
                             .map(edge => edge.node)
                             .map(animal => (
                                 <ListItem roundAvatar
@@ -30,6 +31,7 @@ class UsersAnimalsPage extends React.Component {
                                           subtitle={animal.fullName}
                                           onPress={() => {}} />
                             ))
+                            : <Text>No animals</Text>
                     }
                 </List>
             </ScrollView>

@@ -22,6 +22,7 @@ class UserListPage extends React.Component {
                 <List containerStyle={{marginBottom: 20}}>
                     {
                         users.edges.map(edge => <UserListItem key={edge.node.id}
+                                                              navigator={navigator}
                                                               user={edge.node} />)
                     }
                 </List>
