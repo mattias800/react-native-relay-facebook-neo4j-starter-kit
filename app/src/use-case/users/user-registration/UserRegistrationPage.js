@@ -1,14 +1,13 @@
 /* @flow */
-
 import React from "react";
 import Relay from "react-relay";
 import {AppRegistry, StyleSheet, Text, View, ScrollView} from "react-native";
-import {createRelayRenderer} from "../../common/util/RelayFactory";
+import {createRelayRenderer} from "../../../common/util/RelayFactory";
 import {UserRegistration} from "./components/UserRegistration";
-import {UpdateUserMutation} from "../../mutations/users/UpdateUserMutation";
-import {getCurrentUserId, getAuthTokenUsedByRelay} from "../../network/RelayNetworkConfig";
-import {ProgressOverlay} from "../../common/ui/progress/ProgressOverlay";
-import {showMainAppScreen} from "../../bootstraps/MainBootstrap";
+import {UpdateUserMutation} from "../../../mutations/users/UpdateUserMutation";
+import {getCurrentUserId, getAuthTokenUsedByRelay} from "../../../network/RelayNetworkConfig";
+import {ProgressOverlay} from "../../../common/ui/progress/ProgressOverlay";
+import {showMainAppScreen} from "../../../bootstraps/MainBootstrap";
 
 class UserRegistrationPage extends React.Component {
 

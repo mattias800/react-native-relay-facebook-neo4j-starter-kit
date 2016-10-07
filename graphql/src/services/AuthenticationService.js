@@ -65,7 +65,7 @@ async function authenticateOrCreateUserByAccountKit(service: string, payload: Ob
     const userId = generateUuid();
     const userAuthToken = generateToken(userId);
     userInDb = await createUserAndAuthentication(
-        new User(userId, new Date(), userAuthToken),
+        new User(userId, new Date(), new Date(), false, undefined, userAuthToken),
         new AccountKitAuthentication(service, payload.accountId, payload.appId, payload.lastRefresh, payload.refreshIntervalSeconds, payload.token));
 
     return userInDb;

@@ -1,10 +1,9 @@
 /* @flow */
-
 import React from "react";
 import Relay from "react-relay";
 import {AppRegistry, StyleSheet, Text, View} from "react-native";
 import {UserEmail} from "./UserEmail";
-import {LogoutButton} from "../../session/LogoutButton";
+import {LogoutButton} from "../../../session/LogoutButton";
 import {UserProfilePhoto} from "./UserProfilePhoto";
 
 class UserProfileComponent extends React.Component {

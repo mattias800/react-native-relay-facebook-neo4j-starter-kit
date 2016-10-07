@@ -1,55 +1,62 @@
 /* @flow */
-
 import React from "react";
 import Relay from "react-relay";
 import {AppRegistry, StyleSheet, Text, ScrollView} from "react-native";
-import {createRootRelayComponent, createRelayRenderer} from "../../common/util/RelayFactory";
-import {getAuthTokenUsedByRelay} from "../../network/RelayNetworkConfig";
+import {createRootRelayComponent, createRelayRenderer} from "../../../common/util/RelayFactory";
+import {getAuthTokenUsedByRelay} from "../../../network/RelayNetworkConfig";
 import {List, ListItem} from "react-native-elements";
 
-class UsersAnimalsPage extends React.Component {
+class UserFriendListPage extends React.Component {
 
     render() {
         const {user} = this.props;
-        const animals = user.animals;
-
-        console.log("animals");
-        console.log(animals);
+        const friends = user.friends;
 
         return (
             <ScrollView>
                 <List containerStyle={{marginBottom: 20}}>
                     {
-                        animals.edges && animals.edges.length
-                            ? animals.edges
+                        friends.edges && friends.edges.length
+                            ? friends.edges
                             .map(edge => edge.node)
-                            .map(animal => (
+                            .map(friend => (
                                 <ListItem roundAvatar
-                                          key={animal.id}
-                                          avatar={animal.profilePhotoUrl}
-                                          title={animal.nickName}
-                                          subtitle={animal.fullName}
-                                          onPress={() => {}} />
+                                          key={friend.id}
+                                          avatar={friend.profilePhotoUrl}
+                                          title={`${friend.firstName} ${friend.lastName}`}
+                                          subtitle={friend.email}
+                                          onPress={() => this.userPressed(friend)} />
                             ))
-                            : <Text>No animals</Text>
+                            : <Text>No friends</Text>
                     }
                 </List>
             </ScrollView>
         );
     }
 
+    userPressed(user) {
+        this.props.navigator.push({
+            screen: 'example.UserProfileScreen',
+            title: `${user.firstName} ${user.lastName}`,
+            passProps: {
+                userId: user.id
+            }
+        });
+    }
+
 }
 
-UsersAnimalsPage = Relay.createContainer(UsersAnimalsPage, {
+UserFriendListPage = Relay.createContainer(UserFriendListPage, {
     fragments: {
         user: () => Relay.QL`
             fragment on User {
-                animals(first: 10) {
+                friends(first:10) {
                     edges {
                         node {
                             id
-                            nickName
-                            fullName
+                            email
+                            firstName
+                            lastName
                             profilePhotoUrl
                         }
                     }
@@ -59,10 +66,10 @@ UsersAnimalsPage = Relay.createContainer(UsersAnimalsPage, {
     },
 });
 
-export const UsersAnimalsPageComponent = createRelayRenderer(
+export const UserFriendListPageComponent = createRelayRenderer(
     Relay.createContainer(
-        props => <UsersAnimalsPage user={props.viewer.user}
-                                   navigator={props.navigator} />,
+        props => <UserFriendListPage user={props.viewer.user}
+                                     navigator={props.navigator} />,
         {
             initialVariables: {
                 userId: null
@@ -71,10 +78,10 @@ export const UsersAnimalsPageComponent = createRelayRenderer(
                 viewer: () => Relay.QL`
                     fragment on Viewer {
                         user(id: $userId) {
-                            ${UsersAnimalsPage.getFragment('user')}
+                            ${UserFriendListPage.getFragment('user')}                            
                         }
                     }
-        `,
+                `,
             },
         }),
 

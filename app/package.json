@@ -7,6 +7,7 @@
   },
   "dependencies": {
     "babel-relay-plugin": "^0.9.3",
+    "moment": "^2.15.1",
     "react": "15.3.1",
     "react-motion": "^0.4.5",
     "react-native": "0.33.0",

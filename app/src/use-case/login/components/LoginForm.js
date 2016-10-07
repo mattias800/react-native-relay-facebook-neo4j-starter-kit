@@ -1,5 +1,4 @@
 /* @flow */
-
 import React from "react";
 import {AppRegistry, StyleSheet, Text, View, ActivityIndicator, TouchableHighlight} from "react-native";
 import {Button} from "react-native-elements";
@@ -7,7 +6,7 @@ import {loginUsingFacebook, loginUsingSms, loginUsingEmail, whenLoggedIn} from "
 import {serviceColors} from "../../../common/ui/colors/ServiceColors";
 import {Column} from "../../../common/ui/Column";
 import {Cell} from "../../../common/ui/Cell";
-import {linkColor} from "../../../common/ui/colors/AppColors";
+import {LINK_COLOR} from "../../../common/ui/colors/AppColors";
 
 const FBSDK = require('react-native-fbsdk');
 const {
@@ -108,7 +107,7 @@ const centeredTextContainer = {
 };
 
 const emailLink = {
-    color: linkColor
+    color: LINK_COLOR
 };
 
 export default LoginForm;

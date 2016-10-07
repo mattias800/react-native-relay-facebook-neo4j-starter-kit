@@ -1,1 +1,1 @@
-export const linkColor = "#44cc44";
+export const LINK_COLOR = "#44cc44";

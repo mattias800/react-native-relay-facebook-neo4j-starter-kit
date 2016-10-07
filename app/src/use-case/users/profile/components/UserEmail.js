@@ -1,14 +1,7 @@
 /* @flow */
-
 import React from "react";
 import Relay from "react-relay";
-
-import {
-    AppRegistry,
-    StyleSheet,
-    Text,
-    View
-} from 'react-native';
+import {AppRegistry, StyleSheet, Text, View} from "react-native";
 
 class UserEmailComponent extends React.Component {
 

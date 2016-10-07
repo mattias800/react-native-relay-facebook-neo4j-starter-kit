@@ -1,11 +1,12 @@
 /* @flow */
-
 import React from "react";
 import Relay from "react-relay";
 import {AppRegistry, StyleSheet, Text, View, ScrollView} from "react-native";
-import {createRelayRenderer} from "../../common/util/RelayFactory";
+import {createRelayRenderer} from "../../../common/util/RelayFactory";
 import {UserProfile} from "./components/UserProfile";
-import {getAuthTokenUsedByRelay} from "../../network/RelayNetworkConfig";
+import {getAuthTokenUsedByRelay} from "../../../network/RelayNetworkConfig";
+import {AddAnimalPageComponent} from "../../animals/add-animal/AddAnimalPage";
+import {Button} from "react-native-elements";
 
 class ViewerProfilePage extends React.Component {
 
@@ -17,8 +18,20 @@ class ViewerProfilePage extends React.Component {
                 <UserProfile user={user}
                              navigator={navigator}
                              isCurrentUser={true} />
+                <Button raised
+                        backgroundColor="#abe"
+                        icon={{name: 'plus',  type: 'font-awesome'}}
+                        title='ADD DOG'
+                        onPress={() => this.addAnimalClicked()} />
             </ScrollView>
         );
+    }
+
+    addAnimalClicked() {
+        this.props.navigator.push({
+            screen: 'example.AddAnimalScreen',
+            title: AddAnimalPageComponent.PageTitle
+        });
     }
 
 }

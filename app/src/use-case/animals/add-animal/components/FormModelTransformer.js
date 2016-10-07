@@ -1,0 +1,16 @@
+export function transformFormModelToPayload(model) {
+    console.log("TRANSFORM");
+    console.log(model);
+
+    return {
+        fullName: model.fullName,
+        nickName: model.nickName,
+        ...(model.wantToEnterDates ? {
+            birthDate: model.birthDate,
+            deceased: Boolean(model.deceased),
+            ...(model.deceased && !model.forgotDeathDate ? {
+                deathDate: model.deathDate
+            } : {})
+        } : {})
+    }
+}

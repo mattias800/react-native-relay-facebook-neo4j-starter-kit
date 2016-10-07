@@ -1,13 +1,12 @@
 /* @flow */
-
 import React from "react";
 import Relay from "react-relay";
 import {AppRegistry, StyleSheet, Text, View, ScrollView} from "react-native";
-import {createRelayRenderer} from "../../common/util/RelayFactory";
-import {getAuthTokenUsedByRelay} from "../../network/RelayNetworkConfig";
+import {createRelayRenderer} from "../../../common/util/RelayFactory";
+import {getAuthTokenUsedByRelay} from "../../../network/RelayNetworkConfig";
 import {List} from "react-native-elements";
 import {UserListItem} from "./components/UserLiteItem";
-import {linkColor} from "../../common/ui/colors/AppColors";
+import {LINK_COLOR} from "../../../common/ui/colors/AppColors";
 
 const PAGE_SIZE = 2;
 
@@ -30,7 +29,7 @@ class UserListPage extends React.Component {
                     hasNextPage &&
                     <View alignItems="center">
                         <Text onPress={() => this.showMore()}
-                              style={{color:linkColor}}>Show more</Text>
+                              style={{color:LINK_COLOR}}>Show more</Text>
                     </View>
                 }
             </ScrollView>

@@ -1,9 +1,8 @@
 /* @flow */
-
 import React from "react";
 import {AppRegistry, StyleSheet, TouchableHighlight, Text, View} from "react-native";
 import {Button} from "react-native-elements";
-import * as FormTypes from "../../../common/form/validation/FormTypes";
+import * as FormTypes from "../../../../common/form/validation/FormTypes";
 var t = require('tcomb-form-native');
 
 var Form = t.form.Form;

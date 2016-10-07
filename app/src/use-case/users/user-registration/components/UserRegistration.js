@@ -1,16 +1,8 @@
 /* @flow */
-
 import React from "react";
-import Relay from 'react-relay';
-import {Button, FormLabel, FormInput} from 'react-native-elements'
-
-import {
-    AppRegistry,
-    StyleSheet,
-    Text,
-    View
-} from 'react-native';
-import MainContent from "../../../common/ui/MainContent";
+import Relay from "react-relay";
+import {AppRegistry, StyleSheet, Text, View} from "react-native";
+import MainContent from "../../../../common/ui/MainContent";
 import {UserRegistrationForm} from "./UserRegistrationForm";
 
 class UserRegistrationComponent extends React.Component {

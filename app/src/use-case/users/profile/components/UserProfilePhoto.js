@@ -1,18 +1,8 @@
 /* @flow */
-
 import React from "react";
-import Relay from 'react-relay';
-
-import {
-    AppRegistry,
-    StyleSheet,
-    Text,
-    View,
-    Image
-} from 'react-native';
-import {
-    Icon
-} from "react-native-elements";
+import Relay from "react-relay";
+import {AppRegistry, StyleSheet, Text, View, Image} from "react-native";
+import {Icon} from "react-native-elements";
 
 class UserProfilePhotoComponent extends React.Component {
 

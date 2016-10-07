@@ -6,11 +6,10 @@ import {
     getAllUsers,
     updateUser
 } from "../persistence/service/UserService";
+import {Entity} from "./Entity";
 
-export class User {
+export class User extends Entity {
 
-    id: string;
-    createdAt: Date;
     token: string;
     firstName: ?string;
     lastName: ?string;
@@ -19,15 +18,17 @@ export class User {
     isSuperUser: boolean;
 
     constructor(id: string,
-                createdAt: Date,
+                createdAt: Date = new Date(),
+                modifiedAt: Date = new Date(),
+                deleted: boolean = false,
+                deletedAt: ?Date = undefined,
                 token: string,
                 firstName: ?string,
                 lastName: ?string,
                 email: ?string,
                 profilePhotoUrl: ?string,
                 isSuperUser: boolean = false) {
-        this.id = id;
-        this.createdAt = createdAt;
+        super(id, createdAt, modifiedAt, deleted, deletedAt);
         this.token = token;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -47,6 +48,10 @@ export class User {
         return new User(
             entity.properties.id,
             new Date(entity.properties.createdAt),
+            new Date(entity.properties.modifiedAt),
+            Boolean(entity.properties.deleted),
+            new Date(entity.properties.deletedAt),
+
             entity.properties.token,
             entity.properties.firstName,
             entity.properties.lastName,
@@ -95,4 +100,4 @@ export class User {
 
 }
 
-export const userMock = new User("", new Date(), "");
+export const userMock = new User("", undefined, undefined, undefined, undefined, "");
