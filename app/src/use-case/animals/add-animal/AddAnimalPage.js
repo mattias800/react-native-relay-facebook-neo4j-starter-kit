@@ -5,6 +5,7 @@ import {AppRegistry, StyleSheet, Text, ScrollView} from "react-native";
 import {createRootRelayComponent, createRelayRenderer} from "../../../common/util/RelayFactory";
 import {getAuthTokenUsedByRelay, getCurrentUserId} from "../../../network/RelayNetworkConfig";
 import {NewAnimalForm} from "./components/NewAnimalForm";
+import {CreateAnimalMutation} from "../../../mutations/animals/CreateAnimalMutation";
 
 class AddAnimalPage extends React.Component {
 
@@ -19,8 +20,27 @@ class AddAnimalPage extends React.Component {
     }
 
     onSubmit(model) {
-        console.log("SUBMIT");
-        console.log(model);
+        const {user, relay, navigator} = this.props;
+
+        const mutation = new CreateAnimalMutation({
+            user,
+            token: getAuthTokenUsedByRelay(),
+            ...model
+        });
+        relay.commitUpdate(mutation, {
+            onSuccess: response => {
+                this.props.navigator.pop(
+                    {
+                        animated: true
+                    });
+            },
+            onFailure: transaction => {
+                alert("Could not save dog. Please try again.");
+                console.log("FAILED!");
+                console.log(transaction.getError());
+
+            }
+        })
     }
 
 }
@@ -30,6 +50,7 @@ AddAnimalPage = Relay.createContainer(AddAnimalPage, {
         user: () => Relay.QL`
             fragment on User {
                 email
+                ${CreateAnimalMutation.getFragment('user')}
             }
     `,
     },

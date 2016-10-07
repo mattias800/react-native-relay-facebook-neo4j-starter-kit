@@ -5,6 +5,8 @@ export function transformFormModelToPayload(model) {
     return {
         fullName: model.fullName,
         nickName: model.nickName,
+        animalKind: "dog",
+        deceased: Boolean(model.deceased),
         ...(model.wantToEnterDates ? {
             birthDate: model.birthDate,
             deceased: Boolean(model.deceased),

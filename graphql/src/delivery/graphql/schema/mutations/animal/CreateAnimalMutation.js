@@ -10,7 +10,6 @@ export const createAnimalMutation = mutationWithClientMutationId(
     {
         name: 'CreateAnimal',
         inputFields: {
-            //ownerId: {type: new GraphQLNonNull(GraphQLID)},
             token: {type: new GraphQLNonNull(GraphQLString)},
             fullName: {type: new GraphQLNonNull(GraphQLString)},
             nickName: {type: new GraphQLNonNull(GraphQLString)},
@@ -42,8 +41,7 @@ export const createAnimalMutation = mutationWithClientMutationId(
                                                   animalKind,
                                                   birthDate,
                                                   deathDate,
-                                                  deceased
-            );
+                                                  deceased);
 
             await insertAnimal(animal, user);
 
