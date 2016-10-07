@@ -1,9 +1,9 @@
+import {Entity} from "./Entity";
+
 export type AnimalKindType = "cat" | "dog";
 
-export class Animal {
+export class Animal extends Entity {
 
-    id: string;
-    createdAt: Date;
     fullName: ?string;
     nickName: ?string;
     animalKind: "dog" | "cat";
@@ -13,18 +13,21 @@ export class Animal {
     litterId: ?string;
     deceased: ?boolean;
 
+
     constructor(id: string,
-                createdAt: Date,
-                fullName: ?string,
-                nickName: ?string,
-                animalKind: AnimalKindType = "dog",
-                profilePhotoUrl: ?string,
-                birthDate: ?Date,
-                deathDate: ?Date,
-                litterId: ?string,
-                deceased: ?boolean) {
-        this.id = id;
-        this.createdAt = createdAt;
+                createdAt: Date = new Date(),
+                modifiedAt: Date = new Date(),
+                deleted: boolean = false,
+                deletedAt: ?Date = undefined,
+                fullName: string,
+                nickName: string,
+                animalKind: *,
+                profilePhotoUrl: string,
+                birthDate: Date,
+                deathDate: Date,
+                litterId: string,
+                deceased: boolean) {
+        super(id, createdAt, modifiedAt, deleted, deletedAt);
         this.fullName = fullName;
         this.nickName = nickName;
         this.animalKind = animalKind;
@@ -59,4 +62,17 @@ export class Animal {
 
 }
 
-export const mockedAnimal = new Animal("id123", new Date(), "Soya Upswing", "Soya", "dog", "", new Date(), new Date(), "litterId123", false);
+export const mockedAnimal = new Animal("id123",
+    undefined,
+    undefined,
+    undefined,
+    undefined,
+    "Soya Upswing",
+    "Soya",
+    "dog",
+    "",
+    new Date(),
+    new Date(),
+    "litterId123",
+    false
+);

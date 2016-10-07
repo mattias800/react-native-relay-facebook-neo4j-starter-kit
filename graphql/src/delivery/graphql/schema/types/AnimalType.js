@@ -114,6 +114,21 @@ export const updateAnimalMutation = {
         if (input.nickName !== undefined) {
             animal.nickName = input.nickName;
         }
+        if (input.animalKind !== undefined) {
+            animal.animalKind = input.animalKind;
+        }
+        if (input.birthDate !== undefined) {
+            animal.birthDate = input.birthDate;
+        }
+        if (input.deathDate !== undefined) {
+            animal.deathDate = input.deathDate;
+        }
+        if (input.deceased !== undefined) {
+            animal.deceased = input.deceased;
+        }
+        if (input.litterId !== undefined) {
+            animal.litterId = input.litterId;
+        }
         if (input.profilePhotoUrl !== undefined) {
             animal.profilePhotoUrl = input.profilePhotoUrl;
         }
