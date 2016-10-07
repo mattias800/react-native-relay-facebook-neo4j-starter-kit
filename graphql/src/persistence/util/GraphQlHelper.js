@@ -56,3 +56,14 @@ export function getQueryProps(type) {
     return Object.keys(type).map(key => `${key}: {${key}}`).join(", ");
 }
 
+export function prepareQueryModel(instance) {
+    let o = {};
+    Object.keys(instance).map(key => {
+        if (instance[key] === undefined) {
+            o[key] = null;
+        } else {
+            o[key] = instance[key];
+        }
+    });
+    return o;
+}

@@ -4,7 +4,8 @@ import {User} from "../../entities/User";
 import {Observable} from "rx";
 import {getConnectionCustomMatchQuery, getConnectionMatchQuery} from "../util/QueryGenerator";
 import {Animal} from "../../entities/Animal";
-import {getQueryProps} from "../util/GraphQlHelper";
+import {getQueryProps, prepareQueryModel} from "../util/GraphQlHelper";
+
 
 export async function getAnimalById(id: string): Promise<Animal> {
     return await cypher(
@@ -60,16 +61,16 @@ export async function getAnimalsOwnedByUserConnection(user: User,
         .toPromise();
 }
 
-export async function insertAnimal(animal: Animal, owner: User) {
+export async function insertAnimal(animal: Animal, owner: User): Promise<Animal> {
     return await cypher(
         `
-        MATCH (user:User {id:{id}})
-        CREATE (animal:Animal {${getQueryProps(animal)})
+        MATCH (user:User {id:{ownerId}})
+        CREATE (animal:Animal {${getQueryProps(animal)}})
         CREATE (user)-[:OWNS]->(animal)
         RETURN animal
         `,
         {
-            ...animal,
+            ...(prepareQueryModel(animal)),
             ownerId: owner.id
         })
         .then(results => results.map(result => result.animal))

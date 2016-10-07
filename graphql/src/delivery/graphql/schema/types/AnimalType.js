@@ -141,4 +141,5 @@ export const updateAnimalMutation = {
     }
 };
 
+
 registerTypeInNodeInterface(AnimalType, Animal, (id: string) => AnimalService.getAnimalById(id));

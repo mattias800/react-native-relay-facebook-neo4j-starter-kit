@@ -1,4 +1,5 @@
 import {Entity} from "./Entity";
+import {generateUuid} from "../util/service/UuidService";
 
 export type AnimalKindType = "cat" | "dog";
 
@@ -6,7 +7,7 @@ export class Animal extends Entity {
 
     fullName: ?string;
     nickName: ?string;
-    animalKind: "dog" | "cat";
+    animalKind: AnimalKindType;
     profilePhotoUrl: ?string;
     birthDate: ?Date;
     deathDate: ?Date;
@@ -14,18 +15,18 @@ export class Animal extends Entity {
     deceased: ?boolean;
 
 
-    constructor(id: string,
+    constructor(id: ?string,
                 createdAt: Date = new Date(),
                 modifiedAt: Date = new Date(),
                 deleted: boolean = false,
                 deletedAt: ?Date = undefined,
                 fullName: string,
                 nickName: string,
-                animalKind: *,
-                profilePhotoUrl: string,
-                birthDate: Date,
-                deathDate: Date,
-                litterId: string,
+                animalKind: AnimalKindType,
+                profilePhotoUrl: ?string,
+                birthDate: ?Date,
+                deathDate: ?Date,
+                litterId: ?string,
                 deceased: boolean) {
         super(id, createdAt, modifiedAt, deleted, deletedAt);
         this.fullName = fullName;
@@ -60,9 +61,33 @@ export class Animal extends Entity {
         );
     }
 
+    static createNewAnimal(fullName: string,
+                           nickName: string,
+                           animalKind: AnimalKindType,
+                           birthDate: ?Date,
+                           deathDate: ?Date,
+                           deceased: boolean) {
+        return new Animal(
+            generateUuid(),
+            new Date(),
+            new Date(),
+            false,
+            null,
+            fullName,
+            nickName,
+            animalKind,
+            null,
+            birthDate,
+            deathDate,
+            null,
+            deceased
+        );
+    }
+
 }
 
-export const mockedAnimal = new Animal("id123",
+export const mockedAnimal = new Animal(
+    "id123",
     undefined,
     undefined,
     undefined,
@@ -70,7 +95,7 @@ export const mockedAnimal = new Animal("id123",
     "Soya Upswing",
     "Soya",
     "dog",
-    "",
+    undefined,
     new Date(),
     new Date(),
     "litterId123",

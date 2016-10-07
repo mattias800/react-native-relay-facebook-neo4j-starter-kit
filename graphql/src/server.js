@@ -26,9 +26,9 @@ function startServer() {
         try {
             const user = await authenticateOrCreateUserByPayload(service, payload);
             res.send({
-                user,
-                isCompleteProfile: user.isCompleteProfile()
-            });
+                         user,
+                         isCompleteProfile: user.isCompleteProfile()
+                     });
         } catch (e) {
             console.log("Error!");
 
@@ -52,3 +52,4 @@ function startServer() {
 
     app.listen(serverPort);
 }
+

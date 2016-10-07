@@ -25,11 +25,29 @@ type AnimalEdge {
   node: Animal
 }
 
+input CreateAnimalInput {
+  token: String!
+  fullName: String!
+  nickName: String!
+  animalKind: String!
+  birthDate: String
+  deathDate: String
+  deceased: Boolean!
+  clientMutationId: String
+}
+
+type CreateAnimalPayload {
+  animal: Animal
+  user: User
+  clientMutationId: String
+}
+
 scalar Cursor
 
 # Root mutation
 type MutationRoot {
   updateUser(input: UserMutationInputType): UserMutationPayload
+  createAnimal(input: CreateAnimalInput!): CreateAnimalPayload
 }
 
 # An object with an ID

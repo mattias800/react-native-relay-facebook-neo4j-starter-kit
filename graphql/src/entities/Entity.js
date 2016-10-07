@@ -1,12 +1,12 @@
 export class Entity {
 
-    id: string;
+    id: ?string;
     createdAt: Date;
     modifiedAt: Date;
     deleted: boolean;
     deletedAt: Date;
 
-    constructor(id: string,
+    constructor(id: ?string,
                 createdAt: Date = new Date(),
                 modifiedAt: Date = new Date(),
                 deleted: boolean = false,
