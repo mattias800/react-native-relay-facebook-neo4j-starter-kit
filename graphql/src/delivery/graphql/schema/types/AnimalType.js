@@ -13,6 +13,8 @@ import {limitResult, getPageInfo} from "../../../../persistence/util/GraphQlHelp
 import {UserConnection} from "./UserType";
 import * as AnimalService from "../../../../persistence/service/AnimalService";
 import {Animal} from "../../../../entities/Animal";
+import {PhotoConnection} from "./PhotoType";
+import * as PhotoService from "../../../../persistence/service/PhotoService";
 
 export const AnimalType = new GraphQLObjectType({
     name: "Animal",
@@ -32,25 +34,34 @@ export const AnimalType = new GraphQLObjectType({
         owners: {
             type: UserConnection,
             args: connectionArgs,
-            resolve: async(user, args) => {
-                let users = await AnimalService.getOwnersOfAnimalConnection(user, args);
+            resolve: async(animal, args) => {
+                let users = await AnimalService.getOwnersOfAnimalConnection(animal, args);
                 return {
                     users: limitResult(users, args),
                     pageInfo: getPageInfo(users, args)
                 };
             }
-
+        },
+        taggedPhotos: {
+            type: PhotoConnection,
+            args: connectionArgs,
+            resolve: async(animal, args) => {
+                const photos = await PhotoService.getPhotosThatAnimalIsTaggedInConnection(animal, args);
+                return {
+                    photos: limitResult(photos, args),
+                    pageInfo: getPageInfo(photos, args)
+                };
+            }
         }
     })
 });
 
 export const AnimalConnection = new GraphQLObjectType({
     name: 'AnimalConnection',
-
     fields: () => ({
         edges: {
             type: new GraphQLList(AnimalEdge),
-            resolve: (parent) => parent.users
+            resolve: (parent) => parent.animals
         },
         pageInfo: {
             type: new GraphQLNonNull(PageInfo),

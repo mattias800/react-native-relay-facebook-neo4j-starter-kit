@@ -20,7 +20,7 @@ export async function getAllAnimals(): Promise<Array<User>> {
     return Observable.fromPromise(cypher("MATCH (animal:Animal) return animal"))
         .flatMap(Observable.from)
         .map(result => result.animal)
-        .map(User.createFromEntity)
+        .map(Animal.createFromEntity)
         .toArray()
         .toPromise()
 }

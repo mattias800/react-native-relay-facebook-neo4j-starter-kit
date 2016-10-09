@@ -17,7 +17,6 @@ class UserProfileComponent extends React.Component {
         return (
             <View style={containerStyle}>
                 <UserProfilePhoto user={user} />
-                <Text style={nameTextStyle}>{`${firstName || ""} ${lastName || ""}`}</Text>
                 <Text onPress={() => this.goToFriends()}>{user.numFriends} friends</Text>
                 <Text onPress={() => this.goToAnimals()}>{user.numAnimals} animals</Text>
                 <UserEmail user={user} />
@@ -31,23 +30,23 @@ class UserProfileComponent extends React.Component {
     goToAnimals() {
         const {user} = this.props;
         this.props.navigator.push({
-            screen: 'example.UserProfileAnimalsScreen',
-            title: `${user.firstName}s dogs`,
-            passProps: {
-                userId: user.id
-            }
-        });
+                                      screen: 'example.UserProfileAnimalsScreen',
+                                      title: `${user.firstName}s dogs`,
+                                      passProps: {
+                                          userId: user.id
+                                      }
+                                  });
     }
 
     goToFriends() {
         const {user} = this.props;
         this.props.navigator.push({
-            screen: 'example.UserProfileFriendsScreen',
-            title: `${user.firstName}s friends`,
-            passProps: {
-                userId: user.id
-            }
-        });
+                                      screen: 'example.UserProfileFriendsScreen',
+                                      title: `${user.firstName}s friends`,
+                                      passProps: {
+                                          userId: user.id
+                                      }
+                                  });
     }
 
 }

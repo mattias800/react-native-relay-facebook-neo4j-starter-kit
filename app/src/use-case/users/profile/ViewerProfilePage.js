@@ -12,6 +12,9 @@ class ViewerProfilePage extends React.Component {
 
     render() {
         const {user, navigator} = this.props;
+        const {firstName, lastName} = user;
+
+        navigator.setTitle({title: `${firstName} ${lastName}`});
 
         return (
             <ScrollView style={{marginTop:20}}>
@@ -29,9 +32,9 @@ class ViewerProfilePage extends React.Component {
 
     addAnimalClicked() {
         this.props.navigator.push({
-            screen: 'example.AddAnimalScreen',
-            title: AddAnimalPageComponent.PageTitle
-        });
+                                      screen: 'example.AddAnimalScreen',
+                                      title: AddAnimalPageComponent.PageTitle
+                                  });
     }
 
 }
@@ -40,6 +43,8 @@ ViewerProfilePage = Relay.createContainer(ViewerProfilePage, {
     fragments: {
         user: () => Relay.QL`
             fragment on User {
+                firstName
+                lastName
                 ${UserProfile.getFragment('user')}
             }
     `,

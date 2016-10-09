@@ -17,6 +17,10 @@ import {limitResult, getPageInfo} from "../../../../persistence/util/GraphQlHelp
 import * as AnimalService from "../../../../persistence/service/AnimalService";
 import {getNumAnimalsFor} from "../../../../persistence/service/AnimalService";
 import {AnimalConnection} from "./AnimalType";
+import {PhotoConnection} from "./PhotoType";
+import * as PhotoService from "../../../../persistence/service/PhotoService";
+import * as FriendRequestService from "../../../../persistence/service/FriendRequestService";
+import {FriendRequestType} from "./FriendRequestType";
 
 export const UserType = new GraphQLObjectType({
     name: "User",
@@ -68,9 +72,34 @@ export const UserType = new GraphQLObjectType({
             resolve: async(user, args) => {
                 const animals = await AnimalService.getAnimalsOwnedByUserConnection(user, args);
                 return {
-                    users: limitResult(animals, args),
+                    animals: limitResult(animals, args),
                     pageInfo: getPageInfo(animals, args)
                 };
+            }
+        },
+        taggedPhotos: {
+            type: PhotoConnection,
+            args: connectionArgs,
+            resolve: async(user, args) => {
+                const photos = await PhotoService.getPhotosThatUserIsTaggedInConnection(user, args);
+                return {
+                    photos: limitResult(photos, args),
+                    pageInfo: getPageInfo(photos, args)
+                };
+            }
+        },
+        activeIncomingFriendRequests: {
+            type: new GraphQLList(FriendRequestType),
+            resolve: async(user) => {
+                const friendRequests = await FriendRequestService.getActiveIncomingFriendRequests(user);
+                return friendRequests;
+            }
+        },
+        activeOutgoingFriendRequests: {
+            type: new GraphQLList(FriendRequestType),
+            resolve: async(user) => {
+                const friendRequests = await FriendRequestService.getActiveOutgoingFriendRequests(user);
+                return friendRequests;
             }
         }
     })

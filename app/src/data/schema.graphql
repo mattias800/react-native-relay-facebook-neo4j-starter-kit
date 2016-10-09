@@ -13,6 +13,7 @@ type Animal implements Node {
   profilePhotoUrl: String
   numOwners: Int
   owners(after: String, first: Int, before: String, last: Int): UserConnection
+  taggedPhotos(after: String, first: Int, before: String, last: Int): PhotoConnection
 }
 
 type AnimalConnection {
@@ -44,6 +45,18 @@ type CreateAnimalPayload {
 
 scalar Cursor
 
+# A friend request.
+type FriendRequest implements Node {
+  # The ID of an object
+  id: ID!
+  createdAt: String
+  from: User
+  to: User
+  declined: Boolean
+  accepted: Boolean
+  ignored: Boolean
+}
+
 # Root mutation
 type MutationRoot {
   updateUser(input: UserMutationInputType): UserMutationPayload
@@ -59,6 +72,26 @@ interface Node {
 type PageInfo {
   hasNextPage: Boolean!
   hasPreviousPage: Boolean!
+}
+
+# A photo
+type Photo implements Node {
+  # The ID of an object
+  id: ID!
+  createdAt: String
+  url: String
+  taggedUsers(after: String, first: Int, before: String, last: Int): UserConnection
+  taggedAnimals(after: String, first: Int, before: String, last: Int): AnimalConnection
+}
+
+type PhotoConnection {
+  edges: [PhotoEdge]
+  pageInfo: PageInfo!
+}
+
+type PhotoEdge {
+  cursor: Cursor
+  node: Photo
 }
 
 # Root query
@@ -89,6 +122,9 @@ type User implements Node {
   numAnimals: Int
   friends(after: String, first: Int, before: String, last: Int): UserConnection
   animals(after: String, first: Int, before: String, last: Int): AnimalConnection
+  taggedPhotos(after: String, first: Int, before: String, last: Int): PhotoConnection
+  activeIncomingFriendRequests: [FriendRequest]
+  activeOutgoingFriendRequests: [FriendRequest]
 }
 
 type UserConnection {

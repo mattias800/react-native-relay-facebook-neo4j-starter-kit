@@ -10,8 +10,9 @@ class UserProfilePage extends React.Component {
 
     render() {
         const {user, navigator} = this.props;
-        console.log("navigator");
-        console.log(navigator);
+        const {firstName, lastName} = user;
+
+        navigator.setTitle({title: `${firstName} ${lastName}`});
 
         const isCurrentUser = user.id === getCurrentUserId();
 
