@@ -1,7 +1,7 @@
 /* @flow */
 import {GraphQLObjectType} from "graphql";
-import {updateUserMutation} from "./delivery/graphql/schema/types/UserType";
 import {createAnimalMutation} from "./delivery/graphql/schema/mutations/animal/CreateAnimalMutation";
+import {updateUserMutation} from "./delivery/graphql/schema/mutations/users/UpdateUserMutation";
 
 export const MutationRoot = new GraphQLObjectType({
     name: "MutationRoot",

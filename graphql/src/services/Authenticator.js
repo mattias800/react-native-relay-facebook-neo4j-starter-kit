@@ -1,6 +1,11 @@
 import {getUserByAuthToken} from "../persistence/service/UserService";
 
-export async function validateToken(token: string) {
+export async function validateToken(token: ?string) {
+
+    if (!token) {
+        throw "Missing access token";
+    }
+
     const viewer = await getUserByAuthToken(token);
 
     if (!viewer) {
