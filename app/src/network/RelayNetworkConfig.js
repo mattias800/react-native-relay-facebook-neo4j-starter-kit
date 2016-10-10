@@ -7,7 +7,11 @@ let currentUserId = undefined;
 
 console.log(`Using GraphQL endpoints: ${graphqlEndpoint}`);
 
-Relay.injectNetworkLayer(new EnhancedRelayNetworkLayer(graphqlEndpoint));
+Relay.injectNetworkLayer(new EnhancedRelayNetworkLayer(
+    graphqlEndpoint,
+    undefined,
+    () => Promise.resolve({authentication: authTokenUsedByRelay}))
+);
 
 export function setRelaySession(token: string, userId: string) {
     authTokenUsedByRelay = token;

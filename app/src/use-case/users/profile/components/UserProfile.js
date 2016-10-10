@@ -9,11 +9,7 @@ import {UserProfilePhoto} from "./UserProfilePhoto";
 class UserProfileComponent extends React.Component {
 
     render() {
-        const {user, isCurrentUser} = this.props;
-        console.log("isCurrentUser");
-        console.log(isCurrentUser);
-
-        const {firstName, lastName} = user;
+        const {user} = this.props;
         return (
             <View style={containerStyle}>
                 <UserProfilePhoto user={user} />
@@ -21,7 +17,12 @@ class UserProfileComponent extends React.Component {
                 <Text onPress={() => this.goToAnimals()}>{user.numAnimals} animals</Text>
                 <UserEmail user={user} />
                 {
-                    isCurrentUser && <LogoutButton />
+                    !user.isCurrentUser &&
+                    <Text>{user.isFriend ? "Is friend" : "Not friend"}</Text>
+                }
+
+                {
+                    user.isCurrentUser && <LogoutButton />
                 }
             </View>
         );
@@ -60,6 +61,8 @@ export const UserProfile = Relay.createContainer(UserProfileComponent, {
             lastName
             numFriends
             numAnimals
+            isCurrentUser
+            isFriend
             ${UserProfilePhoto.getFragment('user')}
             ${UserEmail.getFragment('user')}
         }

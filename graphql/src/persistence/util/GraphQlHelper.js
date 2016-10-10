@@ -52,10 +52,20 @@ export function limitResult(list, connectionArgs) {
     return result;
 }
 
+/**
+ * Returns a string with all property names that can be used in {...} part of Neo4j query.
+ * @param type
+ * @returns {string}
+ */
 export function getQueryProps(type) {
     return Object.keys(type).map(key => `${key}: {${key}}`).join(", ");
 }
 
+/**
+ * Changes undefined properties to null properties.
+ * @param instance
+ * @returns {{}}
+ */
 export function prepareQueryModel(instance) {
     let o = {};
     Object.keys(instance).map(key => {

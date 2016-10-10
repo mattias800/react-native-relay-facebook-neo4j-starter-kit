@@ -10,11 +10,11 @@ import {getConnectionCustomMatchQuery, getConnectionMatchQuery} from "../util/Qu
 
 export async function getAllUsers(): Promise<Array<User>> {
     return Observable.fromPromise(cypher("MATCH (user:User) return user"))
-        .flatMap(Observable.from)
-        .map(result => result.user)
-        .map(User.createFromEntity)
-        .toArray()
-        .toPromise()
+                     .flatMap(Observable.from)
+                     .map(result => result.user)
+                     .map(User.createFromEntity)
+                     .toArray()
+                     .toPromise()
 }
 
 export async function getAllUsersConnection(connectionArguments: Object,
@@ -133,6 +133,21 @@ export async function getNumFriendsFor(user: User): Promise<number> {
     return Observable
         .fromPromise(cypher("MATCH (u:User {id:{id}})-[:IS_FRIENDS_WITH]->(friend:User) return count(friend);", {id}))
         .map(result => result[0]["count(friend)"])
+        .toPromise();
+}
+
+export async function isFriends(user1: User, user2: User): Promise<boolean> {
+    if (user1.id === user2.id) {
+        return false;
+    }
+    return Observable
+        .fromPromise(cypher("MATCH (u:User {id:{id1}})-[:IS_FRIENDS_WITH]->(u2:User {id:{id2}}) return count(u);",
+                            {
+                                id1: user1.id,
+                                id2: user2.id
+                            }
+        ))
+        .map(result => result[0]["count(u)"])
         .toPromise();
 }
 

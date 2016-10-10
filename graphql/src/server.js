@@ -46,7 +46,8 @@ function startServer() {
 
         return {
             schema,
-            graphiql: true
+            graphiql: true,
+            context: {}
         };
     }));
 

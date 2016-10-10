@@ -6,6 +6,7 @@ import {createRootRelayComponent, createRelayRenderer} from "../../common/util/R
 import {DashboardTop} from "./components/DashboardTop";
 import {getAuthTokenUsedByRelay, getCurrentUserId} from "../../network/RelayNetworkConfig";
 import {DashboardAnimalList} from "./components/DashboardAnimalList";
+import {DashboardIncomingFriendRequests} from "./components/DashboardIncomingFriendRequests";
 
 class DashboardPage extends React.Component {
 
@@ -15,6 +16,7 @@ class DashboardPage extends React.Component {
         return (
             <ScrollView>
                 <DashboardTop user={user} />
+                <DashboardIncomingFriendRequests user={user} />
                 <DashboardAnimalList user={user} />
             </ScrollView>
         );
@@ -28,6 +30,7 @@ DashboardPage = Relay.createContainer(DashboardPage, {
             fragment on User {
                 ${DashboardTop.getFragment('user', params)}
                 ${DashboardAnimalList.getFragment('user', params)}
+                ${DashboardIncomingFriendRequests.getFragment('user', params)}
             }
     `,
     },

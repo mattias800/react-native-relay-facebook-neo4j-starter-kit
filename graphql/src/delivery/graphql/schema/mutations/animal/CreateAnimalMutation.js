@@ -2,9 +2,9 @@ import {mutationWithClientMutationId} from "graphql-relay";
 import {GraphQLNonNull, GraphQLString, GraphQLBoolean} from "graphql";
 import {AnimalType} from "../../types/AnimalType";
 import {Animal} from "../../../../../entities/Animal";
-import * as UserService from "../../../../../persistence/service/UserService";
 import {insertAnimal} from "../../../../../persistence/service/AnimalService";
 import {UserType} from "../../types/UserType";
+import {validateToken} from "../../../../../services/Authenticator";
 
 export const createAnimalMutation = mutationWithClientMutationId(
     {
@@ -31,18 +31,13 @@ export const createAnimalMutation = mutationWithClientMutationId(
             deathDate,
             deceased
         }) => {
-            const user = await UserService.getUserByAuthToken(token);
-            if (!user) {
-                throw "Invalid token.";
-            }
-
+            const user = await validateToken(token);
             const animal = Animal.createNewAnimal(fullName,
                                                   nickName,
                                                   animalKind,
                                                   birthDate,
                                                   deathDate,
                                                   deceased);
-
             await insertAnimal(animal, user);
 
             return {
