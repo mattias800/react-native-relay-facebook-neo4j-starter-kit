@@ -5,8 +5,8 @@ import graphQLHTTP from "express-graphql";
 import schema from "./schema";
 import {authenticateOrCreateUserByPayload} from "./services/AuthenticationService";
 import updateSchema from "./util/updateSchema";
-import {validateToken} from "./services/Authenticator";
 import * as HttpCodes from "./delivery/http/HttpCodes";
+import * as UserService from "./persistence/service/UserService";
 const colors = require('colors/safe');
 const serverPort = 5000;
 
@@ -55,25 +55,20 @@ function startServer() {
             authentication = DEBUG_USER_TOKEN;
         }
 
-        let actor;
+        const actor = await UserService.getUserByAuthToken(authentication);
 
-        try {
-            actor = await validateToken(authentication);
-            console.log("Actor");
-            console.log(actor);
-
-        } catch (e) {
+        if (actor) {
+            return {
+                schema,
+                graphiql: true,
+                context: {
+                    actor
+                }
+            };
+        } else {
             res.status(HttpCodes.UNAUTHORIZED).send('Valid authorization token missing.');
-            return;
         }
 
-        return {
-            schema,
-            graphiql: true,
-            context: {
-                actor
-            }
-        };
     }));
 
     app.listen(serverPort);

@@ -16,22 +16,22 @@ export const ViewerType = new GraphQLObjectType({
         user: {
             type: UserType,
             args: {id: {type: GraphQLString}},
-            resolve: ({actor}, {id}) => User.getById(actor, fromGlobalId(id).id)
+            resolve: (parent, {id}, {actor}) => User.getById(actor, fromGlobalId(id).id)
         },
         userByEmail: {
             type: UserType,
             args: {email: {type: GraphQLString}},
-            resolve: ({actor}, {email}) => User.getByEmail(actor, email)
+            resolve: (parent, {email}, {actor}) => User.getByEmail(actor, email)
         },
         animal: {
             type: AnimalType,
             args: {id: {type: GraphQLString}},
-            resolve: ({actor}, {id}) => User.getById(actor, fromGlobalId(id).id)
+            resolve: (parent, {id}, {actor}) => User.getById(actor, fromGlobalId(id).id)
         },
         users: {
             type: UserConnection,
             args: connectionArgs,
-            resolve: async({actor}, args) => {
+            resolve: async(parent, args, {actor}) => {
                 let users = await UserService.getAllUsersConnection(args);
                 return {
                     users: limitResult(users, args),
@@ -41,12 +41,12 @@ export const ViewerType = new GraphQLObjectType({
         },
         incompleteUsers: {
             type: new GraphQLList(UserType),
-            resolve: ({actor}, args) => UserService.getAllUsersWithIncompleteProfile()
+            resolve: (parent, args, {actor}) => UserService.getAllUsersWithIncompleteProfile()
         },
         actor: {
             type: UserType,
-            resolve: (viewer, args, context) => {
-                return viewer.actor;
+            resolve: (parent, args, {actor}) => {
+                return actor;
             }
         }
     })

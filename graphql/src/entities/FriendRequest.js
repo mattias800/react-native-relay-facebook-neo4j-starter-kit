@@ -9,7 +9,6 @@ export class FriendRequest extends Entity {
     ignored: boolean;
     declined: boolean;
 
-
     constructor(id: string,
                 createdAt: Date,
                 modifiedAt: Date,

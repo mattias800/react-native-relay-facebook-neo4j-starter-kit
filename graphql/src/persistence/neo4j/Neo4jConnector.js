@@ -12,17 +12,18 @@ export const cypher = (query, params) => {
         let start = new Date();
 
         db.cypher({query, params},
-            (err, results) => {
-                let end = new Date();
-                logQuery(start, end, query, params);
-                if (err) {
-                    console.warn("Query error.");
-                    console.warn(err);
-                    reject(err);
-                } else {
-                    resolve(results);
-                }
-            });
+                  (err, results) => {
+                      let end = new Date();
+                      logQuery(start, end, query, params);
+                      if (err) {
+                          console.warn("Query error.");
+                          console.warn(err);
+                          reject(err);
+                      } else {
+                          logQueryResult(results);
+                          resolve(results);
+                      }
+                  });
     });
 };
 
@@ -32,15 +33,15 @@ export const matchById = (label, id) => {
         let query = "MATCH (node:User) WHERE id(node) = {id} return node";
         let params = {id};
         db.cypher({query, params},
-            (err, results) => {
-                let end = new Date();
-                logQuery(start, end, query, params);
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve(results);
-                }
-            });
+                  (err, results) => {
+                      let end = new Date();
+                      logQuery(start, end, query, params);
+                      if (err) {
+                          reject(err);
+                      } else {
+                          resolve(results);
+                      }
+                  });
     });
 };
 
@@ -50,29 +51,33 @@ export const getAnyById = (id) => {
         let query = "MATCH (node {uuid:{id}) WHERE id(node) = {id} return node";
         let params = {id};
         db.cypher({query, params},
-            (err, results) => {
-                let end = new Date();
-                logQuery(start, end, query, params);
-                if (err) {
-                    reject(err);
-                } else {
-                    resolve({...results.properties});
-                }
-            });
+                  (err, results) => {
+                      let end = new Date();
+                      logQuery(start, end, query, params);
+                      if (err) {
+                          reject(err);
+                      } else {
+                          resolve({...results.properties});
+                      }
+                  });
     });
 };
 
 function logQuery(start, end, query, params) {
     console.log(
         `--- DB-query ${end.getTime() - start.getTime()}ms
-${colors.magenta(reformatQuery(query))}
+${colors.blue(reformatQuery(query))}
 ${colors.yellow(JSON.stringify(params) || "")}`
     );
 }
 
+function logQueryResult(results) {
+    console.log(colors.cyan(JSON.stringify(results)));
+}
+
 function reformatQuery(query) {
     return query.split("\n")
-        .map(row => row.trim())
-        .filter(row => row.length > 0)
-        .join("\n");
+                .map(row => row.trim())
+                .filter(row => row.length > 0)
+                .join("\n");
 }

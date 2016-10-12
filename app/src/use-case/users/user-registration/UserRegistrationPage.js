@@ -107,7 +107,7 @@ export const UserRegistrationPageComponent = createRelayRenderer(
             viewer: (Component) =>
                 Relay.QL`
                      query {
-                        viewer(token:$token) {
+                        viewer {
                             ${Component.getFragment('viewer')},
                         }
                      }

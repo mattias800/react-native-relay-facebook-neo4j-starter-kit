@@ -52,16 +52,12 @@ export const updateFriendRequest = {
     args: {input: {type: FriendRequestInputType}},
     resolve: async(root: Object, args: Object) => {
         const {input} = args;
-        const {id, token} = input;
-
-        // TODO
-        // TODO
-        // TODO
-        // TODO
+        const {token, id, accepted, declined, ignored} = input;
 
         const viewer = await validateToken(token);
 
         const animal = await Animal.getById(viewer, fromGlobalId(id).id);
+
 
         if (!animal) {
             throw "No such animal.";

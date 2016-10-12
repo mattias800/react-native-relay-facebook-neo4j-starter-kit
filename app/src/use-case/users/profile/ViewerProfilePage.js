@@ -72,7 +72,7 @@ export const ViewerProfilePageComponent = createRelayRenderer(
             viewer: (Component) =>
                 Relay.QL`
                      query {
-                        viewer(token:$token) {
+                        viewer {
                             ${Component.getFragment('viewer')},
                         }
                      }

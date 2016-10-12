@@ -57,7 +57,7 @@ export const DashboardPageComponent = createRelayRenderer(
             viewer: (Component, params) =>
                 Relay.QL`
                      query {
-                        viewer(token:$token) {
+                        viewer {
                             ${Component.getFragment('viewer', params)},
                         }
                      }

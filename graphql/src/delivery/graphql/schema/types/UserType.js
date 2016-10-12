@@ -19,6 +19,7 @@ import {PhotoConnection} from "./PhotoType";
 import * as PhotoService from "../../../../persistence/service/PhotoService";
 import * as FriendRequestService from "../../../../persistence/service/FriendRequestService";
 import {FriendRequestType} from "./FriendRequestType";
+import {FriendRequestRelationType} from "./FriendRequestRelationType";
 
 export const UserType = new GraphQLObjectType({
     name: "User",
@@ -38,6 +39,19 @@ export const UserType = new GraphQLObjectType({
         isFriend: {type: GraphQLBoolean, resolve: (user, args, {actor}) => UserService.isFriends(user, actor)},
         numFriends: {type: GraphQLInt, resolve: user => getNumFriendsFor(user)},
         numAnimals: {type: GraphQLInt, resolve: user => getNumAnimalsFor(user)},
+        friendRequests: {
+            type: FriendRequestRelationType,
+            resolve: async(user, args, {actor}) => {
+                const relation = await FriendRequestService.getFriendRequestRelationByUsers(actor, user);
+                console.log("-------------------------");
+                console.log(user.firstName);
+                console.log(user.id);
+                console.log("!===!=!=!=! relation");
+                console.log(relation);
+
+                return relation;
+            }
+        },
         friends: {
             type: UserConnection,
             args: connectionArgs,

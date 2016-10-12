@@ -57,6 +57,12 @@ type FriendRequest implements Node {
   ignored: Boolean
 }
 
+# A friend request relation
+type FriendRequestRelation {
+  incoming: FriendRequest
+  outgoing: FriendRequest
+}
+
 # Root mutation
 type MutationRoot {
   updateUser(input: UserMutationInputType): UserMutationPayload
@@ -96,7 +102,7 @@ type PhotoEdge {
 
 # Root query
 type Query {
-  viewer(token: String): Viewer
+  viewer: Viewer
 
   # Fetches an object given its ID
   node(
@@ -120,6 +126,7 @@ type User implements Node {
   isFriend: Boolean
   numFriends: Int
   numAnimals: Int
+  friendRequests: FriendRequestRelation
   friends(after: String, first: Int, before: String, last: Int): UserConnection
   animals(after: String, first: Int, before: String, last: Int): AnimalConnection
   taggedPhotos(after: String, first: Int, before: String, last: Int): PhotoConnection
