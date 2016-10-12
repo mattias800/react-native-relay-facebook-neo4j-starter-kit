@@ -7,7 +7,7 @@ export const FriendRequestRelationType = new GraphQLObjectType({
     description: "A friend request relation",
 
     fields: () => ({
-        incoming: {type: FriendRequestType},
-        outgoing: {type: FriendRequestType}
+        received: {type: FriendRequestType},
+        sent: {type: FriendRequestType}
     })
 });

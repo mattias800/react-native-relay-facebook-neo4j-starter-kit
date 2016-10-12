@@ -2,13 +2,13 @@ import {FriendRequest} from "./FriendRequest";
 
 export class FriendRequestRelation {
 
-    incoming: ?FriendRequest;
-    outgoing: ?FriendRequest;
+    received: ?FriendRequest;
+    sent: ?FriendRequest;
 
 
-    constructor(outgoing: ?FriendRequest, incoming: ?FriendRequest) {
-        this.outgoing = outgoing;
-        this.incoming = incoming;
+    constructor(sent: ?FriendRequest, received: ?FriendRequest) {
+        this.sent = sent;
+        this.received = received;
     }
 
 }

@@ -682,7 +682,7 @@
           "description": "A friend request relation",
           "fields": [
             {
-              "name": "incoming",
+              "name": "received",
               "description": null,
               "args": [],
               "type": {
@@ -694,7 +694,7 @@
               "deprecationReason": null
             },
             {
-              "name": "outgoing",
+              "name": "sent",
               "description": null,
               "args": [],
               "type": {

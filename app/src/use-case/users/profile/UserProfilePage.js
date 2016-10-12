@@ -9,7 +9,7 @@ import {getAuthTokenUsedByRelay, getCurrentUserId} from "../../../network/RelayN
 class UserProfilePage extends React.Component {
 
     render() {
-        const {user, navigator} = this.props;
+        const {user, actor, navigator} = this.props;
         const {firstName, lastName} = user;
 
         navigator.setTitle({title: `${firstName} ${lastName}`});
@@ -19,6 +19,7 @@ class UserProfilePage extends React.Component {
         return (
             <ScrollView style={{paddingTop:20, flex:1}}>
                 <UserProfile user={user}
+                             actor={actor}
                              navigator={navigator}
                              isCurrentUser={isCurrentUser} />
             </ScrollView>
@@ -31,8 +32,15 @@ UserProfilePage = Relay.createContainer(UserProfilePage, {
     fragments: {
         user: (params) => Relay.QL`
             fragment on User {
-                id,
+                id
+                firstName
+                lastName
                 ${UserProfile.getFragment('user', params)}
+            }
+    `,
+        actor: (params) => Relay.QL`
+            fragment on User {
+                ${UserProfile.getFragment('actor', params)}
             }
     `,
     },
@@ -41,6 +49,7 @@ UserProfilePage = Relay.createContainer(UserProfilePage, {
 export const UserProfilePageComponent = createRelayRenderer(
     Relay.createContainer(
         props => <UserProfilePage user={props.viewer.user}
+                                  actor={props.viewer.actor}
                                   navigator={props.navigator} />,
         {
             initialVariables: {
@@ -50,7 +59,10 @@ export const UserProfilePageComponent = createRelayRenderer(
                 viewer: (params) => Relay.QL`
                     fragment on Viewer {
                         user(id: $userId) {
-                            ${UserProfile.getFragment('user', params)}
+                            ${UserProfilePage.getFragment('user', params)}
+                        }
+                        actor {
+                            ${UserProfilePage.getFragment('actor', params)}
                         }
                     }`,
             },

@@ -20,6 +20,7 @@ class ViewerProfilePage extends React.Component {
             <ScrollView style={{marginTop:20}}>
                 <UserProfile user={user}
                              navigator={navigator}
+                             actor={user}
                              isCurrentUser={true} />
                 <Button raised
                         backgroundColor="#abe"
@@ -31,21 +32,23 @@ class ViewerProfilePage extends React.Component {
     }
 
     addAnimalClicked() {
-        this.props.navigator.push({
-                                      screen: 'example.AddAnimalScreen',
-                                      title: AddAnimalPageComponent.PageTitle
-                                  });
+        this.props.navigator.push(
+            {
+                screen: 'example.AddAnimalScreen',
+                title: AddAnimalPageComponent.PageTitle
+            });
     }
 
 }
 
 ViewerProfilePage = Relay.createContainer(ViewerProfilePage, {
     fragments: {
-        user: () => Relay.QL`
+        user: (params) => Relay.QL`
             fragment on User {
                 firstName
                 lastName
-                ${UserProfile.getFragment('user')}
+                ${UserProfile.getFragment('user', params)}
+                ${UserProfile.getFragment('actor', params)}
             }
     `,
     },
@@ -57,10 +60,10 @@ export const ViewerProfilePageComponent = createRelayRenderer(
                                     navigator={props.navigator} />,
         {
             fragments: {
-                viewer: () => Relay.QL`
+                viewer: (params) => Relay.QL`
                     fragment on Viewer {
                         actor {
-                            ${ViewerProfilePage.getFragment('user')}
+                            ${ViewerProfilePage.getFragment('user', params)}
                         }
                     }
         `,
@@ -69,11 +72,11 @@ export const ViewerProfilePageComponent = createRelayRenderer(
 
     props => ({
         queries: {
-            viewer: (Component) =>
+            viewer: (Component, params) =>
                 Relay.QL`
                      query {
                         viewer {
-                            ${Component.getFragment('viewer')},
+                            ${Component.getFragment('viewer', params)},
                         }
                      }
         `,

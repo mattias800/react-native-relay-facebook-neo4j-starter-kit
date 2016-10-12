@@ -1,6 +1,6 @@
 import Relay from "react-relay";
 
-export class CreateAnimalMutation extends Relay.Mutation {
+export class RespondToFriendRequestMutation extends Relay.Mutation {
 
     // This method should return a GraphQL operation that represents
     // the mutation to be performed. This presumes that the server
@@ -15,7 +15,8 @@ export class CreateAnimalMutation extends Relay.Mutation {
     getVariables() {
         return {
             token: this.props.token,
-            id: this.props.friendRequest,
+            sender: this.props.sender.id,
+            receiver: this.props.sender.id,
             accept: this.props.accept,
             decline: this.props.decline,
             ignore: this.props.ignore
@@ -32,8 +33,8 @@ export class CreateAnimalMutation extends Relay.Mutation {
     getFatQuery() {
         return Relay.QL`
         fragment on RespondToFriendRequestPayload { 
-            friendRequest
-            user
+            sender
+            receiver
         }
     `;
     }
@@ -48,7 +49,8 @@ export class CreateAnimalMutation extends Relay.Mutation {
             {
                 type: 'FIELDS_CHANGE',
                 fieldIDs: {
-                    user: this.props.user.id
+                    sender: this.props.sender.id,
+                    receiver: this.props.receiver.id
                 },
             }
         ];
@@ -62,7 +64,6 @@ export class CreateAnimalMutation extends Relay.Mutation {
         user: () => Relay.QL`
             fragment on User { 
                 id
-                activeIncomingFriendRequests
             }
             `,
     };

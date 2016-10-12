@@ -42,14 +42,7 @@ export const UserType = new GraphQLObjectType({
         friendRequests: {
             type: FriendRequestRelationType,
             resolve: async(user, args, {actor}) => {
-                const relation = await FriendRequestService.getFriendRequestRelationByUsers(actor, user);
-                console.log("-------------------------");
-                console.log(user.firstName);
-                console.log(user.id);
-                console.log("!===!=!=!=! relation");
-                console.log(relation);
-
-                return relation;
+                return await FriendRequestService.getFriendRequestRelationByUsers(actor, user);
             }
         },
         friends: {
@@ -88,15 +81,13 @@ export const UserType = new GraphQLObjectType({
         activeIncomingFriendRequests: {
             type: new GraphQLList(FriendRequestType),
             resolve: async(user) => {
-                const friendRequests = await FriendRequestService.getActiveIncomingFriendRequests(user);
-                return friendRequests;
+                return await FriendRequestService.getActiveIncomingFriendRequests(user);
             }
         },
         activeOutgoingFriendRequests: {
             type: new GraphQLList(FriendRequestType),
             resolve: async(user) => {
-                const friendRequests = await FriendRequestService.getActiveOutgoingFriendRequests(user);
-                return friendRequests;
+                return await FriendRequestService.getActiveOutgoingFriendRequests(user);
             }
         }
     })

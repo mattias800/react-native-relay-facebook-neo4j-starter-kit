@@ -5,11 +5,13 @@ import {AppRegistry, StyleSheet, Text, View} from "react-native";
 import {UserEmail} from "./UserEmail";
 import {LogoutButton} from "../../../session/LogoutButton";
 import {UserProfilePhoto} from "./UserProfilePhoto";
+import {FriendRequestText} from "../../../frient-request/components/FriendRequestText";
 
 class UserProfileComponent extends React.Component {
 
     render() {
-        const {user} = this.props;
+
+        const {user, actor} = this.props;
         return (
             <View style={containerStyle}>
                 <UserProfilePhoto user={user} />
@@ -18,7 +20,11 @@ class UserProfileComponent extends React.Component {
                 <UserEmail user={user} />
                 {
                     !user.isCurrentUser &&
-                    <Text>{user.isFriend ? "Is friend" : "Not friend"}</Text>
+                    <View>
+                        <Text>{user.isFriend ? "Is friend" : "Not friend"}</Text>
+                        <FriendRequestText user={user}
+                                           actor={actor} />
+                    </View>
                 }
 
                 {
@@ -30,31 +36,33 @@ class UserProfileComponent extends React.Component {
 
     goToAnimals() {
         const {user} = this.props;
-        this.props.navigator.push({
-                                      screen: 'example.UserProfileAnimalsScreen',
-                                      title: `${user.firstName}s dogs`,
-                                      passProps: {
-                                          userId: user.id
-                                      }
-                                  });
+        this.props.navigator.push(
+            {
+                screen: 'example.UserProfileAnimalsScreen',
+                title: `${user.firstName}s dogs`,
+                passProps: {
+                    userId: user.id
+                }
+            });
     }
 
     goToFriends() {
         const {user} = this.props;
-        this.props.navigator.push({
-                                      screen: 'example.UserProfileFriendsScreen',
-                                      title: `${user.firstName}s friends`,
-                                      passProps: {
-                                          userId: user.id
-                                      }
-                                  });
+        this.props.navigator.push(
+            {
+                screen: 'example.UserProfileFriendsScreen',
+                title: `${user.firstName}s friends`,
+                passProps: {
+                    userId: user.id
+                }
+            });
     }
 
 }
 
 export const UserProfile = Relay.createContainer(UserProfileComponent, {
     fragments: {
-        user: () => Relay.QL`
+        user: (params) => Relay.QL`
         fragment on User {
             id
             firstName
@@ -63,8 +71,14 @@ export const UserProfile = Relay.createContainer(UserProfileComponent, {
             numAnimals
             isCurrentUser
             isFriend
-            ${UserProfilePhoto.getFragment('user')}
-            ${UserEmail.getFragment('user')}
+            ${FriendRequestText.getFragment('user', params)}
+            ${UserProfilePhoto.getFragment('user', params)}
+            ${UserEmail.getFragment('user', params)}
+        }
+    `,
+        actor: (params) => Relay.QL`
+        fragment on User {
+            ${FriendRequestText.getFragment('actor', params)}
         }
     `,
     },

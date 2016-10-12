@@ -59,8 +59,8 @@ type FriendRequest implements Node {
 
 # A friend request relation
 type FriendRequestRelation {
-  incoming: FriendRequest
-  outgoing: FriendRequest
+  received: FriendRequest
+  sent: FriendRequest
 }
 
 # Root mutation
