@@ -5,36 +5,45 @@ import {Observable} from "rx";
 import {FriendRequest} from "../../entities/FriendRequest";
 import {getQueryProps} from "../util/GraphQlHelper";
 import {FriendRequestRelation} from "../../entities/FriendRequestRelation";
+import {generateUuid} from "../../util/service/UuidService";
 
 const ACTIVE_FRIEND_REQUEST_PROPERTIES = "accepted:false, ignored:false, declined:false";
 
-export async function getFriendRequestByUsers(sender: User, replier: User): Promise<FriendRequest> {
-    if (sender.id === replier.id) {
+export async function verifyFriendRequestDoesNotExist(sender: User, receiver: User): Promise {
+    const relation: FriendRequestRelation = await getFriendRequestRelationByUsers(sender, receiver);
+    const {received, sent} = relation;
+    if (received || sent) {
+        throw "A friend request already exists between these users.";
+    }
+}
+
+export async function getFriendRequestByUsers(sender: User, receiver: User): Promise<FriendRequest> {
+    if (sender.id === receiver.id) {
         return Promise.resolve(null);
     }
     return Observable
         .fromPromise(cypher(
-            `MATCH (from:User {id:{fromId}})
-             MATCH (to:User {id:{toId}})
-             MATCH (from)-[friendRequest:WANTS_TO_BE_FRIENDS_WITH {${ACTIVE_FRIEND_REQUEST_PROPERTIES}}]->(to)
-             RETURN from, to, friendRequest`,
+            `MATCH (sender:User {id:{senderId}})
+             MATCH (receiver:User {id:{receiverId}})
+             MATCH (sender)-[friendRequest:WANTS_TO_BE_FRIENDS_WITH {${ACTIVE_FRIEND_REQUEST_PROPERTIES}}]->(receiver)
+             RETURN sender, receiver, friendRequest`,
             {
-                fromId: sender.id,
-                toId: replier.id
+                senderId: sender.id,
+                receiverId: receiver.id
             }))
         .flatMap(Observable.from)
         .map(result => FriendRequest.createFromEntity(result.friendRequest,
-                                                      User.createFromEntity(result.from),
-                                                      User.createFromEntity(result.to)))
+                                                      User.createFromEntity(result.sender),
+                                                      User.createFromEntity(result.receiver)))
         .toPromise();
 }
 
-export async function getFriendRequestRelationByUsers(sender: User, replier: User): Promise<FriendRequestRelation> {
-    if (sender.id === replier.id) {
+export async function getFriendRequestRelationByUsers(sender: User, receiver: User): Promise<FriendRequestRelation> {
+    if (sender.id === receiver.id) {
         return Promise.resolve(new FriendRequestRelation(null, null));
     }
-    const outgoing = await getFriendRequestByUsers(sender, replier);
-    const incoming = await getFriendRequestByUsers(replier, sender);
+    const outgoing = await getFriendRequestByUsers(sender, receiver);
+    const incoming = await getFriendRequestByUsers(receiver, sender);
     return new FriendRequestRelation(outgoing, incoming);
 }
 
@@ -103,18 +112,18 @@ export async function acceptFriendRequestById(friendRequestId: string) {
         .toPromise();
 }
 
-export async function acceptFriendRequest(sender: User, replier: User) {
+export async function acceptFriendRequest(sender: User, receiver: User) {
     return Observable
         .fromPromise(cypher(
-            `MATCH (from:User {id:{fromId}})-[friendRequest:WANTS_TO_BE_FRIENDS_WITH}]->(to:User {id:{toId}})
+            `MATCH (from:User {id:{senderId}})-[friendRequest:WANTS_TO_BE_FRIENDS_WITH}]->(to:User {id:{receiverId}})
              SET friendRequest.accepted = true
              SET friendRequest.modified = {since}
              CREATE (from)-[:IS_FRIENDS_WITH {since: {since}]->(to)
              CREATE (to)-[:IS_FRIENDS_WITH {since: {since}]->(from)
              RETURN from, to`,
             {
-                fromId: sender.id,
-                toId: replier.id,
+                senderId: sender.id,
+                receiverId: receiver.id,
                 since: new Date()
             }))
         .flatMap(Observable.from)
@@ -158,30 +167,37 @@ export async function ignoreFriendRequestById(friendRequestId: string) {
         .toPromise();
 }
 
-export async function createFriendRequest(sender: User, replier: User): Promise<Array<FriendRequest>> {
+export async function createFriendRequest(sender: User, receiver: User): Promise<FriendRequest> {
     const createdAt = new Date();
     const props = {
+        id: generateUuid(),
         accepted: false,
         ignored: false,
         declined: false,
-        responded: false,
         createdAt
     };
 
     return Observable
         .fromPromise(cypher(
-            `MATCH (from:User {id:{fromId}})
-             MATCH (to:User {id:{toId}})
+            `MATCH (from:User {id:{senderId}})
+             MATCH (to:User {id:{receiverId}})
              CREATE (from)-[friendRequest:WANTS_TO_BE_FRIENDS_WITH {${getQueryProps(props)}}]->(to)
              RETURN from, to, friendRequest`,
             {
-                fromId: sender.id,
-                toId: replier.id,
+                senderId: sender.id,
+                receiverId: receiver.id,
                 ...props
             }))
         .flatMap(Observable.from)
-        .map(result => FriendRequest.createFromEntity(result.friendRequest, sender, replier))
+        .map(result => FriendRequest.createFromEntity(result.friendRequest, sender, receiver))
         .toArray()
         .toPromise();
+}
+
+export async function deleteFriendRequest(sender: User, receiver: User): Promise {
+    return cypher(
+        `MATCH (from:User {id:{senderId}})-[friendRequest:WANTS_TO_BE_FRIENDS_WITH]->(to:User {id:{receiverId}})
+         DELETE friendRequest`,
+        {senderId: sender.id, receiverId: receiver.id});
 }
 

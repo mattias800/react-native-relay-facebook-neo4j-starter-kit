@@ -3,8 +3,8 @@ import {User} from "./User";
 
 export class FriendRequest extends Entity {
 
-    from: User;
-    to: User;
+    sender: User;
+    receiver: User;
     accepted: boolean;
     ignored: boolean;
     declined: boolean;
@@ -14,20 +14,20 @@ export class FriendRequest extends Entity {
                 modifiedAt: Date,
                 deleted: boolean,
                 deletedAt: Date,
-                from: User,
-                to: User,
+                sender: User,
+                receiver: User,
                 accepted: boolean,
                 ignored: boolean,
                 declined: boolean) {
         super(id, createdAt, modifiedAt, deleted, deletedAt);
-        this.from = from;
-        this.to = to;
+        this.sender = sender;
+        this.receiver = receiver;
         this.accepted = accepted;
         this.ignored = ignored;
         this.declined = declined;
     }
 
-    static createFromEntity(entity: ?Object, from: User, to: User): FriendRequest {
+    static createFromEntity(entity: ?Object, sender: User, receiver: User): FriendRequest {
         if (!entity) {
             throw "FriendRequest.createFromEntity() got undefined entity as argument.";
         }
@@ -38,8 +38,8 @@ export class FriendRequest extends Entity {
             Boolean(entity.properties.deleted),
             new Date(entity.properties.deletedAt),
 
-            from,
-            to,
+            sender,
+            receiver,
             entity.properties.accepted,
             entity.properties.ignored,
             entity.properties.declined

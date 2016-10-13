@@ -73,6 +73,15 @@ export class User extends Entity {
         return user;
     }
 
+    static async getByIdElseThrow(viewer: User, id: string): Promise<?User> {
+        const user = await User.getById(viewer, id);
+        if (user == null) {
+            throw "No such user.";
+        } else {
+            return user;
+        }
+    }
+
     static async getAll(viewer): Promise<Array<User>> {
         console.log("getAll");
 

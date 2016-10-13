@@ -26,6 +26,18 @@ type AnimalEdge {
   node: Animal
 }
 
+input CancelFriendRequestInput {
+  token: String!
+  userId: String!
+  clientMutationId: String
+}
+
+type CancelFriendRequestPayload {
+  sender: User
+  receiver: User
+  clientMutationId: String
+}
+
 input CreateAnimalInput {
   token: String!
   fullName: String!
@@ -43,6 +55,18 @@ type CreateAnimalPayload {
   clientMutationId: String
 }
 
+input CreateFriendRequestInput {
+  token: String!
+  userId: String!
+  clientMutationId: String
+}
+
+type CreateFriendRequestPayload {
+  sender: User
+  receiver: User
+  clientMutationId: String
+}
+
 scalar Cursor
 
 # A friend request.
@@ -50,8 +74,8 @@ type FriendRequest implements Node {
   # The ID of an object
   id: ID!
   createdAt: String
-  from: User
-  to: User
+  sender: User
+  receiver: User
   declined: Boolean
   accepted: Boolean
   ignored: Boolean
@@ -67,6 +91,8 @@ type FriendRequestRelation {
 type MutationRoot {
   updateUser(input: UserMutationInputType): UserMutationPayload
   createAnimal(input: CreateAnimalInput!): CreateAnimalPayload
+  createFriendRequest(input: CreateFriendRequestInput!): CreateFriendRequestPayload
+  cancelFriendRequest(input: CancelFriendRequestInput!): CancelFriendRequestPayload
 }
 
 # An object with an ID

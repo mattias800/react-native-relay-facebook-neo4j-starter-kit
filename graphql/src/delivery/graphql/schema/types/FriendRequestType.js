@@ -19,8 +19,8 @@ export const FriendRequestType = new GraphQLObjectType({
     fields: () => ({
         id: globalIdField('FriendRequest'),
         createdAt: {type: GraphQLString},
-        from: {type: UserType},
-        to: {type: UserType},
+        sender: {type: UserType},
+        receiver: {type: UserType},
         declined: {type: GraphQLBoolean},
         accepted: {type: GraphQLBoolean},
         ignored: {type: GraphQLBoolean},

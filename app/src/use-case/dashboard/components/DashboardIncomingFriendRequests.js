@@ -18,7 +18,7 @@ class DashboardIncomingFriendRequestsComponent extends React.Component {
                         activeIncomingFriendRequests
                             .map(request => (
                                 <View key={request.id}>
-                                    <Text onPress={() => this.clickOnFriendRequest(request)}>{request.from.firstName} {request.from.lastName}</Text>
+                                    <Text onPress={() => this.clickOnFriendRequest(request)}>{request.sender.firstName} {request.sender.lastName}</Text>
                                 </View>
                             ))
                     }
@@ -33,7 +33,7 @@ class DashboardIncomingFriendRequestsComponent extends React.Component {
     clickOnFriendRequest(request) {
         Alert.alert(
             'Friend request',
-            `${request.from.firstName} wants to be your friend!`,
+            `${request.sender.firstName} wants to be your friend!`,
             [
                 {text: 'Accept', onPress: () => console.log('Ask me later pressed')},
                 {text: 'Decline', onPress: () => console.log('Cancel Pressed')},
@@ -51,7 +51,7 @@ export const DashboardIncomingFriendRequests = Relay.createContainer(DashboardIn
         fragment on User {
             activeIncomingFriendRequests {
                 id
-                from {
+                sender {
                     firstName
                     lastName
                 }
