@@ -93,7 +93,6 @@ export async function getUserByEmail(email: string): Promise<User> {
         .fromPromise(cypher("MATCH (user:User {email: {email}}) return user", {email}))
         .flatMap(Observable.from)
         .map(result => result.user)
-        .first()
         .map(User.createFromEntity)
         .toPromise();
 }

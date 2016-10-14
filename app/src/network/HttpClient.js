@@ -1,5 +1,4 @@
 /* @flow */
-
 import {endpoint} from "../config/ServerEndpoint";
 
 let authToken = undefined;

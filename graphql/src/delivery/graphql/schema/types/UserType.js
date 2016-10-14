@@ -1,6 +1,6 @@
 /* @flow */
 import {GraphQLObjectType, GraphQLString, GraphQLInt} from "graphql";
-import {EmailType} from "../types";
+import {EmailType, AuthTokenType} from "../types";
 import {User} from "../../../../entities/User";
 import * as UserService from "../../../../persistence/service/UserService";
 import {getUserById, getNumFriendsFor} from "../../../../persistence/service/UserService";
@@ -28,6 +28,7 @@ export const UserType = new GraphQLObjectType({
 
     fields: () => ({
         id: globalIdField('User'),
+        token: {type: AuthTokenType},
         createdAt: {type: GraphQLString},
         email: {type: EmailType},
         firstName: {type: GraphQLString},

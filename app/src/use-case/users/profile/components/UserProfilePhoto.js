@@ -7,14 +7,14 @@ import {Icon} from "react-native-elements";
 class UserProfilePhotoComponent extends React.Component {
 
     render() {
-        const {user} = this.props;
+        const {user, width, height, style} = this.props;
         return (
             user.profilePhotoUrl
                 ?
-                <Image style={imageStyle}
+                <Image style={{...imageStyle, ...style}}
                        source={{uri: user.profilePhotoUrl}} />
                 :
-                <View style={iconStyle}>
+                <View style={{...iconStyle, ...style}}>
                     <Icon name='user'
                           type='font-awesome'
                           size={46}

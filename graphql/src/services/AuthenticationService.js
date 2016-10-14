@@ -107,7 +107,8 @@ async function authenticateOrCreateUserByFacebook(service: string, payload: Obje
     const userId = generateUuid();
     const userAuthToken = generateToken(userId);
     userInDb = await createUserAndAuthentication(
-        new User(userId, new Date(), userAuthToken, facebookUser.first_name, facebookUser.last_name, facebookUser.email, getProfilePhotoUrl(facebookUser), false),
+        new User(userId, new Date(), undefined, undefined, undefined, userAuthToken, facebookUser.first_name, facebookUser.last_name, facebookUser.email, getProfilePhotoUrl(
+            facebookUser), false),
         new FacebookAuthentication(facebookUser.id, payload.token));
 
     return userInDb;

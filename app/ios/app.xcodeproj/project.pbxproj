@@ -36,6 +36,7 @@
 		F6FF105BC5C1430F9539F8D1 /* Foundation.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 46895F80943447108FEF4D3B /* Foundation.ttf */; };
 		FE2176821D95542D009DB5E2 /* AccountKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE2176801D95542D009DB5E2 /* AccountKit.framework */; };
 		FE2176831D95542D009DB5E2 /* AccountKitStrings.bundle in Resources */ = {isa = PBXBuildFile; fileRef = FE2176811D95542D009DB5E2 /* AccountKitStrings.bundle */; };
+		FE3CCD471DB1647000052AB8 /* BridgeManager.m in Sources */ = {isa = PBXBuildFile; fileRef = FE3CCD461DB1647000052AB8 /* BridgeManager.m */; };
 		FE42C9CF43AA4C94B9DB4CA4 /* Ionicons.ttf in Resources */ = {isa = PBXBuildFile; fileRef = 0D0C9E20E0044F0FB22488E4 /* Ionicons.ttf */; };
 		FE671DFA1D8AEDC400CDE5F5 /* FBSDKCoreKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE671DF71D8AEDC400CDE5F5 /* FBSDKCoreKit.framework */; };
 		FE671DFB1D8AEDC400CDE5F5 /* FBSDKLoginKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = FE671DF81D8AEDC400CDE5F5 /* FBSDKLoginKit.framework */; };
@@ -197,6 +198,8 @@
 		C3906A9F022949E4BD38FC4F /* RCTFBSDK.xcodeproj */ = {isa = PBXFileReference; explicitFileType = undefined; fileEncoding = 9; includeInIndex = 0; lastKnownFileType = "wrapper.pb-project"; name = RCTFBSDK.xcodeproj; path = "../node_modules/react-native-fbsdk/ios/RCTFBSDK.xcodeproj"; sourceTree = "<group>"; };
 		FE2176801D95542D009DB5E2 /* AccountKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; path = AccountKit.framework; sourceTree = "<group>"; };
 		FE2176811D95542D009DB5E2 /* AccountKitStrings.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = AccountKitStrings.bundle; sourceTree = "<group>"; };
+		FE3CCD361DB1644700052AB8 /* BridgeManager.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; name = BridgeManager.h; path = app/BridgeManager.h; sourceTree = "<group>"; };
+		FE3CCD461DB1647000052AB8 /* BridgeManager.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BridgeManager.m; path = app/BridgeManager.m; sourceTree = "<group>"; };
 		FE671DF71D8AEDC400CDE5F5 /* FBSDKCoreKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKCoreKit.framework; path = ../../../../Documents/FacebookSDK/FBSDKCoreKit.framework; sourceTree = "<group>"; };
 		FE671DF81D8AEDC400CDE5F5 /* FBSDKLoginKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKLoginKit.framework; path = ../../../../Documents/FacebookSDK/FBSDKLoginKit.framework; sourceTree = "<group>"; };
 		FE671DF91D8AEDC400CDE5F5 /* FBSDKShareKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = FBSDKShareKit.framework; path = ../../../../Documents/FacebookSDK/FBSDKShareKit.framework; sourceTree = "<group>"; };
@@ -322,6 +325,8 @@
 				FE671E181D8B190900CDE5F5 /* app.entitlements */,
 				008F07F21AC5B25A0029DE68 /* main.jsbundle */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
+				FE3CCD361DB1644700052AB8 /* BridgeManager.h */,
+				FE3CCD461DB1647000052AB8 /* BridgeManager.m */,
 				13B07FB01A68108700A75B9A /* AppDelegate.m */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
@@ -777,6 +782,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				13B07FBC1A68108700A75B9A /* AppDelegate.m in Sources */,
+				FE3CCD471DB1647000052AB8 /* BridgeManager.m in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

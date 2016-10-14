@@ -4,7 +4,7 @@ import Relay from "react-relay";
 import {AppRegistry, StyleSheet, Text, View, ScrollView} from "react-native";
 import {createRelayRenderer} from "../../../common/util/RelayFactory";
 import {UserProfile} from "./components/UserProfile";
-import {getAuthTokenUsedByRelay, getCurrentUserId} from "../../../network/RelayNetworkConfig";
+import {getAuthTokenUsedByRelay} from "../../../network/RelayNetworkConfig";
 
 class UserProfilePage extends React.Component {
 
@@ -14,14 +14,11 @@ class UserProfilePage extends React.Component {
 
         navigator.setTitle({title: `${firstName} ${lastName}`});
 
-        const isCurrentUser = user.id === getCurrentUserId();
-
         return (
             <ScrollView style={{paddingTop:20, flex:1}}>
                 <UserProfile user={user}
                              actor={actor}
-                             navigator={navigator}
-                             isCurrentUser={isCurrentUser} />
+                             navigator={navigator} />
             </ScrollView>
         );
     }

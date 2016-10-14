@@ -180,6 +180,7 @@ type UnfriendUserPayload {
 type User implements Node {
   # The ID of an object
   id: ID!
+  token: String
   createdAt: String
   email: String
   firstName: String

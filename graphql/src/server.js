@@ -27,13 +27,13 @@ function startServer() {
     });
 
     app.post('/authenticate', async function (req, res) {
+        console.log("--- Request --- " + req.path);
+        console.log(req.body);
+
         const {service, payload} = req.body;
         try {
             const user = await authenticateOrCreateUserByPayload(service, payload);
-            res.send({
-                         user,
-                         isCompleteProfile: user.isCompleteProfile()
-                     });
+            res.send({user, isCompleteProfile: user.isCompleteProfile()});
         } catch (e) {
             console.log("Error!");
 

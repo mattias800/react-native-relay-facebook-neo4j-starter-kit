@@ -30,6 +30,7 @@ function loginUsingService(loginFunction: Function, serviceName: string, payload
         })
         .then(result => authenticateWithBackend(serviceName, payloadTransformer(result)))
         .then(async serverResponse => {
+            console.log("Authenticated with backend");
             await SessionStorage.setSession(serverResponse);
             return serverResponse;
         });

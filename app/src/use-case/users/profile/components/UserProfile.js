@@ -6,12 +6,13 @@ import {UserEmail} from "./UserEmail";
 import {LogoutButton} from "../../../session/LogoutButton";
 import {UserProfilePhoto} from "./UserProfilePhoto";
 import {FriendRequestText} from "../../../frient-request/components/FriendRequestText";
+import {LoginAsUserButton} from "./LoginAsUserButton";
 
 class UserProfileComponent extends React.Component {
 
     render() {
-
         const {user, actor} = this.props;
+
         return (
             <View style={containerStyle}>
                 <UserProfilePhoto user={user} />
@@ -30,6 +31,7 @@ class UserProfileComponent extends React.Component {
                 {
                     user.isCurrentUser && <LogoutButton />
                 }
+                <LoginAsUserButton user={user} />
             </View>
         );
     }
@@ -65,6 +67,7 @@ export const UserProfile = Relay.createContainer(UserProfileComponent, {
         user: (params) => Relay.QL`
             fragment on User {
                 id
+                token
                 firstName
                 lastName
                 numFriends
@@ -74,6 +77,7 @@ export const UserProfile = Relay.createContainer(UserProfileComponent, {
                 ${FriendRequestText.getFragment('user', params)}
                 ${UserProfilePhoto.getFragment('user', params)}
                 ${UserEmail.getFragment('user', params)}
+                ${LoginAsUserButton.getFragment('user', params)}
             }
     `,
         actor: (params) => Relay.QL`

@@ -3,6 +3,7 @@ import React from "react";
 import Relay from "react-relay";
 import {AppRegistry, StyleSheet, Image, Text, View} from "react-native";
 import {Row} from "../../../common/ui/Row";
+import {UserProfilePhoto} from "../../users/profile/components/UserProfilePhoto";
 
 class DashboardTopComponent extends React.Component {
 
@@ -11,8 +12,8 @@ class DashboardTopComponent extends React.Component {
         const {firstName, lastName, profilePhotoUrl} = user;
         return (
             <Row>
-                <Image style={profilePhotoStyle}
-                       source={{uri:profilePhotoUrl}} />
+                <UserProfilePhoto user={user}
+                                  style={profilePhotoStyle} />
                 <View style={{padding:10}}>
                     <Text>Welcome back {firstName}!</Text>
                 </View>
@@ -28,7 +29,7 @@ export const DashboardTop = Relay.createContainer(DashboardTopComponent, {
             fragment on User {
                 firstName
                 lastName
-                profilePhotoUrl
+                ${UserProfilePhoto.getFragment('user')}
             }
     `,
     },
@@ -37,4 +38,4 @@ export const DashboardTop = Relay.createContainer(DashboardTopComponent, {
 const profilePhotoStyle = {
     width: 100,
     height: 100
-}
+};

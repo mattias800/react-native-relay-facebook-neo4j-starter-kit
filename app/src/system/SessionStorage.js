@@ -3,6 +3,7 @@ import {AsyncStorage} from "react-native";
 export const SESSION_STORAGE_KEY = "currentUserSession";
 
 export async function getSession() {
+    console.log("Fetching session from storage.");
     const data = await AsyncStorage.getItem(SESSION_STORAGE_KEY);
     const session = JSON.parse(data);
     return validateSession(session);
@@ -16,6 +17,12 @@ export async function setSession(sessionObjectFromServer) {
 
 export async function clearSession() {
     return await AsyncStorage.removeItem(SESSION_STORAGE_KEY);
+}
+
+export async function setProfileComplete() {
+    const session = await getSession();
+    session.isCompleteProfile = true;
+    await setSession(session);
 }
 
 function validateSession(session) {

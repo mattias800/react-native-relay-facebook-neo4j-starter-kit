@@ -8,6 +8,7 @@ import {UpdateUserMutation} from "../../../mutations/users/UpdateUserMutation";
 import {getCurrentUserId, getAuthTokenUsedByRelay} from "../../../network/RelayNetworkConfig";
 import {ProgressOverlay} from "../../../common/ui/progress/ProgressOverlay";
 import {showMainAppScreen} from "../../../bootstraps/MainBootstrap";
+import {setProfileComplete} from "../../../system/SessionStorage";
 
 class UserRegistrationPage extends React.Component {
 
@@ -41,19 +42,20 @@ class UserRegistrationPage extends React.Component {
         console.log(data);
 
         this.setState({
-            saveInProgress: true,
-            saveSuccess: false,
-            saveError: false,
-            progressText: "Saving your information..."
-        });
+                          saveInProgress: true,
+                          saveSuccess: false,
+                          saveError: false,
+                          progressText: "Saving your information..."
+                      });
 
         let mutation = new UpdateUserMutation(data);
         this.props.relay.commitUpdate(mutation, {
             onSuccess: response => {
                 this.setState({
-                    saveSuccess: true,
-                    progressText: null
-                });
+                                  saveSuccess: true,
+                                  progressText: null
+                              });
+                setProfileComplete(); // TODO Fetch this from backend instead?
                 setTimeout(() => showMainAppScreen(), 3000);
 
                 console.log("SUCCESS!");
@@ -61,9 +63,9 @@ class UserRegistrationPage extends React.Component {
             },
             onFailure: (transaction) => {
                 this.setState({
-                    saveFailed: true,
-                    progressText: "Unable to save your information, please try again."
-                });
+                                  saveFailed: true,
+                                  progressText: "Unable to save your information, please try again."
+                              });
 
                 setTimeout(() => this.setState({saveInProgress: false}), 3000);
                 console.log("FAIL!");
