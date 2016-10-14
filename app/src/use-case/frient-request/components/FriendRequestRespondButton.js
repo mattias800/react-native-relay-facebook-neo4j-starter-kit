@@ -2,7 +2,9 @@
 import React from "react";
 import Relay from "react-relay";
 import {AppRegistry, StyleSheet, Text, View} from "react-native";
-import {RespondToFriendRequestMutation} from "../../../mutations/friend-requests/RespondToFriendRequestMutation";
+import {AcceptFriendRequestMutation} from "../../../mutations/friend-requests/AcceptFriendRequestMutation";
+import {getAuthTokenUsedByRelay} from "../../../network/RelayNetworkConfig";
+import {IgnoreFriendRequestMutation} from "../../../mutations/friend-requests/IgnoreFriendRequestMutation";
 
 class FriendRequestRespondButtonComponent extends React.Component {
 
@@ -15,14 +17,19 @@ class FriendRequestRespondButtonComponent extends React.Component {
         );
     }
 
-    respondToRequest(accepted, declined, ignored) {
+    acceptFriendRequest() {
         const {user, actor} = this.props;
-        const mutation = new RespondToFriendRequestMutation({
-            accepted,
-            declined,
-            ignored,
-            sender: user,
-            receiver: actor
+        const mutation = new AcceptFriendRequestMutation({
+            token: getAuthTokenUsedByRelay(),
+            user
+        });
+    }
+
+    ignoreFriendRequest() {
+        const {user, actor} = this.props;
+        const mutation = new IgnoreFriendRequestMutation({
+            token: getAuthTokenUsedByRelay(),
+            user
         });
     }
 
