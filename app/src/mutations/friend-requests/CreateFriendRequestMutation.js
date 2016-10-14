@@ -1,12 +1,12 @@
 import Relay from "react-relay";
 
-export class IgnoreFriendRequestMutation extends Relay.Mutation {
+export class CreateFriendRequestMutation extends Relay.Mutation {
 
     // This method should return a GraphQL operation that represents
     // the mutation to be performed. This presumes that the server
     // implements a mutation type named ‘likeStory’.
     getMutation() {
-        return Relay.QL`mutation {ignoreFriendRequest}`;
+        return Relay.QL`mutation {createFriendRequest}`;
     }
 
     // Use this method to prepare the variables that will be used as
@@ -28,7 +28,7 @@ export class IgnoreFriendRequestMutation extends Relay.Mutation {
     // instruct the server to include only those fields in its response.
     getFatQuery() {
         return Relay.QL`
-        fragment on IgnoreFriendRequestPayload { 
+        fragment on CreateFriendRequestPayload { 
             sender
             receiver
         }

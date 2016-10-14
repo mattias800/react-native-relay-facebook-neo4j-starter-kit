@@ -62,6 +62,11 @@ export class AcceptFriendRequestMutation extends Relay.Mutation {
                 id
             }
             `,
+        actor: () => Relay.QL`
+            fragment on User { 
+                id
+            }
+            `,
     };
 
 

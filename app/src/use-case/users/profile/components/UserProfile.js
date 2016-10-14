@@ -63,23 +63,23 @@ class UserProfileComponent extends React.Component {
 export const UserProfile = Relay.createContainer(UserProfileComponent, {
     fragments: {
         user: (params) => Relay.QL`
-        fragment on User {
-            id
-            firstName
-            lastName
-            numFriends
-            numAnimals
-            isCurrentUser
-            isFriend
-            ${FriendRequestText.getFragment('user', params)}
-            ${UserProfilePhoto.getFragment('user', params)}
-            ${UserEmail.getFragment('user', params)}
-        }
+            fragment on User {
+                id
+                firstName
+                lastName
+                numFriends
+                numAnimals
+                isCurrentUser
+                isFriend
+                ${FriendRequestText.getFragment('user', params)}
+                ${UserProfilePhoto.getFragment('user', params)}
+                ${UserEmail.getFragment('user', params)}
+            }
     `,
         actor: (params) => Relay.QL`
-        fragment on User {
-            ${FriendRequestText.getFragment('actor', params)}
-        }
+            fragment on User {
+                ${FriendRequestText.getFragment('actor', params)}
+            }
     `,
     },
 });
