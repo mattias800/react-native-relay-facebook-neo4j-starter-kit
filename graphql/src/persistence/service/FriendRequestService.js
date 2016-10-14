@@ -226,9 +226,8 @@ export async function unfriendUser(actor: User, user: User): Promise {
     }
 
     return cypher(
-        `MATCH (:User {id:{actorId}})-[friendRelation:IS_FRIENDS_WITH]->(:User {id:{userId}})
-         MATCH (:User {id:{userId}})-[friendRelation2:IS_FRIENDS_WITH]->(:User {id:{actorId}})
-         DELETE friendRelation, friendRelation2`,
+        `MATCH (:User {id:{actorId}})-[friendRelation:IS_FRIENDS_WITH]-(:User {id:{userId}})
+         DELETE friendRelation`,
         {actorId: actor.id, userId: user.id});
 }
 

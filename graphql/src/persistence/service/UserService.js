@@ -38,7 +38,7 @@ export async function getFriendsOfUserConnection(user: User,
         .fromPromise(
             cypher(
                 getConnectionCustomMatchQuery(
-                    "MATCH (u:User {id:{id}})-[:IS_FRIENDS_WITH]->(friend:User)",
+                    "MATCH (u:User {id:{id}})-[:IS_FRIENDS_WITH]-(friend:User)",
                     "friend",
                     "friend",
                     orderByProperty,
@@ -131,7 +131,7 @@ export async function getUserByAuthToken(token: string): Promise<User> {
 export async function getNumFriendsFor(user: User): Promise<number> {
     const {id} = user;
     return Observable
-        .fromPromise(cypher("MATCH (u:User {id:{id}})-[:IS_FRIENDS_WITH]->(friend:User) return count(friend);", {id}))
+        .fromPromise(cypher("MATCH (u:User {id:{id}})-[:IS_FRIENDS_WITH]-(friend:User) return count(friend);", {id}))
         .map(result => result[0]["count(friend)"])
         .toPromise();
 }
