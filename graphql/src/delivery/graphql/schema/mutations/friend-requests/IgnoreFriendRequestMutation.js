@@ -1,14 +1,14 @@
 import {mutationWithClientMutationId} from "graphql-relay";
 import {GraphQLNonNull, GraphQLString} from "graphql";
-import * as FriendRequestService from "../../../../../persistence/service/FriendRequestService";
 import {UserType} from "../../types/UserType";
 import {User} from "../../../../../entities/User";
 import * as Authenticator from "../../../../../services/Authenticator";
+import * as FriendRequestService from "../../../../../persistence/service/FriendRequestService";
 import {getLocalId} from "../../../../../persistence/util/IdParser";
 
-export const cancelFriendRequestMutation = mutationWithClientMutationId(
+export const ignoreFriendRequestMutation = mutationWithClientMutationId(
     {
-        name: 'CancelFriendRequest',
+        name: 'IgnoreFriendRequest',
         inputFields: {
             token: {type: new GraphQLNonNull(GraphQLString)},
             userId: {type: new GraphQLNonNull(GraphQLString)}
@@ -18,9 +18,9 @@ export const cancelFriendRequestMutation = mutationWithClientMutationId(
             receiver: {type: UserType}
         },
         mutateAndGetPayload: async({token, userId}) => {
-            const sender = await Authenticator.getAndValidateUserByToken(token);
-            const receiver = await User.getById(sender, getLocalId(userId));
-            await FriendRequestService.cancelFriendRequestAwaitingReply(sender, receiver);
+            const sender: User = await Authenticator.getAndValidateUserByToken(token);
+            const receiver: User = await User.getById(sender, getLocalId(userId));
+            await FriendRequestService.ignoreFriendRequest(sender, receiver);
 
             return {
                 receiver,

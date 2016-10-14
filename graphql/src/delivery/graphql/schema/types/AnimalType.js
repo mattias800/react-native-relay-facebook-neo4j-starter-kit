@@ -1,11 +1,8 @@
 /* @flow */
-import {GraphQLInputObjectType, GraphQLObjectType, GraphQLString, GraphQLInt} from "graphql";
-import {AnimalIdType} from "../types";
+import {GraphQLObjectType, GraphQLString, GraphQLInt} from "graphql";
 import {registerTypeInNodeInterface} from "../../../../type-registry/registry";
 import {nodeInterface} from "../../../../NodeField";
 import {globalIdField, connectionArgs} from "graphql-relay";
-import {fromGlobalId} from "graphql-relay/lib/node/node";
-import {validateToken} from "../../../../services/Authenticator";
 import {GraphQLList, GraphQLNonNull} from "graphql/type/definition";
 import {PageInfo} from "./connection/PageInfo";
 import {CursorType} from "./connection/Cursor";
@@ -84,73 +81,7 @@ export const AnimalEdge = new GraphQLObjectType({
     }),
 });
 
-export const AnimalMutationInputType = new GraphQLInputObjectType({
-    name: "AnimalMutationInputType",
-    fields: () => ({
-        clientMutationId: {type: GraphQLString},
-        id: {type: AnimalIdType},
-        fullName: {type: GraphQLString},
-        nickName: {type: GraphQLString},
-        profilePhotoUrl: {type: GraphQLString}
-    })
-});
+registerTypeInNodeInterface(AnimalType,
+                            Animal,
+                            (id: string) => AnimalService.getAnimalById(id));
 
-export const AnimalMutationPayload = new GraphQLObjectType({
-    name: "AnimalMutationPayload",
-    fields: () => ({
-        clientMutationId: {type: GraphQLString},
-        animal: {type: AnimalType}
-    })
-});
-
-export const updateAnimalMutation = {
-    name: "UpdateAnimalMutation",
-    type: AnimalMutationPayload,
-    args: {input: {type: AnimalMutationInputType}},
-    resolve: async(root: Object, args: Object) => {
-        const {input} = args;
-        const {id, token} = input;
-
-        const viewer = await validateToken(token);
-
-        const animal = await Animal.getById(viewer, fromGlobalId(id).id);
-
-        if (!animal) {
-            throw "No such animal.";
-        }
-
-        if (input.fullName !== undefined) {
-            animal.fullName = input.fullName;
-        }
-        if (input.nickName !== undefined) {
-            animal.nickName = input.nickName;
-        }
-        if (input.animalKind !== undefined) {
-            animal.animalKind = input.animalKind;
-        }
-        if (input.birthDate !== undefined) {
-            animal.birthDate = input.birthDate;
-        }
-        if (input.deathDate !== undefined) {
-            animal.deathDate = input.deathDate;
-        }
-        if (input.deceased !== undefined) {
-            animal.deceased = input.deceased;
-        }
-        if (input.litterId !== undefined) {
-            animal.litterId = input.litterId;
-        }
-        if (input.profilePhotoUrl !== undefined) {
-            animal.profilePhotoUrl = input.profilePhotoUrl;
-        }
-        const updatedAnimal = await Animal.updateAnimal(viewer, animal);
-
-        return {
-            clientMutationId: input.clientMutationId,
-            animal: updatedAnimal
-        }
-    }
-};
-
-
-registerTypeInNodeInterface(AnimalType, Animal, (id: string) => AnimalService.getAnimalById(id));

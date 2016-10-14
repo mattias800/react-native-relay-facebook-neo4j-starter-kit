@@ -10,6 +10,7 @@ import {UserConnection} from "./UserType";
 import {AnimalConnection} from "./AnimalType";
 import {Photo} from "../../../../entities/Photo";
 import * as PhotoService from "../../../../persistence/service/PhotoService";
+import {registerTypeInNodeInterface} from "../../../../type-registry/registry";
 
 export const PhotoType = new GraphQLObjectType({
     name: "Photo",
@@ -74,4 +75,9 @@ export const PhotoEdge = new GraphQLObjectType({
         },
     }),
 });
+
+
+registerTypeInNodeInterface(PhotoType,
+                            Photo,
+                            (id: string) => PhotoService.getPhotoById(id));
 

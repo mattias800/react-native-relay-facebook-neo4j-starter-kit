@@ -6,25 +6,25 @@ import {User} from "../../../../../entities/User";
 import * as Authenticator from "../../../../../services/Authenticator";
 import {getLocalId} from "../../../../../persistence/util/IdParser";
 
-export const cancelFriendRequestMutation = mutationWithClientMutationId(
+export const unfriendUserMutation = mutationWithClientMutationId(
     {
-        name: 'CancelFriendRequest',
+        name: 'UnfriendUser',
         inputFields: {
             token: {type: new GraphQLNonNull(GraphQLString)},
             userId: {type: new GraphQLNonNull(GraphQLString)}
         },
         outputFields: {
-            sender: {type: UserType},
-            receiver: {type: UserType}
+            actor: {type: UserType},
+            user: {type: UserType}
         },
         mutateAndGetPayload: async({token, userId}) => {
-            const sender = await Authenticator.getAndValidateUserByToken(token);
-            const receiver = await User.getById(sender, getLocalId(userId));
-            await FriendRequestService.cancelFriendRequestAwaitingReply(sender, receiver);
+            const actor = await Authenticator.getAndValidateUserByToken(token);
+            const user = await User.getById(actor, getLocalId(userId));
+            await FriendRequestService.unfriendUser(actor, user);
 
             return {
-                receiver,
-                sender
+                actor,
+                user
             };
         }
     });

@@ -42,7 +42,7 @@ export const UserType = new GraphQLObjectType({
         friendRequests: {
             type: FriendRequestRelationType,
             resolve: async(user, args, {actor}) => {
-                return await FriendRequestService.getFriendRequestRelationByUsers(actor, user);
+                return await FriendRequestService.getFriendRequestRelationAwaitingReply(actor, user);
             }
         },
         friends: {
@@ -81,13 +81,13 @@ export const UserType = new GraphQLObjectType({
         activeIncomingFriendRequests: {
             type: new GraphQLList(FriendRequestType),
             resolve: async(user) => {
-                return await FriendRequestService.getActiveIncomingFriendRequests(user);
+                return await FriendRequestService.getIncomingFriendRequestsAwaitingReply(user);
             }
         },
         activeOutgoingFriendRequests: {
             type: new GraphQLList(FriendRequestType),
             resolve: async(user) => {
-                return await FriendRequestService.getActiveOutgoingFriendRequests(user);
+                return await FriendRequestService.getOutgoingFriendRequestsAwaitingReply(user);
             }
         }
     })
@@ -122,4 +122,7 @@ export const UserEdge = new GraphQLObjectType({
     }),
 });
 
-registerTypeInNodeInterface(UserType, User, (id: string) => getUserById(id));
+registerTypeInNodeInterface(UserType,
+                            User,
+                            (id: string) => getUserById(id));
+

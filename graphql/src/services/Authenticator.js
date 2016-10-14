@@ -1,6 +1,6 @@
 import {getUserByAuthToken} from "../persistence/service/UserService";
 
-export async function validateToken(token: ?string) {
+export async function getAndValidateUserByToken(token: ?string) {
 
     if (!token) {
         throw "Missing access token";

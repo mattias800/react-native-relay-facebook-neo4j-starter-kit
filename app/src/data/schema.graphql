@@ -3,6 +3,18 @@ schema {
   mutation: MutationRoot
 }
 
+input AcceptFriendRequestInput {
+  token: String!
+  userId: String!
+  clientMutationId: String
+}
+
+type AcceptFriendRequestPayload {
+  sender: User
+  receiver: User
+  clientMutationId: String
+}
+
 # An animal.
 type Animal implements Node {
   # The ID of an object
@@ -87,12 +99,27 @@ type FriendRequestRelation {
   sent: FriendRequest
 }
 
+input IgnoreFriendRequestInput {
+  token: String!
+  userId: String!
+  clientMutationId: String
+}
+
+type IgnoreFriendRequestPayload {
+  sender: User
+  receiver: User
+  clientMutationId: String
+}
+
 # Root mutation
 type MutationRoot {
   updateUser(input: UserMutationInputType): UserMutationPayload
   createAnimal(input: CreateAnimalInput!): CreateAnimalPayload
   createFriendRequest(input: CreateFriendRequestInput!): CreateFriendRequestPayload
   cancelFriendRequest(input: CancelFriendRequestInput!): CancelFriendRequestPayload
+  ignoreFriendRequest(input: IgnoreFriendRequestInput!): IgnoreFriendRequestPayload
+  acceptFriendRequest(input: AcceptFriendRequestInput!): AcceptFriendRequestPayload
+  unfriendUser(input: UnfriendUserInput!): UnfriendUserPayload
 }
 
 # An object with an ID
@@ -135,6 +162,18 @@ type Query {
     # The ID of an object
     id: ID!
   ): Node
+}
+
+input UnfriendUserInput {
+  token: String!
+  userId: String!
+  clientMutationId: String
+}
+
+type UnfriendUserPayload {
+  actor: User
+  user: User
+  clientMutationId: String
 }
 
 # A user.

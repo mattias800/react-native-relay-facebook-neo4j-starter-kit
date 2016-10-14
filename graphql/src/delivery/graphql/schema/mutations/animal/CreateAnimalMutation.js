@@ -4,7 +4,7 @@ import {AnimalType} from "../../types/AnimalType";
 import {Animal} from "../../../../../entities/Animal";
 import {insertAnimal} from "../../../../../persistence/service/AnimalService";
 import {UserType} from "../../types/UserType";
-import {validateToken} from "../../../../../services/Authenticator";
+import {getAndValidateUserByToken} from "../../../../../services/Authenticator";
 
 export const createAnimalMutation = mutationWithClientMutationId(
     {
@@ -31,7 +31,7 @@ export const createAnimalMutation = mutationWithClientMutationId(
             deathDate,
             deceased
         }) => {
-            const user = await validateToken(token);
+            const user = await getAndValidateUserByToken(token);
             const animal = Animal.createNewAnimal(fullName,
                                                   nickName,
                                                   animalKind,

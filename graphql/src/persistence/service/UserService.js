@@ -141,13 +141,14 @@ export async function isFriends(user1: User, user2: User): Promise<boolean> {
         return false;
     }
     return Observable
-        .fromPromise(cypher("MATCH (u:User {id:{id1}})-[:IS_FRIENDS_WITH]->(u2:User {id:{id2}}) return count(u);",
+        .fromPromise(cypher("MATCH (u:User {id:{id1}})-[:IS_FRIENDS_WITH]-(u2:User {id:{id2}}) return count(u);",
                             {
                                 id1: user1.id,
                                 id2: user2.id
                             }
         ))
         .map(result => result[0]["count(u)"])
+        .map(count => count > 0)
         .toPromise();
 }
 
