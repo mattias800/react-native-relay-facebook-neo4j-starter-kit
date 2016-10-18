@@ -50,16 +50,12 @@ class DashboardIncomingFriendRequestsComponent extends React.Component {
         const user = request.sender;
         const token = getAuthTokenUsedByRelay();
         let payload = {user, actor, token};
-        relay.commitUpdate(new IgnoreFriendRequestMutation(payload, {
-            onSuccess: (response) => {
-                alert("SUCCESS");
-            },
+        relay.commitUpdate(new IgnoreFriendRequestMutation(payload), {
             onFailure: (transaction) => {
-                alert("FAIL");
-                console.log("FAIL");
+                alert("Could not ignore friend request. Please try again.");
                 console.log(transaction.getError());
             }
-        }));
+        });
     }
 
     acceptFriendRequest(request) {
@@ -68,16 +64,12 @@ class DashboardIncomingFriendRequestsComponent extends React.Component {
         const user = request.sender;
         const token = getAuthTokenUsedByRelay();
         let payload = {user, actor, token};
-        relay.commitUpdate(new AcceptFriendRequestMutation(payload, {
-            onSuccess: (response) => {
-                alert("SUCCESS");
-            },
+        relay.commitUpdate(new AcceptFriendRequestMutation(payload), {
             onFailure: (transaction) => {
-                alert("FAIL");
-                console.log("FAIL");
+                alert("Could not accept friend request. Please try again.");
                 console.log(transaction.getError());
             }
-        }));
+        });
     }
 
 }

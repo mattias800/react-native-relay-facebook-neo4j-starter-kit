@@ -5,11 +5,12 @@ import {AppRegistry, StyleSheet, Text, Image, View} from "react-native";
 import {SectionHeader} from "../../../common/ui/SectionHeader";
 import {Row} from "../../../common/ui/Row";
 import {timeSince} from "../../../common/util/DateFormatter";
+import {AddAnimalButton} from "../../animals/add-animal/components/AddAnimalButton";
 
 class DashboardAnimalListComponent extends React.Component {
 
     render() {
-        const {user} = this.props;
+        const {user, navigator} = this.props;
 
         return (
             <View>
@@ -49,6 +50,7 @@ class DashboardAnimalListComponent extends React.Component {
                         :
                         <View>
                             <Text>No animals added yet.</Text>
+                            <AddAnimalButton navigator={navigator} />
                         </View>
                 }
             </View>

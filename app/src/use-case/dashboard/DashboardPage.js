@@ -11,13 +11,14 @@ import {DashboardIncomingFriendRequests} from "./components/DashboardIncomingFri
 class DashboardPage extends React.Component {
 
     render() {
-        const {user} = this.props;
+        const {user, navigator} = this.props;
 
         return (
             <ScrollView>
                 <DashboardTop user={user} />
                 <DashboardIncomingFriendRequests user={user} />
-                <DashboardAnimalList user={user} />
+                <DashboardAnimalList user={user}
+                                     navigator={navigator} />
             </ScrollView>
         );
     }
