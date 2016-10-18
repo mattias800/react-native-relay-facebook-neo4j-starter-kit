@@ -3,6 +3,10 @@ import React from "react";
 import Relay from "react-relay";
 import {AppRegistry, StyleSheet, Text, View, Alert} from "react-native";
 import {SectionHeader} from "../../../common/ui/SectionHeader";
+import {createButtons} from "./FriendRequestResponseButtons";
+import {AcceptFriendRequestMutation} from "../../../mutations/friend-requests/AcceptFriendRequestMutation";
+import {IgnoreFriendRequestMutation} from "../../../mutations/friend-requests/IgnoreFriendRequestMutation";
+import {getAuthTokenUsedByRelay} from "../../../network/RelayNetworkConfig";
 
 class DashboardIncomingFriendRequestsComponent extends React.Component {
 
@@ -34,13 +38,46 @@ class DashboardIncomingFriendRequestsComponent extends React.Component {
         Alert.alert(
             'Friend request',
             `${request.sender.firstName} wants to be your friend!`,
-            [
-                {text: 'Accept', onPress: () => console.log('Ask me later pressed')},
-                {text: 'Decline', onPress: () => console.log('Cancel Pressed')},
-                {text: 'Ignore', onPress: () => console.log('OK Pressed')},
-                {text: 'Cancel', onPress: () => console.log('OK Pressed'), style: 'cancel'},
-            ]
+            createButtons(() => this.ignoreFriendRequest(request),
+                          () => this.acceptFriendRequest(request)
+            )
         )
+    }
+
+    ignoreFriendRequest(request) {
+        const {relay} = this.props;
+        const actor = this.props.user;
+        const user = request.sender;
+        const token = getAuthTokenUsedByRelay();
+        let payload = {user, actor, token};
+        relay.commitUpdate(new IgnoreFriendRequestMutation(payload, {
+            onSuccess: (response) => {
+                alert("SUCCESS");
+            },
+            onFailure: (transaction) => {
+                alert("FAIL");
+                console.log("FAIL");
+                console.log(transaction.getError());
+            }
+        }));
+    }
+
+    acceptFriendRequest(request) {
+        const {relay} = this.props;
+        const actor = this.props.user;
+        const user = request.sender;
+        const token = getAuthTokenUsedByRelay();
+        let payload = {user, actor, token};
+        relay.commitUpdate(new AcceptFriendRequestMutation(payload, {
+            onSuccess: (response) => {
+                alert("SUCCESS");
+            },
+            onFailure: (transaction) => {
+                alert("FAIL");
+                console.log("FAIL");
+                console.log(transaction.getError());
+            }
+        }));
     }
 
 }
@@ -52,10 +89,15 @@ export const DashboardIncomingFriendRequests = Relay.createContainer(DashboardIn
             activeIncomingFriendRequests {
                 id
                 sender {
+                    id
                     firstName
                     lastName
+                    ${IgnoreFriendRequestMutation.getFragment('user')}
+                    ${AcceptFriendRequestMutation.getFragment('user')}
                 }
             }
+            ${IgnoreFriendRequestMutation.getFragment('actor')}
+            ${AcceptFriendRequestMutation.getFragment('actor')}
         }
     `,
     },

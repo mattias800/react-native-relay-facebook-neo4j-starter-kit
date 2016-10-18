@@ -249,12 +249,14 @@ export async function verifyFriendRequestCanBeRespondedTo(sender: User, receiver
 
     const isFriends: boolean = await UserService.isFriends(sender, receiver);
     if (isFriends) {
+        console.log("Users are already friends. Deleting friend request.");
         await deleteFriendRequest(sender, receiver);
         throw "Users are already friends.";
     }
 
     const friendRequest: ?FriendRequest = await getFriendRequest(sender, receiver);
     if (!friendRequest) {
+        console.log("There is no friend request to respond to.");
         throw "There is no friend request to respond to.";
     }
 

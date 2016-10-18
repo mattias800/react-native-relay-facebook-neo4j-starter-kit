@@ -18,8 +18,8 @@ export const acceptFriendRequestMutation = mutationWithClientMutationId(
             receiver: {type: UserType}
         },
         mutateAndGetPayload: async({token, userId}) => {
-            const sender = await Authenticator.getAndValidateUserByToken(token);
-            const receiver = await User.getById(sender, getLocalId(userId));
+            const receiver = await Authenticator.getAndValidateUserByToken(token);
+            const sender = await User.getById(receiver, getLocalId(userId));
             await FriendRequestService.acceptFriendRequest(sender, receiver);
 
             return {

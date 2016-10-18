@@ -18,8 +18,9 @@ export const ignoreFriendRequestMutation = mutationWithClientMutationId(
             receiver: {type: UserType}
         },
         mutateAndGetPayload: async({token, userId}) => {
-            const sender: User = await Authenticator.getAndValidateUserByToken(token);
-            const receiver: User = await User.getById(sender, getLocalId(userId));
+            const receiver: User = await Authenticator.getAndValidateUserByToken(token);
+            const sender: User = await User.getById(receiver, getLocalId(userId));
+
             await FriendRequestService.ignoreFriendRequest(sender, receiver);
 
             return {

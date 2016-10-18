@@ -29,12 +29,13 @@ class FriendRequestTextComponent extends React.Component {
                                                 actor={actor} />
                 </View>
             );
-        } else {
-
+        } else if (!user.isFriend) {
             return (
                 <SendFriendRequestButton user={user}
                                          actor={actor} />
             );
+        } else {
+            return null;
         }
     }
 
@@ -46,6 +47,7 @@ export const FriendRequestText = Relay.createContainer(FriendRequestTextComponen
             fragment on User {
                 id
                 firstName
+                isFriend
                 friendRequests {
                     sent {
                         declined
