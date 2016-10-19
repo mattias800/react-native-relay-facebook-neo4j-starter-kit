@@ -36,8 +36,8 @@ class DashboardAnimalListComponent extends React.Component {
                                       key={animal.id}>
                                     <Text style={animalListNameStyle}>{animal.fullName}</Text>
                                     <Text style={timeSinceLastPhotoStyle}>{getPhotosText(animal)}</Text>
-                                    <Row>
-                                        <SmallAddButton style={{...photoSizeStyle, marginTop:10}}
+                                    <Row style={{marginTop:10}}>
+                                        <SmallAddButton style={photoRowPhotoStyle}
                                                         onPress={(() => this.addPhoto(animal))} />
                                         {
                                             animal.taggedPhotos
@@ -50,7 +50,7 @@ class DashboardAnimalListComponent extends React.Component {
                                                       .map(edge => edge.node)
                                                       .map(photo => (
                                                           <Image key={photo.id}
-                                                                 style={{...photoSizeStyle, ...photoRowPhotoStyle}}
+                                                                 style={photoRowPhotoStyle}
                                                                  source={{uri:photo.url}} />
                                                       ))
                                                 :
@@ -68,7 +68,7 @@ class DashboardAnimalListComponent extends React.Component {
                 {
                     this.state && this.state.source &&
                     <Image source={{uri:this.state.source.uri}}
-                           style={photoSizeStyle} />
+                           style={photoRowPhotoStyle} />
                 }
             </View>
         );
@@ -137,12 +137,11 @@ const timeSinceLastPhotoStyle = {
     fontSize: 12
 };
 
-const photoSizeStyle = {
+const photoRowPhotoStyle = {
     width: 50,
-    height: 50
+    height: 50,
+    marginRight: 5
 };
-
-const photoRowPhotoStyle = {};
 
 const noPhotosYetStyle = {
     fontSize: 12
