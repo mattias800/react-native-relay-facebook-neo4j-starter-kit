@@ -33,14 +33,42 @@ export class CreateAnimalMutation extends Relay.Mutation {
     // instruct the server to include only those fields in its response.
     getFatQuery() {
         return Relay.QL`
-        fragment on CreateAnimalPayload { 
+        fragment on CreateAnimalPayload {
             user {
-                numAnimals,
+                numAnimals
                 animals
             }
-            animal
-        }
-    `;
+        }`;
+    }
+
+    // Let's craft an optimistic response that mimics the shape of the
+    // LikeStoryPayload, as well as the values we expect to receive.
+    getOptimisticResponse() {
+        console.log("getOptimisticResponse");
+        console.log(this.props);
+
+        return {
+            user: {
+                id: this.props.user.id,
+                numAnimals: this.props.user.numAnimals + 1,
+                animals: {
+                    ...this.props.user.animals,
+                    edges: [
+                        {
+                            node: {
+                                fullName: this.props.fullName,
+                                nickName: this.props.nickName,
+                                animalKind: this.props.animalKind,
+                                birthDate: this.props.birthDate || null,
+                                deathDate: this.props.deathDate || null,
+                                deceased: this.props.deceased === undefined ? null : this.props.deceased
+                            }
+                        },
+                        ...this.props.user.animals.edges,
+                    ]
+                }
+            },
+        };
     }
 
     // These configurations advise Relay on how to handle the LikeStoryPayload
@@ -67,6 +95,10 @@ export class CreateAnimalMutation extends Relay.Mutation {
         user: () => Relay.QL`
             fragment on User { 
                 id
+                numAnimals
+                animals(first:10) {
+                    edges
+                }
             }
             `,
     };

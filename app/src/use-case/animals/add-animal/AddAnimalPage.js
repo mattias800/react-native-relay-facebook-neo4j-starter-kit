@@ -29,10 +29,6 @@ class AddAnimalPage extends React.Component {
         });
         relay.commitUpdate(mutation, {
             onSuccess: response => {
-                this.props.navigator.pop(
-                    {
-                        animated: true
-                    });
             },
             onFailure: transaction => {
                 alert("Could not save dog. Please try again.");
@@ -40,7 +36,8 @@ class AddAnimalPage extends React.Component {
                 console.log(transaction.getError());
 
             }
-        })
+        });
+        this.props.navigator.pop({animated: true});
     }
 
 }

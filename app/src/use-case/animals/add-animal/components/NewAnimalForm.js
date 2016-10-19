@@ -25,8 +25,6 @@ export const NewAnimalForm = React.createClass(
         },
 
         onChange(value) {
-            console.log("onChange()");
-
             this.setState({value});
         },
 
@@ -63,8 +61,6 @@ export const NewAnimalForm = React.createClass(
         render() {
 
             const {value, showDobForm} = this.state;
-
-            console.log("render()");
 
             const formTypes = {
                 names: t.struct({
