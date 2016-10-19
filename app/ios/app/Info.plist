@@ -98,5 +98,9 @@
       <string>Octicons.ttf</string>
       <string>Zocial.ttf</string>
     </array>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>App lets you upload photos</string>
+    <key>NSCameraUsageDescription</key>
+    <string>App lets you upload photos</string>
   </dict>
 </plist>

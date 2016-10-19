@@ -1,32 +1,33 @@
 /* @flow */
-
 import React from "react";
 import {AppRegistry, StyleSheet, Text, View} from "react-native";
 import {Row} from "../../../common/ui/Row";
 import {Icon} from "react-native-elements";
 
-export const SwipeToLearnMore = React.createClass({
+export const SwipeToLearnMore = React.createClass(
+    {
 
-    propTypes: {},
+        propTypes: {},
 
-    render() {
-        return (
-            <View alignItems="center">
-                <Row style={backgroundStyle}
-                     justifyContent="center">
-                    <Text style={textStyle}>Swipe to learn more</Text>
-                    <View style={{marginLeft:10}}>
-                        <Icon name="arrow-right"
-                              size={16}
-                              color="#ffffff"
+        render() {
+            return (
+                <View alignItems="center">
+                    <Row style={backgroundStyle}
+                         justifyContent="center">
+                        <Text style={textStyle}>Swipe to learn more</Text>
+                        <View style={{marginLeft:10}}>
+                            <Icon name="arrow-right"
+                                  size={16}
+                                  color="#ffffff"
 
-                              type="font-awesome" /></View>
-                </Row>
-            </View>
-        );
-    }
+                                  type="font-awesome" />
+                        </View>
+                    </Row>
+                </View>
+            );
+        }
 
-});
+    });
 
 
 const backgroundStyle = {

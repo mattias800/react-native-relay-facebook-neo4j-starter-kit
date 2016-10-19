@@ -4,6 +4,8 @@ import android.app.Application;
 import android.util.Log;
 
 import com.facebook.react.ReactApplication;
+import com.reactnativenavigation.RnnPackage;
+import com.imagepicker.ImagePickerPackage;
 import com.react.rnspinkit.RNSpinkitPackage;
 import io.underscope.react.fbak.RNAccountKitPackage;
 import com.facebook.react.ReactInstanceManager;
@@ -27,6 +29,8 @@ public class MainApplication extends Application implements ReactApplication {
       return Arrays.<ReactPackage>asList(
           new RNSpinkitPackage(),
            new MainReactPackage(),
+            new RnnPackage(),
+            new ImagePickerPackage(),
             new RNAccountKitPackage()
       );
     }

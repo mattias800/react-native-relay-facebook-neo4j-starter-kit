@@ -6,11 +6,21 @@ import {SectionHeader} from "../../../common/ui/SectionHeader";
 import {Row} from "../../../common/ui/Row";
 import {timeSince} from "../../../common/util/DateFormatter";
 import {AddAnimalButton} from "../../animals/add-animal/components/AddAnimalButton";
+import {SmallAddButton} from "./SmallAddButton";
+import {selectMedia} from "../../../common/ui/photo/MediaSelector";
 
 class DashboardAnimalListComponent extends React.Component {
 
+    constructor(props) {
+        super(props);
+        this.state = {};
+    }
+
     render() {
         const {user, navigator} = this.props;
+        console.log("RENDER");
+        console.log(this.state);
+
 
         return (
             <View>
@@ -27,6 +37,8 @@ class DashboardAnimalListComponent extends React.Component {
                                     <Text style={animalListNameStyle}>{animal.fullName}</Text>
                                     <Text style={timeSinceLastPhotoStyle}>{getPhotosText(animal)}</Text>
                                     <Row>
+                                        <SmallAddButton style={{...photoSizeStyle, marginTop:10}}
+                                                        onPress={(() => this.addPhoto(animal))} />
                                         {
                                             animal.taggedPhotos
                                             && animal.taggedPhotos.edges
@@ -38,7 +50,7 @@ class DashboardAnimalListComponent extends React.Component {
                                                       .map(edge => edge.node)
                                                       .map(photo => (
                                                           <Image key={photo.id}
-                                                                 style={photoRowPhotoStyle}
+                                                                 style={{...photoSizeStyle, ...photoRowPhotoStyle}}
                                                                  source={{uri:photo.url}} />
                                                       ))
                                                 :
@@ -53,8 +65,28 @@ class DashboardAnimalListComponent extends React.Component {
                             <AddAnimalButton navigator={navigator} />
                         </View>
                 }
+                {
+                    this.state && this.state.source &&
+                    <Image source={{uri:this.state.source.uri}}
+                           style={photoSizeStyle} />
+                }
             </View>
         );
+    }
+
+    async addPhoto(animal) {
+        let source;
+        try {
+            source = await selectMedia();
+            console.log("Source");
+            console.log(source);
+            if (source) {
+                this.setState({source: source})
+            }
+        } catch (e) {
+            console.log("Naaaaah");
+            console.log(e);
+        }
     }
 
 }
@@ -105,10 +137,12 @@ const timeSinceLastPhotoStyle = {
     fontSize: 12
 };
 
-const photoRowPhotoStyle = {
+const photoSizeStyle = {
     width: 50,
     height: 50
 };
+
+const photoRowPhotoStyle = {};
 
 const noPhotosYetStyle = {
     fontSize: 12
