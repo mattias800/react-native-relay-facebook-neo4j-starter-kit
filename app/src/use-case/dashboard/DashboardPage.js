@@ -4,9 +4,10 @@ import Relay from "react-relay";
 import {AppRegistry, StyleSheet, Text, ScrollView} from "react-native";
 import {createRootRelayComponent, createRelayRenderer} from "../../common/util/RelayFactory";
 import {DashboardTop} from "./components/DashboardTop";
-import {getAuthTokenUsedByRelay, getCurrentUserId} from "../../network/RelayNetworkConfig";
+import {getCurrentUserId} from "../../network/RelayNetworkConfig";
 import {DashboardAnimalList} from "./components/DashboardAnimalList";
 import {DashboardIncomingFriendRequests} from "./components/DashboardIncomingFriendRequests";
+import {ComboBox} from "../../common/ui/combobox/ComboBox";
 
 class DashboardPage extends React.Component {
 
@@ -15,6 +16,7 @@ class DashboardPage extends React.Component {
 
         return (
             <ScrollView>
+                <ComboBox />
                 <DashboardTop user={user} />
                 <DashboardIncomingFriendRequests user={user} />
                 <DashboardAnimalList user={user}
@@ -65,7 +67,6 @@ export const DashboardPageComponent = createRelayRenderer(
         `,
         },
         params: {
-            token: getAuthTokenUsedByRelay(),
             currentUserId: getCurrentUserId()
         },
         name: 'UserFriendListRoute',

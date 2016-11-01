@@ -8,6 +8,7 @@ import {UserFriendListPageComponent} from "./use-case/users/user-friend-list/Use
 import {UsersAnimalsPageComponent} from "./use-case/users/users-animals/UsersAnimalsPage";
 import {AddAnimalPageComponent} from "./use-case/animals/add-animal/AddAnimalPage";
 import {DashboardPageComponent} from "./use-case/dashboard/DashboardPage";
+import {PostMediaPageComponent} from "./use-case/post/PostMediaPage";
 
 export function registerScreens() {
     Navigation.registerComponent('example.LoginScreen', () => LoginPage);
@@ -19,4 +20,5 @@ export function registerScreens() {
     Navigation.registerComponent('example.UserProfileFriendsScreen', () => UserFriendListPageComponent);
     Navigation.registerComponent('example.UserProfileAnimalsScreen', () => UsersAnimalsPageComponent);
     Navigation.registerComponent('example.AddAnimalScreen', () => AddAnimalPageComponent);
+    Navigation.registerComponent('example.PostMediaPageScreen', () => PostMediaPageComponent);
 }

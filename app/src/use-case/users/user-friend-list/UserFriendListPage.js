@@ -3,7 +3,6 @@ import React from "react";
 import Relay from "react-relay";
 import {AppRegistry, StyleSheet, Text, ScrollView} from "react-native";
 import {createRootRelayComponent, createRelayRenderer} from "../../../common/util/RelayFactory";
-import {getAuthTokenUsedByRelay} from "../../../network/RelayNetworkConfig";
 import {List, ListItem} from "react-native-elements";
 
 class UserFriendListPage extends React.Component {
@@ -97,7 +96,6 @@ export const UserFriendListPageComponent = createRelayRenderer(
         `,
         },
         params: {
-            token: getAuthTokenUsedByRelay(),
             userId: props.userId
         },
         name: 'UserFriendListRoute',

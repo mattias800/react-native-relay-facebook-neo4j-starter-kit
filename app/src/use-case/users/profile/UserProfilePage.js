@@ -4,7 +4,6 @@ import Relay from "react-relay";
 import {AppRegistry, StyleSheet, Text, View, ScrollView} from "react-native";
 import {createRelayRenderer} from "../../../common/util/RelayFactory";
 import {UserProfile} from "./components/UserProfile";
-import {getAuthTokenUsedByRelay} from "../../../network/RelayNetworkConfig";
 
 class UserProfilePage extends React.Component {
 
@@ -78,7 +77,6 @@ export const UserProfilePageComponent = createRelayRenderer(
         `
             },
             params: {
-                token: getAuthTokenUsedByRelay(),
                 userId: props.userId
             },
             name: 'UserProfilePageRoute',

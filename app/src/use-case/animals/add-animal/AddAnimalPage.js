@@ -84,7 +84,6 @@ export const AddAnimalPageComponent = createRelayRenderer(
         `,
         },
         params: {
-            token: getAuthTokenUsedByRelay(),
             currentUserId: getCurrentUserId()
         },
         name: 'UserFriendListRoute',

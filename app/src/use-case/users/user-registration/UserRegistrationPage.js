@@ -116,7 +116,6 @@ export const UserRegistrationPageComponent = createRelayRenderer(
         `,
         },
         params: {
-            token: getAuthTokenUsedByRelay(),
             currentUserId: getCurrentUserId()
         },
         name: 'UserRegistrationRoute',

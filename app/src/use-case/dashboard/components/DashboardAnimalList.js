@@ -18,9 +18,6 @@ class DashboardAnimalListComponent extends React.Component {
 
     render() {
         const {user, navigator} = this.props;
-        console.log("RENDER");
-        console.log(this.state);
-
 
         return (
             <View>
@@ -65,24 +62,24 @@ class DashboardAnimalListComponent extends React.Component {
                             <AddAnimalButton navigator={navigator} />
                         </View>
                 }
-                {
-                    this.state && this.state.source &&
-                    <Image source={{uri:this.state.source.uri}}
-                           style={photoRowPhotoStyle} />
-                }
             </View>
         );
     }
 
     async addPhoto(animal) {
+        const {navigator} = this.props;
         let source;
         try {
             source = await selectMedia();
-            console.log("Source");
-            console.log(source);
-            if (source) {
-                this.setState({source: source})
-            }
+
+            navigator.push(
+                {
+                    screen: 'example.PostMediaPageScreen',
+                    title: `Upload media`,
+                    passProps: {
+                        source
+                    }
+                });
         } catch (e) {
             console.log("Naaaaah");
             console.log(e);
