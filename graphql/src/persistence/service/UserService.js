@@ -53,6 +53,35 @@ export async function getFriendsOfUserConnection(user: User,
         .toPromise();
 }
 
+export async function searchFriendsOfUserByTextConnection(user: User,
+                                                          text: string,
+                                                          connectionArguments: Object,
+                                                          orderByProperty: "id" | "createdAt" = "createdAt"): Promise<Array<User>> {
+    if (!text) {
+        return [];
+    }
+
+    const {id} = user;
+    return Observable
+        .fromPromise(
+            cypher(
+                getConnectionCustomMatchQuery(
+                    `MATCH (u:User {id:{id}})-[:IS_FRIENDS_WITH]-(friend:User) 
+                     WHERE friend.firstName CONTAINS {text} OR friend.lastName CONTAINS {text}`,
+                    "friend",
+                    "friend",
+                    orderByProperty,
+                    connectionArguments
+                ),
+                {id, text}
+            ))
+        .flatMap(Observable.from)
+        .map(result => result.friend)
+        .map(User.createFromEntity)
+        .toArray()
+        .toPromise();
+}
+
 export async function getAllUsersWithCompleteProfile(): Promise<Array<User>> {
     console.log("getAllUsersWithCompleteProfile");
     const users = await getAllUsers();

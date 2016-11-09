@@ -1,21 +1,23 @@
 /* @flow */
 import React from "react";
-import {AppRegistry, StyleSheet, Text, View, ListView, TextInput} from "react-native";
+import {
+    AppRegistry,
+    ActivityIndicator,
+    StyleSheet,
+    Text,
+    ScrollView,
+    View,
+    ListView,
+    TextInput,
+    TouchableHighlight
+} from "react-native";
 import {SelectedItem} from "./SelectedItem";
 
-const labelReducer = item => item.label;
-
-const data = [
-    {id: 123, label: "Mattias"},
-    {id: 124, label: "Must"},
-    {id: 125, label: "Magnus"}
-];
-
-const labelReducerWrapper = (item, labelReducer) => {
+const labelReducerWrapper = (item: any, labelReducer: Function) => {
     if (typeof item === "string") {
-        return item;
+        return item || "";
     } else {
-        return labelReducer(item);
+        return labelReducer(item) || "";
     }
 };
 
@@ -23,57 +25,84 @@ export class ComboBox extends React.Component {
 
     constructor(props) {
         super(props);
-        const ds = new ListView.DataSource({rowHasChanged: (r1, r2) => r1 !== r2});
-
-        this.state = {
-            dataSource: ds.cloneWithRows(data), // TODO props.data
-            selectedItems: [
-                {id: 123, label: "Mattias"},
-                {id: 124, label: "Must"}
-            ]
-        };
+        this.state = {selectedItems: []};
     }
 
     componentWillReceiveProps(nextProps) {
-        const dataSource = this.state.dataSource.cloneWithRows(nextProps.data);
-        this.setState({dataSource});
     }
 
     render() {
 
-        const {onChange} = this.props;
-        const {dataSource} = this.state;
+        const {onChange, allowAddText, data, fetching, labelReducer} = this.props;
 
-        const {selectedItems} = this.state;
+        const {selectedItems, text} = this.state;
 
         return (
             <View style={containerStyle}>
-                {
-                    selectedItems && selectedItems.map((item, index) => (
-                        <SelectedItem key={index}
-                                      onRemove={() => this.removeItem(index)}
-                                      label={labelReducerWrapper(item, labelReducer)} />
-                    ))
-                }
-                <View style={inputAndDropdownContainer}>
+                <View style={selectedItemsAndInputStyle}>
+                    {
+                        selectedItems && selectedItems.map((item, index) => (
+                            <SelectedItem key={index}
+                                          onRemove={() => this.removeItem(index)}
+                                          label={labelReducerWrapper(item, labelReducer)} />
+                        ))
+                    }
                     <TextInput style={textInputStyle}
                                value={this.state.text}
-                               onChangeText={(text) => this.setState({text})}
-                               onSubmitEditing={() => this.addItemFromTextInput()} />
-                    <ListView dataSource={dataSource}
-                              keyboardShouldPersistTaps={true}
-                              renderRow={this.renderItem}
-                              style={listStyle}
-                    />
+                               onChangeText={text => this.onChangeText(text)}
+                               ref="input"
+                               blurOnSubmit={false}
+                               onSubmitEditing={() => allowAddText && this.addItemFromTextInput()} />
+                    { this.renderFetching() }
                 </View>
+                { this.renderDropdown() }
             </View>
         );
     }
 
-    renderItem(item) {
-        return (
-            <Text>{labelReducerWrapper(item, labelReducer)}</Text>
-        );
+    renderFetching() {
+        const {fetching} = this.props;
+        if (fetching) {
+            return (
+                <ActivityIndicator style={{alignSelf:"flex-end"}} />
+            );
+        }
+    }
+
+    renderDropdown() {
+        const {data, labelReducer, allowDuplicates, keyReducer} = this.props;
+
+        let filteredData = allowDuplicates ? data : data.filter(item => !this.isSelected(item));
+
+        if (data && data.length) {
+            return (
+                <ScrollView style={dropdownContainer}>
+                    {
+                        filteredData && filteredData.map((item, index) => (
+                            <View key={index}>
+                                <TouchableHighlight onPress={() => {
+                                    this.addItem(item);
+                                    this.refs.input.focus();
+                                }}
+                                                    style={touchableListItemStyle}>
+                                    <Text style={optionItemTextStyle}>{labelReducerWrapper(item,
+                                                                                           labelReducer)}</Text>
+                                </TouchableHighlight>
+                            </View>
+                        ))
+                    }
+                </ScrollView>
+            );
+        }
+    }
+
+    onChangeText(text) {
+        const {onChangeText} = this.props;
+        this.setState({text});
+        if (onChangeText) {
+            onChangeText(text);
+        }
+
     }
 
     removeItem(index) {
@@ -106,36 +135,56 @@ export class ComboBox extends React.Component {
         this.setState({text: ""})
     }
 
+    isSelected(item) {
+        const {keyReducer} = this.props;
+        const {selectedItems} = this.state;
+
+        const selectedKeys = selectedItems.map(keyReducer);
+        return selectedKeys.indexOf(keyReducer(item)) >= 0;
+    }
 }
 
 const containerStyle = {
+    position: "relative",
+    zIndex: 1
+
+};
+
+const selectedItemsAndInputStyle = {
     flexDirection: "row",
+    flexWrap: "wrap",
     borderWidth: 1,
     borderColor: "#eeeeee",
     padding: 2,
-    zIndex: 1
-};
-
-const listStyle = {
-    backgroundColor: 'white',
-    borderTopWidth: 0,
-    left: 0,
-    position: 'absolute',
-    right: 0
-};
-
-const inputAndDropdownContainer = {
-    position: "relative",
-    backgroundColor: "blue",
-    flex: 1
+    paddingTop: 0,
 };
 
 const textInputStyle = {
-    backgroundColor: "red",
-    flex: 1
+    flex: 1,
+    marginTop: 2,
+    height: 18,
+    fontSize: 12
+
 };
 
 const dropdownContainer = {
     position: "absolute",
-    zIndex: 10000000,
+    left: 0,
+    right: 0,
+    borderWidth: 0.5,
+    borderColor: "#cccccc"
+};
+
+const touchableListItemStyle = {
+    flex: 1,
+    backgroundColor: "#ffffff",
+    paddingTop: 3,
+    paddingBottom: 3,
+    paddingLeft: 5,
+    paddingRight: 5
+};
+
+const optionItemTextStyle = {
+    fontSize: 12,
+    color: "#333377"
 };

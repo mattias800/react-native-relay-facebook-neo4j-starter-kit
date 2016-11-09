@@ -2,16 +2,19 @@
 import React from "react";
 import Relay from "react-relay";
 import {AppRegistry, StyleSheet, Text, View, Image} from "react-native";
+import {FriendsComboBoxComponent} from "../../../common/ui/friends-combobox/FriendsComboBox";
 
 class PostMediaFormComponent extends React.Component {
 
     render() {
         const {user, imageSource} = this.props;
+
         return (
             <View>
                 <Text>PostMediaForm</Text>
                 <Image source={imageSource}
                        style={photoStyle} />
+                <FriendsComboBoxComponent />
             </View>
         );
     }

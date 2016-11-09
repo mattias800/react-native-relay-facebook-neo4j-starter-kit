@@ -11,7 +11,8 @@ export const SelectedItem = React.createClass(
             const {label, onRemove} = this.props;
 
             return (
-                <View style={containerStyle}>
+                <View style={containerStyle}
+                      alignItems="center">
                     <Text style={labelStyle}>{label}</Text>
                     <TouchableHighlight style={removeButtonStyle}
                                         onPress={() => onRemove()}>
@@ -28,11 +29,14 @@ const containerStyle = {
     backgroundColor: "#bbbbff",
     marginRight: 2,
     paddingLeft: 4,
-    paddingRight: 4
+    paddingRight: 4,
+    height: 18,
+    marginTop: 2
 };
 
 const labelStyle = {
-    color: "#333333"
+    color: "#333333",
+    fontSize: 12
 };
 
 const removeButtonStyle = {

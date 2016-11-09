@@ -7,16 +7,16 @@ import {DashboardTop} from "./components/DashboardTop";
 import {getCurrentUserId} from "../../network/RelayNetworkConfig";
 import {DashboardAnimalList} from "./components/DashboardAnimalList";
 import {DashboardIncomingFriendRequests} from "./components/DashboardIncomingFriendRequests";
-import {ComboBox} from "../../common/ui/combobox/ComboBox";
+import {FriendsComboBox} from "../../common/ui/friends-combobox/FriendsComboBox";
 
 class DashboardPage extends React.Component {
 
     render() {
-        const {user, navigator} = this.props;
+        const {user, actor, navigator} = this.props;
 
         return (
             <ScrollView>
-                <ComboBox />
+                <FriendsComboBox actor={actor} />
                 <DashboardTop user={user} />
                 <DashboardIncomingFriendRequests user={user} />
                 <DashboardAnimalList user={user}
@@ -34,14 +34,18 @@ DashboardPage = Relay.createContainer(DashboardPage, {
                 ${DashboardTop.getFragment('user', params)}
                 ${DashboardAnimalList.getFragment('user', params)}
                 ${DashboardIncomingFriendRequests.getFragment('user', params)}
-            }
-    `,
+            }`,
+        actor: (params) => Relay.QL`
+            fragment on User {
+                ${FriendsComboBox.getFragment('actor', params)}
+            }`,
     },
 });
 
 export const DashboardPageComponent = createRelayRenderer(
     Relay.createContainer(
         props => <DashboardPage user={props.viewer.actor}
+                                actor={props.viewer.actor}
                                 navigator={props.navigator} />,
         {
             fragments: {
@@ -49,6 +53,7 @@ export const DashboardPageComponent = createRelayRenderer(
                     fragment on Viewer {
                         actor {
                             ${DashboardPage.getFragment('user', params)}
+                            ${DashboardPage.getFragment('actor', params)}
                         }
                     }
         `,

@@ -1,4 +1,4 @@
 import {nodeDefinitions} from "graphql-relay";
-import {idFetcher, typeResolver} from "./type-registry/registry";
+import {fetchByGlobalId, resolveGraphQLTypeForObject} from "./type-registry/registry";
 
-export const {nodeInterface, nodeField} = nodeDefinitions(idFetcher, typeResolver);
+export const {nodeInterface, nodeField} = nodeDefinitions(fetchByGlobalId, resolveGraphQLTypeForObject);

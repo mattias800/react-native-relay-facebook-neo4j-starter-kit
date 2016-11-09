@@ -46,7 +46,7 @@ function generateConnectionQuery(queryMatchPartial: string,
         return `
             ${queryMatchPartial}
             ${after ? `WHERE e.${orderByProperty} > "${decodeCursor(after)}"` : ""}
-            RETURN ${queryVariableName} AS ${returnVariableName}
+            RETURN DISTINCT ${queryVariableName} AS ${returnVariableName}
             ORDER BY ${queryVariableName}.${orderByProperty}
             ${first ? `LIMIT ${first + 1}` : ""}`;
     } else if (last || before) {
@@ -58,20 +58,20 @@ function generateConnectionQuery(queryMatchPartial: string,
                 ORDER BY e2.${orderByProperty} DESC
                 LIMIT ${last + 1}
                 WITH e2 AS e3
-                RETURN e3 AS ${returnVariableName}
+                RETURN DISTINCT e3 AS ${returnVariableName}
                 ORDER BY e3.${orderByProperty}`;
         } else {
             // No last, just before
             return `
                 ${queryMatchPartial}
                 WHERE ${queryVariableName}.${orderByProperty} < "${beforeDecoded}"
-                RETURN ${queryVariableName} AS ${returnVariableName}
+                RETURN DISTINCT ${queryVariableName} AS ${returnVariableName}
                 ORDER BY e3.${orderByProperty}`;
         }
     } else {
         return `
         ${queryMatchPartial}
-        RETURN ${queryVariableName} AS ${returnVariableName}
+        RETURN DISTINCT ${queryVariableName} AS ${returnVariableName}
         ORDER BY ${queryVariableName}.${orderByProperty}`
     }
 }

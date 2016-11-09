@@ -193,6 +193,7 @@ type User implements Node {
   numAnimals: Int
   friendRequests: FriendRequestRelation
   friends(after: String, first: Int, before: String, last: Int): UserConnection
+  searchFriendsByText(after: String, first: Int, before: String, last: Int, text: String): UserConnection
   animals(after: String, first: Int, before: String, last: Int): AnimalConnection
   taggedPhotos(after: String, first: Int, before: String, last: Int): PhotoConnection
   activeIncomingFriendRequests: [FriendRequest]

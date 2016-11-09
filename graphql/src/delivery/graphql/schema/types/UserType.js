@@ -56,6 +56,23 @@ export const UserType = new GraphQLObjectType({
                 };
             }
         },
+        searchFriendsByText: {
+            type: UserConnection,
+            args: {
+                ...connectionArgs,
+                text: {type: GraphQLString}
+            },
+            resolve: async(user, args) => {
+                console.log("searchFriendsByText");
+                console.log("text", args.text);
+
+                const friends = await UserService.searchFriendsOfUserByTextConnection(user, args.text, args);
+                return {
+                    users: limitResult(friends, args),
+                    pageInfo: getPageInfo(friends, args)
+                };
+            }
+        },
         animals: {
             type: AnimalConnection,
             args: connectionArgs,
